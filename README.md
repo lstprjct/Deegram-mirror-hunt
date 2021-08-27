@@ -142,11 +142,11 @@ sudo docker run mirrorbot
 - **DOWNLOAD_STATUS_UPDATE_INTERVAL**: A short interval of time in seconds after which the Mirror progress message is updated. (I recommend to keep it `5` seconds at least).
     
 ## Optional Vars
-- **DATABASE_URL**: Your Database URL. See [Generate Database](https://github.com/yuno74/Mirror-New/tree/master#generate-database) to generate database (**NOTE**: If you use database you can save your sudo id permanent using `/addsudo` command)
+- **DATABASE_URL**: Your Database URL. See [Generate Database](https://github.com/Anime-Republic/Mirror-New/tree/master#generate-database) to generate database (**NOTE**: If you use database you can save your sudo id permanent using `/addsudo` command)
 - **AUTHORIZED_CHATS**: Fill user_id and chat_id (not username) of you want to authorize, Seprate them with space, Examples: `-0123456789 -1002489569`.
 - **SUDO_USERS**: Fill user_id (not username) of you want to sudoers, Seprate them with space, Examples: `0123456789 181568167` (**NOTE**: If you want save sudo id permanent without database, you must fill your sudo id there)
 - **IGNORE_PENDING_REQUESTS**: If you want the bot to ignore pending requests after it restarts, set this to `True`.
-- **USE_SERVICE_ACCOUNTS**: (Leave empty if unsure) Whether to use Service Accounts or not. For this to work see [Using Service Accounts](https://github.com/yuno74/Mirror-New/blob/main/CreateSA.md)
+- **USE_SERVICE_ACCOUNTS**: (Leave empty if unsure) Whether to use Service Accounts or not. For this to work see [Using Service Accounts](https://github.com/Anime-Republic/Mirror-New/blob/main/CreateSA.md)
 - **INDEX_URL**: Refer to [Bhadoo Index](https://gitlab.com/ParveenBhadooOfficial/Google-Drive-Index) The URL should not have any trailing '/'
 - **STATUS_LIMIT**: Status limit with buttons (**NOTE**: Recommend limit status to `4` tasks max).
 - **MEGA_API_KEY**: Mega.nz api key to mirror mega.nz links. Get it from [Mega SDK Page](https://mega.nz/sdk)
