@@ -183,7 +183,7 @@ class MirrorListener(listeners.MirrorListeners):
                         siurl = short_url(share_url)
                         buttons.buildbutton("⚡ Index Link", siurl)
                         if VIEW_LINK:
-			    siurls = short_url(share_urls)
+                            siurls = short_url(share_urls)
                             buttons.buildbutton(f"{VIEW_BUTTON}", siurls)
                     else:
                         buttons.buildbutton(f"{INDEX_BUTTON}", share_url)
