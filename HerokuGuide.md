@@ -2,7 +2,7 @@
 
 ## Pre-requisites
 
-- [token.pickle](https://github.com/yuno74/Mirror-New/blob/main/CreateSA.md#getting-google-oauth-api-credential-file)
+- [token.pickle](https://github.com/Anime-Republic/Mirror-New/blob/main/CreateSA.md#getting-google-oauth-api-credential-file)
 - [Heroku  accounts](heroku.com)
 - Recommended to use 1 App in 1 Heroku account
 - Note: Don't use bin/fake credits card, because your Heroku account will get banned.
