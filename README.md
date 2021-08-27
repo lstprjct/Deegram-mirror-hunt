@@ -124,7 +124,7 @@ docker build . --rm --force-rm --compress --no-cache=true --pull --file Dockerfi
 sudo docker run mirrorbot
 ```
 ## Deploying on Heroku with Github Workflow
-<p><a href="https://github.com/yuno74/Mirror-New/blob/main/HerokuGuide.md"> <img src="https://img.shields.io/badge/Deploy%20Guide-blueviolet?style=for-the-badge&logo=heroku" width="180""/></a></p>
+<p><a href="https://github.com/Anime-Republic/Mirror-New/blob/main/HerokuGuide.md"> <img src="https://img.shields.io/badge/Deploy%20Guide-blueviolet?style=for-the-badge&logo=heroku" width="180""/></a></p>
 
 ## Setting up config file
 <details>
