@@ -10,13 +10,13 @@
 </P>
 
 <p>
-  <a href="https://github.com/yuno74/Mirror-New/stargazers">
-    <img src="https://img.shields.io/github/stars/yuno74/Mirror-New?style=social">
+  <a href="https://github.com/Anime-Republic/Mirror-New/stargazers">
+    <img src="https://img.shields.io/github/stars/Anime-Republic/Mirror-New?style=social">
 
   </a>
   
-  <a href="https://github.com/yuno74/Mirror-New/fork">
-    <img src="https://img.shields.io/github/forks/yuno74/Mirror-New?label=Fork&style=social">
+  <a href="https://github.com/Anime-Republic/Mirror-New/fork">
+    <img src="https://img.shields.io/github/forks/Anime-Republic/Mirror-New?label=Fork&style=social">
 
   </a>
 </p>
