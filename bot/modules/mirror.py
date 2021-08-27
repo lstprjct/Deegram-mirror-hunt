@@ -22,6 +22,7 @@ from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import *
 from bot.helper.telegram_helper import button_build
+from bot.helper.ext_utils.shortenurl import short_url
 import urllib
 import pathlib
 import os
@@ -161,7 +162,7 @@ class MirrorListener(listeners.MirrorListeners):
                 msg += f'\n<b>Type: </b><code>{typ}</code>'
             buttons = button_build.ButtonMaker()
             if SHORTENER is not None and SHORTENER_API is not None:
-                surl = requests.get(f'https://{SHORTENER}/api?api={SHORTENER_API}&url={link}&format=text').text
+                surl = short_url(link)
                 buttons.buildbutton(f"{GD_BUTTON}", surl)
             else:
                 buttons.buildbutton(f"{GD_BUTTON}", link)
@@ -172,17 +173,17 @@ class MirrorListener(listeners.MirrorListeners):
                 if os.path.isdir(f'{DOWNLOAD_DIR}/{self.uid}/{download_dict[self.uid].name()}'):
                     share_url += '/'
                     if SHORTENER is not None and SHORTENER_API is not None:
-                        siurl = requests.get(f'https://{SHORTENER}/api?api={SHORTENER_API}&url={share_url}&format=text').text
+                        siurl = short_url(share_url)
                         buttons.buildbutton(f"{INDEX_BUTTON}", siurl)
                     else:
                         buttons.buildbutton(f"{INDEX_BUTTON}", share_url)
                 else:
                     share_urls = f'{INDEX_URL}/{url_path}?a=view'
                     if SHORTENER is not None and SHORTENER_API is not None:
-                        siurl = requests.get(f'https://{SHORTENER}/api?api={SHORTENER_API}&url={share_url}&format=text').text
-                        siurls = requests.get(f'https://{SHORTENER}/api?api={SHORTENER_API}&url={share_urls}&format=text').text
-                        buttons.buildbutton(f"{INDEX_BUTTON}", siurl)
+                        siurl = short_url(share_url)
+                        buttons.buildbutton("⚡ Index Link", siurl)
                         if VIEW_LINK:
+			    siurls = short_url(share_urls)
                             buttons.buildbutton(f"{VIEW_BUTTON}", siurls)
                     else:
                         buttons.buildbutton(f"{INDEX_BUTTON}", share_url)
