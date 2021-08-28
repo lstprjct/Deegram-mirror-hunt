@@ -451,9 +451,9 @@ class GoogleDriveHelper:
                     urls = f'{INDEX_URL}/{url_path}?a=view'
                     if SHORTENER is not None and SHORTENER_API is not None:
                         siurl = short_url(url)
-                        buttons.buildbutton("⚡ Index Link", siurl)
+                        buttons.buildbutton(f"{INDEX_BUTTON}", siurl)
                         if VIEW_LINK:
-                            siurls = short_url(urls)
+			    siurls = short_url(urls)
                             buttons.buildbutton(f"{VIEW_BUTTON}", siurls)
                     else:
                         buttons.buildbutton(f"{INDEX_BUTTON}", url)
@@ -621,7 +621,7 @@ class GoogleDriveHelper:
                     furl = f"https://drive.google.com/drive/folders/{file.get('id')}"
                     msg += f"📁 <code>{file.get('name')}<br>(folder)</code><br>"
                     if SHORTENER is not None and SHORTENER_API is not None:
-                        sfurl = short_url(furl)
+                        sfurl = sfurl = short_url(furl)
                         msg += f"<b><a href={sfurl}>{TELEGRAPH_DRIVE}</a></b>"
                     else:
                         msg += f"<b><a href={furl}>{TELEGRAPH_DRIVE}</a></b>"
@@ -650,10 +650,10 @@ class GoogleDriveHelper:
                         url = f'{INDEX_URL}/{url_path}'
                         urls = f'{INDEX_URL}/{url_path}?a=view'
                         if SHORTENER is not None and SHORTENER_API is not None:
-                            short_url(url)
+                            siurl = short_url(url)
                             msg += f' <b>| <a href="{siurl}">{TELEGRAPH_INDEX}</a></b>'
                             if VIEW_LINK:
-                                siurls = short_url(urls)
+				siurls = short_url(urls)
                                 msg += f' <b>| <a href="{siurls}">{TELEGRAPH_VIEW}</a></b>'
                         else:
                             msg += f' <b>| <a href="{url}">{TELEGRAPH_INDEX}</a></b>'
