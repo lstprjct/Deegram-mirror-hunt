@@ -621,7 +621,7 @@ class GoogleDriveHelper:
                     furl = f"https://drive.google.com/drive/folders/{file.get('id')}"
                     msg += f"📁 <code>{file.get('name')}<br>(folder)</code><br>"
                     if SHORTENER is not None and SHORTENER_API is not None:
-                        sfurl = sfurl = short_url(furl)
+                        sfurl = short_url(furl)
                         msg += f"<b><a href={sfurl}>{TELEGRAPH_DRIVE}</a></b>"
                     else:
                         msg += f"<b><a href={furl}>{TELEGRAPH_DRIVE}</a></b>"
