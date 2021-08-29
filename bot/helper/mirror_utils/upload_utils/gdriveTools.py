@@ -453,7 +453,7 @@ class GoogleDriveHelper:
                         siurl = short_url(url)
                         buttons.buildbutton(f"{INDEX_BUTTON}", siurl)
                         if VIEW_LINK:
-			    siurls = short_url(urls)
+                            siurls = short_url(urls)
                             buttons.buildbutton(f"{VIEW_BUTTON}", siurls)
                     else:
                         buttons.buildbutton(f"{INDEX_BUTTON}", url)
@@ -653,7 +653,7 @@ class GoogleDriveHelper:
                             siurl = short_url(url)
                             msg += f' <b>| <a href="{siurl}">{TELEGRAPH_INDEX}</a></b>'
                             if VIEW_LINK:
-				siurls = short_url(urls)
+                                siurls = short_url(urls)
                                 msg += f' <b>| <a href="{siurls}">{TELEGRAPH_VIEW}</a></b>'
                         else:
                             msg += f' <b>| <a href="{url}">{TELEGRAPH_INDEX}</a></b>'
