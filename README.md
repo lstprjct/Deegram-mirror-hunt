@@ -35,7 +35,7 @@
     <summary><b>Click Here For More Details</b></summary>
 
 ## Additional Features
-- Updater (**NOTE**: You must upload your **token.pickle** to Index and fill your **token.pickle** url to **TOKEN_PICKLE_URL**, because your **token.pickle** will deleted after update, for more info please check [Setting up config file](https://github.com/yuno74/Mirror-New#setting-up-config-file))
+- Updater (**NOTE**: You must upload your **token.pickle** to Index and fill your **token.pickle** url to **TOKEN_PICKLE_URL**, because your **token.pickle** will deleted after update, for more info please check [Setting up config file](https://github.com/Anime-Republic/Mirror-New#setting-up-config-file))
 - Limiting size Torrent/Direct, Tar/Unzip, Mega, cloning Google Drive support
 - Stop duplicate cloning Google Drive & mirroring Mega support
 - Tar/Unzip Google Drive link support
@@ -90,7 +90,7 @@ Deploying is pretty much straight forward and is divided into several steps as f
 
 - Clone this repo:
 ```
-git clone https://github.com/yuno74/Mirror-New mirrorbot/
+git clone https://github.com/Anime-Republic/Mirror-New mirrorbot/
 cd mirrorbot
 ```
 
@@ -101,6 +101,10 @@ sudo apt install python3
 ```
 Install Docker by following the [official Docker docs](https://docs.docker.com/engine/install/debian/)
 
+OR
+```
+sudo snap install docker 
+```
 - For Arch and it's derivatives:
 ```
 sudo pacman -S docker python
@@ -122,6 +126,14 @@ docker build . --rm --force-rm --compress --no-cache=true --pull --file Dockerfi
 - Run the image:
 ```
 sudo docker run mirrorbot
+```
+  
+- To stop Docker run 
+```
+  sudo docker ps
+```
+```
+sudo docker stop id
 ```
 ## Deploying on Heroku with Github Workflow
 <p><a href="https://github.com/Anime-Republic/Mirror-New/blob/main/HerokuGuide.md"> <img src="https://img.shields.io/badge/Deploy%20Guide-blueviolet?style=for-the-badge&logo=heroku" width="180""/></a></p>
@@ -167,7 +179,7 @@ exe.io, gplinks.in, shrinkme.io, urlshortx.com, shortzon.com
 ## If you want to use Credentials externally from Index Links, fill these vars with the direct links.These are optional, if you don't know, simply leave them, don't fill anything in them.
 - **TOKEN_PICKLE_URL**: Only if you want to load your **token.pickle** externally from an Index Link. Fill this with the direct link of that file.
 - **ACCOUNTS_ZIP_URL**: Only if you want to load your Service Account externally from an Index Link. Archive the accounts folder to a zip file. Fill this with the direct link of that file.
-    If  you don't know how to create token.pickle, [Click Here](https://github.com/yuno74/Mirror-New/blob/main/CreateSA.md)
+    If  you don't know how to create token.pickle, [Click Here](https://github.com/Anime-Republic/Mirror-New/blob/main/CreateSA.md)
     
 ## Heroku Details
 - **HEROKU_APP_NAME**: (Only if you deploying on Heroku) Your Heroku app name.
