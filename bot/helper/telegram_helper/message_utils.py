@@ -143,7 +143,6 @@ def sendStatusMessage(msg, bot):
             except Exception as e:
                 LOGGER.error(str(e))
                 del status_reply_dict[msg.message.chat.id]
-                pass
         if buttons == "":
             message = sendMessage(progress, bot, msg)
         else:

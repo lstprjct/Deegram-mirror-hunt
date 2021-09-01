@@ -35,10 +35,9 @@ def cancel_mirror(update, context):
                BotCommands.UnzipMirrorCommand in mirror_message.text:
                 msg1 = "Mirror Already Have Been Cancelled"
                 sendMessage(msg1, context.bot, update)
-                return
             else:
                 sendMessage(msg, context.bot, update)
-                return
+            return
         elif not mirror_message:
             sendMessage(msg, context.bot, update)
             return
@@ -49,7 +48,7 @@ def cancel_mirror(update, context):
     else:
         dl.download().cancel_download()
         sleep(3)  # incase of any error with ondownloaderror listener
-        clean_download(f'{DOWNLOAD_DIR}{mirror_message.message_id}/')
+        clean_download(f'{DOWNLOAD_DIR}{mirror_message.message_id}')
 
 
 def cancel_all(update, context):

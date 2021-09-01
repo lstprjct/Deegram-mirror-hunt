@@ -75,10 +75,7 @@ class MirrorListener(listeners.MirrorListeners):
             try:
                 with download_dict_lock:
                     download_dict[self.uid] = TarStatus(name, m_path, size)
-                if self.isZip:
-                    path = fs_utils.zip(name, m_path)
-                else:
-                    path = fs_utils.tar(m_path)
+                path = fs_utils.zip(name, m_path) if self.isZip else fs_utils.tar(m_path)
             except FileNotFoundError:
                 LOGGER.info('File to archive not found!')
                 self.onUploadError('Internal error occurred!!')
@@ -132,7 +129,6 @@ class MirrorListener(listeners.MirrorListeners):
                 fs_utils.clean_download(download.path())
             except Exception as e:
                 LOGGER.error(str(e))
-                pass
             count = len(download_dict)
         if self.message.from_user.username:
             uname = f"@{self.message.from_user.username}"
@@ -278,18 +274,26 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False):
                 file = i
                 break
 
-        if not bot_utils.is_url(link) and not bot_utils.is_magnet(link) or len(link) == 0:
-            if file is not None:
-                if file.mime_type != "application/x-bittorrent":
-                    listener = MirrorListener(bot, update, pswd, isTar, extract, isZip)
-                    tg_downloader = TelegramDownloadHelper(listener)
-                    ms = update.message
-                    tg_downloader.add_download(ms, f'{DOWNLOAD_DIR}{listener.uid}/', name)
-                    return
-                else:
-                    link = file.get_file().file_path
+        if (
+            not bot_utils.is_url(link)
+            and not bot_utils.is_magnet(link)
+            or len(link) == 0
+        ) and file is not None:
+            if isQbit:
+                file_name = str(time.time()).replace(".", "") + ".torrent"
+                file.get_file().download(custom_path=f"{file_name}")
+                link = f"{file_name}"
+            elif file.mime_type != "application/x-bittorrent":
+                listener = MirrorListener(bot, update, pswd, isTar, extract, isZip)
+                tg_downloader = TelegramDownloadHelper(listener)
+                ms = update.message
+                tg_downloader.add_download(ms, f'{DOWNLOAD_DIR}{listener.uid}/', name)
+                return
+            else:
+                link = file.get_file().file_path
     else:
         tag = None
+
     if not bot_utils.is_url(link) and not bot_utils.is_magnet(link):
         if isTar:
             sendMessage(f"<b><i>No download source provided</i></b>\n\n<b>Support Format:\n❋Google drive link\n❋Youtube link(only tar)\n❋Direct link\n❋Mega Link\n❋Magnet\n❋Torrent link\n❋Torrent File(.torrent, need reply)\n❋Telegram File(need reply)</b>\n\n•Use /{BotCommands.TarMirrorCommand} for make tar\n•Use /{BotCommands.ZipMirrorCommand} for make zip", bot, update)
@@ -322,7 +326,7 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False):
             sendMessage(res, bot, update)
             return
         if TAR_UNZIP_LIMIT is not None:
-            result = check_limit(size, TAR_UNZIP_LIMIT)
+            result = bot_utils.check_limit(size, TAR_UNZIP_LIMIT)
             if result:
                 msg = f'Failed, Tar/Unzip limit is {TAR_UNZIP_LIMIT}.\nYour File/Folder size is {get_readable_file_size(size)}.'
                 sendMessage(msg, listener.bot, listener.update)
@@ -337,11 +341,12 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False):
         drive.download(link)
 
     elif bot_utils.is_mega_link(link):
-        link_type = get_mega_link_type(link)
+        if BLOCK_MEGA_LINKS:
+            sendMessage("Mega links are blocked!", bot, update)
+            return
+        link_type = bot_utils.get_mega_link_type(link)
         if link_type == "folder" and BLOCK_MEGA_FOLDER:
             sendMessage("Mega folder are blocked!", bot, update)
-        elif BLOCK_MEGA_LINKS:
-            sendMessage("Mega links are blocked!", bot, update)
         else:
             mega_dl = MegaDownloadHelper()
             mega_dl.add_download(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener)
