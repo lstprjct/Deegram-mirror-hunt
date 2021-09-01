@@ -36,3 +36,4 @@ youtube_dl
 yt-dlp
 quoters
 pyshorteners
+youtube_dl

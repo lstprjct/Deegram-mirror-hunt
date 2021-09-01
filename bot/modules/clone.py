@@ -20,7 +20,7 @@ def cloneNode(update, context):
             sendMessage(res, context.bot, update)
             return
         if STOP_DUPLICATE:
-            LOGGER.info(f"Checking File/Folder if already in Drive...")
+            LOGGER.info('Checking File/Folder if already in Drive...')
             smsg, button = gd.drive_list(name)
             if smsg:
                 msg3 = "File/Folder is already available in Drive.\nHere are the search results:"
@@ -29,7 +29,7 @@ def cloneNode(update, context):
         if CLONE_LIMIT is not None:
             result = check_limit(size, CLONE_LIMIT)
             if result:
-                msg2 = f'Failed, Clone limit is {CLONE_LIMIT}.\nYour File/Folder size is {get_readable_file_size(clonesize)}.'
+                msg2 = f'Failed, Clone limit is {CLONE_LIMIT}.\nYour File/Folder size is {get_readable_file_size(size)}.'
                 sendMessage(msg2, context.bot, update)
                 return
         if files < 15:
@@ -63,7 +63,7 @@ def cloneNode(update, context):
         if uname is not None:
             cc = f'\n\nCloned by: {uname}'
             men = f'{uname} '
-        if button == "cancelled" or button == "":
+        if button in ["cancelled", ""]:
             sendMessage(men + result, context.bot, update)
         else:
             sendMarkup(result + cc, context.bot, update, button)
