@@ -71,28 +71,40 @@ def getDownloadByGid(gid):
     with download_dict_lock:
         for dl in download_dict.values():
             status = dl.status()
-            if status != MirrorStatus.STATUS_ARCHIVING and status != MirrorStatus.STATUS_EXTRACTING:
-                if dl.gid() == gid:
-                    return dl
+            if (
+                status
+                not in [
+                    MirrorStatus.STATUS_ARCHIVING,
+                    MirrorStatus.STATUS_EXTRACTING,
+                ]
+                and dl.gid() == gid
+            ):
+                return dl
     return None
 
 
 def getAllDownload():
     with download_dict_lock:
         for dlDetails in download_dict.values():
-            if dlDetails.status() == MirrorStatus.STATUS_DOWNLOADING or dlDetails.status() == MirrorStatus.STATUS_WAITING:
-                if dlDetails:
-                    return dlDetails
+            status = dlDetails.status()
+            if (
+                status
+                not in [
+                    MirrorStatus.STATUS_ARCHIVING,
+                    MirrorStatus.STATUS_EXTRACTING,
+                    MirrorStatus.STATUS_CLONING,
+                    MirrorStatus.STATUS_UPLOADING,
+                ]
+                and dlDetails
+            ):
+                return dlDetails
     return None
 
 
 def get_progress_bar_string(status):
     completed = status.processed_bytes() / 8
     total = status.size_raw() / 8
-    if total == 0:
-        p = 0
-    else:
-        p = round(completed * 100 / total)
+    p = 0 if total == 0 else round(completed * 100 / total)
     p = min(max(p, 0), 100)
     cFull = p // 8
     cPart = p % 8 - 1
@@ -121,8 +133,10 @@ def get_readable_message():
             if INDEX > COUNT:
                 msg += f"<b>📁 Filename:</b> <code>{download.name()}</code>"
                 msg += f"\n<b>ℹ️ Status:</b> <i>{download.status()}</i>"
-                if download.status() != MirrorStatus.STATUS_ARCHIVING and download.status() != MirrorStatus.STATUS_EXTRACTING:
-                    msg += f"\n<code>{get_progress_bar_string(download)} {download.progress()}</code>"
+                if download.status() not in [
+                    MirrorStatus.STATUS_ARCHIVING,
+                    MirrorStatus.STATUS_EXTRACTING,
+                ]:                    msg += f"\n<code>{get_progress_bar_string(download)} {download.progress()}</code>"
                     if download.status() == MirrorStatus.STATUS_DOWNLOADING:
                         msg += f"\n<b>📥 Downloaded:</b> {get_readable_file_size(download.processed_bytes())}<b>\n💾 Size</b>: {download.size()}"
                     elif download.status() == MirrorStatus.STATUS_CLONING:
@@ -146,9 +160,8 @@ def get_readable_message():
                         pass
                     msg += f"\n<b>⛔ Cancel:</b> <code>/{BotCommands.CancelMirror} {download.gid()}</code>"
                 msg += "\n\n"
-                if STATUS_LIMIT is not None:
-                    if INDEX >= COUNT + STATUS_LIMIT:
-                        break
+                if STATUS_LIMIT is not None and INDEX >= COUNT + STATUS_LIMIT:
+                    break
         if STATUS_LIMIT is not None:
             if INDEX > COUNT + STATUS_LIMIT:
                 return None, None
@@ -184,7 +197,7 @@ def flip(update, context):
 
 
 def check_limit(size, limit, tar_unzip_limit=None, is_tar_ext=False):
-    LOGGER.info(f"Checking File/Folder Size...")
+    LOGGER.info('Checking File/Folder Size...')
     if is_tar_ext and tar_unzip_limit is not None:
         limit = tar_unzip_limit
     if limit is not None:
@@ -218,9 +231,7 @@ def get_readable_time(seconds: int) -> str:
 
 def is_url(url: str):
     url = re.findall(URL_REGEX, url)
-    if url:
-        return True
-    return False
+    return bool(url)
 
 
 def is_gdrive_link(url: str):
@@ -243,9 +254,7 @@ def get_mega_link_type(url: str):
 
 def is_magnet(url: str):
     magnet = re.findall(MAGNET_REGEX, url)
-    if magnet:
-        return True
-    return False
+    return bool(magnet)
 
 
 def new_thread(fn):
