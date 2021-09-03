@@ -299,7 +299,7 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False):
                 file.get_file().download(custom_path=f"{file_name}")
                 link = f"{file_name}"
             elif file.mime_type != "application/x-bittorrent":
-                listener = MirrorListener(bot, update, pswd, isTar, extract, isZip)
+                    listener = MirrorListener(bot, update, pswd, isTar, extract, isZip)
                     tg_downloader = TelegramDownloadHelper(listener)
                     ms = update.message
                     tg_downloader.add_download(ms, f'{DOWNLOAD_DIR}{listener.uid}/', name)
@@ -309,7 +309,7 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False):
                     if len(Interval) == 0:
                         Interval.append(setInterval(DOWNLOAD_STATUS_UPDATE_INTERVAL, update_all_messages))
                     return
-                else:
+            else:
                     link = file.get_file().file_path
 
     else:
