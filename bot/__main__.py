@@ -2,34 +2,33 @@ import shutil, psutil
 import signal
 import os
 import asyncio
+import importlib
 
-<<<<<<< HEAD
 from pyrogram import idle, filters, types, emoji
 from bot import app, SUPPORT_LINK, CHANNEL_LINK, AUTHORIZED_CHATS, TIMEZONE, RESTARTED_GROUP_ID2, RESTARTED_GROUP_ID
-=======
 from pyrogram import idle
 from bot import app, SUPPORT_LINK, CHANNEL_LINK, AUTHORIZED_CHATS, TIMEZONE, RESTARTED_GROUP_ID2
->>>>>>> parent of cf71fec (Add files via upload)
 from sys import executable
 from datetime import datetime
 from quoters import Quote
 import pytz
 import time
+import threading
 
 from telegram.error import BadRequest, Unauthorized
-from telegram import ParseMode, BotCommand
+from telegram import ParseMode, BotCommand, InputTextMessageContent, InlineQueryResultArticle, Update, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram.ext import Filters, InlineQueryHandler, MessageHandler, CommandHandler, CallbackQueryHandler, CallbackContext
+from telegram.utils.helpers import escape_markdown
 from telegram.ext import CommandHandler
-<<<<<<< HEAD
-from bot import bot, dispatcher, updater, botStartTime, LOG_GROUP, BOT_USERNAME, IGNORE_PENDING_REQUESTS, CHAT_NAME, app, OWNER_ID
-=======
-from bot import bot, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, TIMEZONE, RESTARTED_GROUP_ID
->>>>>>> parent of cf71fec (Add files via upload)
+from bot import bot, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, app, OWNER_ID
+from bot import TIMEZONE, RESTARTED_GROUP_ID
 from bot.helper.ext_utils import fs_utils
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.message_utils import *
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
 from .helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper import button_build
+from bot.helper import get_text, check_heroku
 from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, delete, usage, count
 now=datetime.now(pytz.timezone(f'{TIMEZONE}'))
 
@@ -46,21 +45,25 @@ def stats(update, context):
     cpuUsage = psutil.cpu_percent(interval=0.5)
     memory = psutil.virtual_memory().percent
     disk = psutil.disk_usage('/').percent
-    stats = f'<b>ℹ️ Bot Uptime ℹ️:</b>\n{currentTime}\n' \
-            f'<b>\n▶️ Start Time ▶️</b>\n{current}\n\n' \
-            f'<b>💿 Disk Space:</b> {total}\n' \
-            f'<b>📀 Used:</b> {used}\n' \
-            f'<b>🕊️ Free:</b> {free}\n\n' \
-            f'📊Data Usage📊\n<b>📤 Upload:</b> {sent}\n' \
-            f'<b>📥 Download:</b> {recv}\n\n' \
-            f'<b>🖥️ CPU:</b> {cpuUsage}%\n' \
-            f'<b>🧮 RAM:</b> {memory}%\n' \
-            f'<b>💽 DISK:</b> {disk}%'
+    stats = f'<b>Bot Uptime:</b> <code>{currentTime}</code>\n' \
+            f'<b>Total Disk Space:</b> <code>{total}</code>\n' \
+            f'<b>Used:</b> <code>{used}</code> ' \
+            f'<b>Free:</b> <code>{free}</code>\n\n' \
+            f'<b>Upload:</b> <code>{sent}</code>\n' \
+            f'<b>Download:</b> <code>{recv}</code>\n\n' \
+            f'<b>CPU:</b> <code>{cpuUsage}%</code> ' \
+            f'<b>RAM:</b> <code>{memory}%</code> ' \
+            f'<b>DISK:</b> <code>{disk}%</code>'
     sendMessage(stats, context.bot, update)
 
 
 def start(update, context):
-    start_string = f'''
+    buttons = button_build.ButtonMaker()
+    buttons.buildbutton("Repo", "https://github.com/SlamDevs/slam-mirrorbot")
+    buttons.buildbutton("Channel", "https://t.me/SlamMirrorUpdates")
+    reply_markup = InlineKeyboardMarkup(buttons.build_menu(2))
+    if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
+        start_string = f'''
 This bot can mirror all your links to Google Drive!
 Type /{BotCommands.HelpCommand} to get a list of available commands
 '''
@@ -233,10 +236,6 @@ def main():
             LOGGER.warning(e.message)            
             
     fs_utils.start_cleanup()
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of cf71fec (Add files via upload)
     # Check if the bot is restarting
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:

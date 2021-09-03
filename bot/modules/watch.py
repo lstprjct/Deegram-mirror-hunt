@@ -1,12 +1,14 @@
 from telegram.ext import CommandHandler
 from telegram import Bot, Update
-from bot import DOWNLOAD_DIR, dispatcher, LOGGER
+from bot import DOWNLOAD_DIR, dispatcher, LOGGER, Interval, DOWNLOAD_STATUS_UPDATE_INTERVAL, dispatcher, LOGGER
 from bot.helper.telegram_helper.message_utils import sendMessage, sendStatusMessage
 from .mirror import MirrorListener
 from bot.helper.mirror_utils.download_utils.youtube_dl_download_helper import YoutubeDLHelper
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.filters import CustomFilters
+from bot.helper.ext_utils.bot_utils import setInterval
 import threading
+import time
 
 
 def _watch(bot: Bot, update, isTar=False):
@@ -42,12 +44,20 @@ def _watch(bot: Bot, update, isTar=False):
       name = name_args[1]
     except IndexError:
       name = ""
-    
+    reply_to = update.message.reply_to_message
+    if reply_to is not None:
+        tag = reply_to.from_user.username
+    else:
+        tag = None
     pswd = ""
-    listener = MirrorListener(bot, update, pswd, isTar)
+    listener = MirrorListener(bot, update, pswd, isTar, tag)
     ydl = YoutubeDLHelper(listener)
     threading.Thread(target=ydl.add_download,args=(link, f'{DOWNLOAD_DIR}{listener.uid}', qual, name)).start()
-    sendStatusMessage(update, bot)
+    sendMessage(msg, bot, update)
+    time.sleep(1)
+    if len(Interval) == 0:
+        Interval.append(setInterval(DOWNLOAD_STATUS_UPDATE_INTERVAL, update_all_messages))
+
 
 
 def watchTar(update, context):
@@ -62,7 +72,5 @@ mirror_handler = CommandHandler(BotCommands.WatchCommand, watch,
                                 filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 tar_mirror_handler = CommandHandler(BotCommands.TarWatchCommand, watchTar,
                                     filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
-
-
 dispatcher.add_handler(mirror_handler)
 dispatcher.add_handler(tar_mirror_handler)

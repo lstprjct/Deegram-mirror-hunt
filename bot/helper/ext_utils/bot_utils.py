@@ -117,6 +117,31 @@ def get_progress_bar_string(status):
     return p_str
 
 
+def progress_bar(percentage):
+    """Returns a progress bar for download
+    """
+    #percentage is on the scale of 0-1
+    comp = FINISHED_PROGRESS_STR
+    ncomp = UNFINISHED_PROGRESS_STR
+    pr = ""
+
+    if isinstance(percentage, str):
+        return "NaN"
+
+    try:
+        percentage=int(percentage)
+    except:
+        percentage = 0
+
+    for i in range(1,11):
+        if i <= int(percentage/10):
+            pr += comp
+        else:
+            pr += ncomp
+    return pr
+
+
+
 def get_readable_message():
     with download_dict_lock:
         msg = ""
@@ -133,10 +158,8 @@ def get_readable_message():
             if INDEX > COUNT:
                 msg += f"<b>📁 Filename:</b> <code>{download.name()}</code>"
                 msg += f"\n<b>ℹ️ Status:</b> <i>{download.status()}</i>"
-                if download.status() not in [
-                    MirrorStatus.STATUS_ARCHIVING,
-                    MirrorStatus.STATUS_EXTRACTING,
-                ]:                    msg += f"\n<code>{get_progress_bar_string(download)} {download.progress()}</code>"
+                if download.status() != MirrorStatus.STATUS_ARCHIVING and download.status() != MirrorStatus.STATUS_EXTRACTING:
+                    msg += f"\n<code>{get_progress_bar_string(download)} {download.progress()}</code>"
                     if download.status() == MirrorStatus.STATUS_DOWNLOADING:
                         msg += f"\n<b>📥 Downloaded:</b> {get_readable_file_size(download.processed_bytes())}<b>\n💾 Size</b>: {download.size()}"
                     elif download.status() == MirrorStatus.STATUS_CLONING:
@@ -160,13 +183,14 @@ def get_readable_message():
                         pass
                     msg += f"\n<b>⛔ Cancel:</b> <code>/{BotCommands.CancelMirror} {download.gid()}</code>"
                 msg += "\n\n"
-                if STATUS_LIMIT is not None and INDEX >= COUNT + STATUS_LIMIT:
-                    break
+                if STATUS_LIMIT is not None:
+                    if INDEX >= COUNT + STATUS_LIMIT:
+                        break
         if STATUS_LIMIT is not None:
             if INDEX > COUNT + STATUS_LIMIT:
                 return None, None
             if dick_no > STATUS_LIMIT:
-                msg += f"Page: <code>{PAGE_NO}/{pages}</code> | <code>Tasks: {dick_no}</code>\n"
+                msg += f"📖 Page: <code>{PAGE_NO}/{pages}</code> | <code>📄 Tasks: {dick_no}</code>\n"
                 buttons = button_build.ButtonMaker()
                 buttons.sbutton("⬅️", "pre")
                 buttons.sbutton("➡️", "nex")
