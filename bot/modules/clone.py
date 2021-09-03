@@ -1,17 +1,19 @@
 from telegram.ext import CommandHandler
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from bot.helper.mirror_utils.upload_utils import gdriveTools
 from bot.helper.telegram_helper.message_utils import *
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.mirror_utils.status_utils.clone_status import CloneStatus
 from bot import dispatcher, LOGGER, CLONE_LIMIT, STOP_DUPLICATE, download_dict, download_dict_lock, Interval
-from bot.helper.ext_utils.bot_utils import get_readable_file_size, check_limit
+from bot.helper.ext_utils.bot_utils import get_readable_file_size, check_limit, setInterval
 import random
 import string
 
 
 def cloneNode(update, context):
     args = update.message.text.split(" ", maxsplit=1)
+    uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
     if len(args) > 1:
         link = args[1]
         gd = gdriveTools.GoogleDriveHelper()
@@ -33,7 +35,7 @@ def cloneNode(update, context):
                 sendMessage(msg2, context.bot, update)
                 return
         if files < 15:
-            msg = sendMessage(f"Cloning: <code>{link}</code>", context.bot, update)
+            msg = sendMessage(f"📲: <code>{link}</code>", context.bot, update)
             result, button = gd.clone(link)
             deleteMessage(context.bot, msg)
         else:
@@ -63,10 +65,16 @@ def cloneNode(update, context):
         if uname is not None:
             cc = f'\n\nCloned by: {uname}'
             men = f'{uname} '
-        if button in ["cancelled", ""]:
+            msg_g = f'\n\n - <b><i>Never Share G-Drive/Index Link.</i></b>\n - <b><i>Join TD To Access G-Drive Link.</i></b>'
+            fwdpm = f'\n\n<b>You Can Find Upload In Private Chat</b>'
+        if button == "cancelled" or button == "":
             sendMessage(men + result, context.bot, update)
         else:
-            sendMarkup(result + cc, context.bot, update, button)
+            logmsg = sendLog(result + cc + msg_g, context.bot, update, button)
+            if logmsg:
+                log_m = f"\n\n<b>Link Uploaded, Click Below Button</b>"
+                sendMarkup(result + cc + log_m + fwdpm, context.bot, update, InlineKeyboardMarkup([[InlineKeyboardButton(text="CLICK HERE", url=logmsg.link)]]))
+                sendPrivate(result + cc + msg_g, context.bot, update, button)
     else:
         sendMessage('Provide G-Drive Shareable Link to Clone.', context.bot, update)
 
