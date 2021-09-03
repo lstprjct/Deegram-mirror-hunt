@@ -53,13 +53,11 @@ def cancel_mirror(update, context):
 
 def cancel_all(update, context):
     count = 0
-    gid = 1
+    gid = 0
     while True:
         dl = getAllDownload()
         if dl:
             if dl.gid() != gid:
-                continue
-            else:
                 gid = dl.gid()
                 dl.download().cancel_download()
                 count += 1

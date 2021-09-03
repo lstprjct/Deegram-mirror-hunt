@@ -2,7 +2,6 @@ aiohttp
 anytree
 aria2p
 appdirs
-attrdict
 beautifulsoup4
 cloudscrape
 cfscrape
@@ -11,6 +10,7 @@ gitpython
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
+gunicorn
 heroku3
 html-telegraph-poster
 js2py
@@ -32,10 +32,8 @@ tenacity
 TgCrypto
 torrentool
 urllib3
+youtube_dl
 yt-dlp
 quoters
 pyshorteners
 youtube_dl
-bs4
-natsort
-Pillow

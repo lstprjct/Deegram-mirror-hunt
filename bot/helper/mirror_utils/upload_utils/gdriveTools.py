@@ -18,14 +18,13 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 from tenacity import *
-from random import randrange
 
 from bot import GD_BUTTON, INDEX_BUTTON, VIEW_BUTTON, TITLE_NAME, AUTHOR_NAME, AUTHOR_URL, GD_INFO, TELEGRAPH_INDEX, TELEGRAPH_DRIVE, SEARCH_VIEW_BUTTON, ORDER_SORT, INDEX_URL, IMAGE_URL
 from telegram import InlineKeyboardMarkup
 from bot.helper.telegram_helper import button_build
 from telegraph import Telegraph
 from bot import parent_id, DOWNLOAD_DIR, IS_TEAM_DRIVE, \
-    USE_SERVICE_ACCOUNTS, telegraph_token, BUTTON_FOUR_NAME, BUTTON_FOUR_URL, BUTTON_FIVE_NAME, BUTTON_FIVE_URL, BUTTON_SIX_NAME, BUTTON_SIX_URL, SHORTENER, SHORTENER_API, VIEW_LINK, TELEGRAPH_VIEW, download_dict
+    USE_SERVICE_ACCOUNTS, telegraph_token, BUTTON_FOUR_NAME, BUTTON_FOUR_URL, BUTTON_FIVE_NAME, BUTTON_FIVE_URL, BUTTON_SIX_NAME, BUTTON_SIX_URL, SHORTENER, SHORTENER_API, VIEW_LINK, TELEGRAPH_VIEW
 from bot.helper.ext_utils.bot_utils import get_readable_file_size, setInterval
 from bot.helper.ext_utils.fs_utils import get_mime_type, get_path_size
 from bot.helper.ext_utils.shortenurl import short_url
@@ -36,9 +35,12 @@ logging.getLogger('googleapiclient.discovery').setLevel(logging.ERROR)
 if USE_SERVICE_ACCOUNTS:
     SERVICE_ACCOUNT_INDEX = randrange(len(os.listdir("accounts")))
 
-TELEGRAPHLIMIT = 95
+TELEGRAPHLIMIT = 80
+
 
 class GoogleDriveHelper:
+
+
     def __init__(self, name=None, listener=None):
         self.__G_DRIVE_TOKEN_FILE = "token.pickle"
         # Check https://developers.google.com/drive/scopes for all available scopes
@@ -74,6 +76,7 @@ class GoogleDriveHelper:
         self.transferred_size = 0
         self.sa_count = 0
 
+
     def speed(self):
         """
         It calculates the average upload speed and returns it in bytes/seconds unit
@@ -84,11 +87,13 @@ class GoogleDriveHelper:
         except ZeroDivisionError:
             return 0
 
+
     def dspeed(self):
         try:
             return self.downloaded_bytes / self.dtotal_time
         except ZeroDivisionError:
             return 0
+
 
     def cspeed(self):
         try:
@@ -96,16 +101,18 @@ class GoogleDriveHelper:
         except ZeroDivisionError:
             return 0
 
+
     @staticmethod
     def getIdFromUrl(link: str):
         if "folders" in link or "file" in link:
             regex = r"https://drive\.google\.com/(drive)?/?u?/?\d?/?(mobile)?/?(file)?(folders)?/?d?/([-\w]+)[?+]?/?(w+)?"
             res = re.search(regex,link)
             if res is None:
-                raise IndexError("GDrive ID not found.")
+                raise IndexError("G-Drive ID not found.")
             return res.group(5)
         parsed = urlparse.urlparse(link)
         return parse_qs(parsed.query)['id'][0]
+
 
     @retry(wait=wait_exponential(multiplier=2, min=3, max=6), stop=stop_after_attempt(5),
            retry=retry_if_exception_type(HttpError), before=before_log(LOGGER, logging.DEBUG))
@@ -116,6 +123,7 @@ class GoogleDriveHelper:
             LOGGER.debug(f'Uploading {self.name}, chunk size: {get_readable_file_size(chunk_size)}')
             self.uploaded_bytes += chunk_size
             self.total_time += self.update_interval
+
 
     def __upload_empty_file(self, path, file_name, mime_type, parent_id=None):
         media_body = MediaFileUpload(path,
@@ -130,6 +138,8 @@ class GoogleDriveHelper:
             file_metadata['parents'] = [parent_id]
         return self.__service.files().create(supportsTeamDrives=True,
                                              body=file_metadata, media_body=media_body).execute()
+
+
     def deletefile(self, link: str):
         try:
             file_id = self.getIdFromUrl(link)
@@ -397,11 +407,11 @@ class GoogleDriveHelper:
                     LOGGER.info("Deleting cloned data from Drive...")
                     msg = self.deletefile(durl)
                     LOGGER.info(f"{msg}")
-                    return "Your clone has been stopped and cloned data has been deleted!", "cancelled"
-                msg += f'<b>• Filename : </b><i><code>{meta.get("name")}</code></i>\n\n<b>• Size : </b><code>{get_readable_file_size(self.transferred_size)}</code>'
-                msg += f'\n<i> - Type: Folder</i>'
-                msg += f'\n<i> - Subfolder(s): {self.total_folders}</i>'
-                msg += f'\n<i> - Files: {self.total_files}</i>'
+                    return "your clone has been stopped and cloned data has been deleted!", "cancelled"
+                msg += f'<b>Filename: </b><code>{meta.get("name")}</code>\n<b>Size: </b><code>{get_readable_file_size(self.transferred_size)}</code>'
+                msg += '\n<b>Type: </b><code>Folder</code>'
+                msg += f'\n<b>SubFolders: </b><code>{self.total_folders}</code>'
+                msg += f'\n<b>Files: </b><code>{self.total_files}</code>'
                 buttons = button_build.ButtonMaker()
                 if SHORTENER is not None and SHORTENER_API is not None:
                     surl = short_url(durl)
@@ -448,7 +458,7 @@ class GoogleDriveHelper:
                     else:
                         buttons.buildbutton(f"{INDEX_BUTTON}", url)
                         if VIEW_LINK:
-                            buttons.buildbutton(f"{VIEW_BUTTON}", urls)
+                            buttons.buildbutton(f"{VIEW_BUTTON}, urls)
             if BUTTON_FOUR_NAME is not None and BUTTON_FOUR_URL is not None:
                 buttons.buildbutton(f"{BUTTON_FOUR_NAME}", f"{BUTTON_FOUR_URL}")
             if BUTTON_FIVE_NAME is not None and BUTTON_FIVE_URL is not None:
@@ -681,6 +691,7 @@ class GoogleDriveHelper:
         buttons.buildbutton(f"{SEARCH_VIEW_BUTTON}", f"https://telegra.ph/{self.path[0]}")
 
         return msg, InlineKeyboardMarkup(buttons.build_menu(1))
+
 
     def count(self, link):
         try:
