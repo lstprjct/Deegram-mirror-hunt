@@ -5,7 +5,7 @@ import asyncio
 import importlib
 
 from pyrogram import idle, filters, types, emoji
-from bot import app, SUPPORT_LINK, CHANNEL_LINK, AUTHORIZED_CHATS, TIMEZONE, RESTARTED_GROUP_ID2, RESTARTED_GROUP_ID, alive
+from bot import app, SUPPORT_LINK, CHANNEL_LINK, AUTHORIZED_CHATS, TIMEZONE, RESTARTED_GROUP_ID2, RESTARTED_GROUP_ID
 from sys import executable
 from datetime import datetime
 from quoters import Quote
@@ -18,14 +18,14 @@ from telegram import ParseMode, BotCommand, InputTextMessageContent, InlineQuery
 from telegram.ext import Filters, InlineQueryHandler, MessageHandler, CommandHandler, CallbackQueryHandler, CallbackContext
 from telegram.utils.helpers import escape_markdown
 from telegram.ext import CommandHandler
-from bot import bot, dispatcher, updater, botStartTime, LOG_GROUP, BOT_USERNAME, IGNORE_PENDING_REQUESTS, CHAT_NAME, app, OWNER_ID, IS_VPS, SERVER_PORT
+from bot import bot, dispatcher, updater, botStartTime, LOG_GROUP, BOT_USERNAME, IGNORE_PENDING_REQUESTS, CHAT_NAME, app, OWNER_ID
 from bot.helper.ext_utils import fs_utils
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.message_utils import *
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
 from .helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper import button_build
-from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, delete, usage, count, reboot
+from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, delete, usage, count
 now=datetime.now(pytz.timezone(f'{TIMEZONE}'))
 
 
@@ -238,9 +238,6 @@ def main():
             LOGGER.warning(e.message)            
             
     fs_utils.start_cleanup()
-
-    if IS_VPS:
-        asyncio.get_event_loop().run_until_complete(start_server_async(SERVER_PORT))
 
     # Check if the bot is restarting
     if os.path.isfile(".restartmsg"):
