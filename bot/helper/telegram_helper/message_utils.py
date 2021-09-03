@@ -1,12 +1,14 @@
-from telegram import InlineKeyboardMarkup
+from telegram import InlineKeyboardMarkup, InlineKeyboardButton
+from telegram.ext import CallbackContext, CallbackQueryHandler
 from telegram.message import Message
 from telegram.update import Update
 import psutil, shutil
+from datetime import datetime
 import time
 import pytz
 from bot import AUTO_DELETE_MESSAGE_DURATION, LOGGER, bot, \
-    status_reply_dict, status_reply_dict_lock, download_dict, download_dict_lock, botStartTime, Interval, DOWNLOAD_STATUS_UPDATE_INTERVAL
-from bot.helper.ext_utils.bot_utils import get_readable_message, get_readable_file_size, get_readable_time, MirrorStatus, setInterval
+    status_reply_dict, status_reply_dict_lock, download_dict, download_dict_lock, botStartTime, Interval, DOWNLOAD_STATUS_UPDATE_INTERVAL, LOG_UNAME, LOG_CHANNEL
+from bot.helper.ext_utils.bot_utils import get_readable_message, get_readable_file_size, get_readable_time, MirrorStatus, progress_bar, setInterval
 from telegram.error import TimedOut, BadRequest
 
 
@@ -14,13 +16,46 @@ def sendMessage(text: str, bot, update: Update):
     try:
         return bot.send_message(update.message.chat_id,
                             reply_to_message_id=update.message.message_id,
-                            text=text, allow_sending_without_reply=True,  parse_mode='HTMl')
+                            text=text, disable_web_page_preview=True, allow_sending_without_reply=True, parse_mode='HTMl')
     except Exception as e:
         LOGGER.error(str(e))
 def sendMarkup(text: str, bot, update: Update, reply_markup: InlineKeyboardMarkup):
-    return bot.send_message(update.message.chat_id,
-                            reply_to_message_id=update.message.message_id,
-                            text=text, reply_markup=reply_markup, allow_sending_without_reply=True, parse_mode='HTMl')
+    try:
+        return bot.send_message(update.message.chat_id,
+                             reply_to_message_id=update.message.message_id,
+                             text=text, reply_markup=reply_markup, allow_sending_without_reply=True, parse_mode='HTMl')
+    except Exception as e:
+        LOGGER.error(str(e))
+
+
+def sendLog(text: str, bot, update: Update, reply_markup: InlineKeyboardMarkup):
+    try:
+        return bot.send_message(f"{LOG_CHANNEL}",
+                             reply_to_message_id=update.message.message_id,
+                             text=text, disable_web_page_preview=True, reply_markup=reply_markup, allow_sending_without_reply=True, parse_mode='HTMl')
+    except Exception as e:
+        LOGGER.error(str(e))
+
+
+def sendPrivate(text: str, bot, update: Update, reply_markup: InlineKeyboardMarkup):
+    bot_d = bot.get_me()
+    b_uname = bot_d.username
+    
+    try:
+        return bot.send_message(update.message.from_user.id,
+                             reply_to_message_id=update.message.message_id,
+                             text=text, disable_web_page_preview=True, reply_markup=reply_markup, allow_sending_without_reply=True, parse_mode='HTMl')
+    except Exception as e:
+        LOGGER.error(str(e))
+        if "Forbidden" in str(e):
+            uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
+            botstart = f"http://t.me/{b_uname}?start=start"
+            keyboard = [
+            [InlineKeyboardButton("START BOT", url = f"{botstart}")],
+            [InlineKeyboardButton("JOIN LOG CHANNEL", url = f"t.me/{LOG_UNAME}")]]
+            sendMarkup(f"Dear {uname},\n\n<b>I Found That You Haven't Started Me In PM (Private Chat) Yet.</b>\n\n<b>From Now On I Will Give You Links In PM (Private Chat) Only.</b>\n\n<i><b>Please Start Me in PM (Private Chat) & Don't Miss Future Uploads.</b></i>\n\n<b>From Now Get Your Links From @{LOG_UNAME} Or Search Using /search</b>.", bot, update, reply_markup=InlineKeyboardMarkup(keyboard))
+            return
+
 
 def editMessage(text: str, message: Message, reply_markup=None):
     try:
