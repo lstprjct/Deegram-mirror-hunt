@@ -2,32 +2,37 @@ import shutil, psutil
 import signal
 import os
 import asyncio
+import importlib
 
-from pyrogram import idle
-from bot import app, SUPPORT_LINK, CHANNEL_LINK, AUTHORIZED_CHATS, TIMEZONE, RESTARTED_GROUP_ID2
+from pyrogram import idle, filters, types, emoji
+from bot import app, SUPPORT_LINK, CHANNEL_LINK, AUTHORIZED_CHATS, TIMEZONE, RESTARTED_GROUP_ID2, RESTARTED_GROUP_ID, alive
 from sys import executable
 from datetime import datetime
 from quoters import Quote
 import pytz
 import time
+import threading
 
 from telegram.error import BadRequest, Unauthorized
-from telegram import ParseMode, BotCommand
+from telegram import ParseMode, BotCommand, InputTextMessageContent, InlineQueryResultArticle, Update, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram.ext import Filters, InlineQueryHandler, MessageHandler, CommandHandler, CallbackQueryHandler, CallbackContext
+from telegram.utils.helpers import escape_markdown
 from telegram.ext import CommandHandler
-from bot import bot, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, TIMEZONE, RESTARTED_GROUP_ID
+from bot import bot, dispatcher, updater, botStartTime, LOG_GROUP, BOT_USERNAME, IGNORE_PENDING_REQUESTS, CHAT_NAME, app, OWNER_ID, IS_VPS, SERVER_PORT
 from bot.helper.ext_utils import fs_utils
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.message_utils import *
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
 from .helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper import button_build
-from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, delete, usage, count
+from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, delete, usage, count, reboot
 now=datetime.now(pytz.timezone(f'{TIMEZONE}'))
 
 
 def stats(update, context):
+    global main
     currentTime = get_readable_time(time.time() - botStartTime)
-    current = now.strftime('%d/%m/%Y\n%I:%M:%S %p')
+    current = now.strftime('\n%d/%m/%Y\n%I:%M:%S %p')
     total, used, free = shutil.disk_usage('.')
     total = get_readable_file_size(total)
     used = get_readable_file_size(used)
@@ -37,41 +42,50 @@ def stats(update, context):
     cpuUsage = psutil.cpu_percent(interval=0.5)
     memory = psutil.virtual_memory().percent
     disk = psutil.disk_usage('/').percent
-    stats = f'<b>ℹ️ Bot Uptime ℹ️:</b>\n{currentTime}\n' \
-            f'<b>\n▶️ Start Time ▶️</b>\n{current}\n\n' \
-            f'<b>💿 Disk Space:</b> {total}\n' \
-            f'<b>📀 Used:</b> {used}\n' \
-            f'<b>🕊️ Free:</b> {free}\n\n' \
-            f'📊Data Usage📊\n<b>📤 Upload:</b> {sent}\n' \
-            f'<b>📥 Download:</b> {recv}\n\n' \
-            f'<b>🖥️ CPU:</b> {cpuUsage}%\n' \
-            f'<b>🧮 RAM:</b> {memory}%\n' \
-            f'<b>💽 DISK:</b> {disk}%'
-    sendMessage(stats, context.bot, update)
+    stats = f"〣 {BOT_USERNAME} 〣\n\n" \
+            f'Rᴜɴɴɪɴɢ Sɪɴᴄᴇ : \n{currentTime}\n' \
+            f'\nSᴛᴀʀᴛᴇᴅ Aᴛ : {current}\n\n' \
+            f'<b>DISK INFO</b>\n' \
+            f'<b><i>Total</i></b>: {total}\n' \
+            f'<b><i>Used</i></b>: {used}\n' \
+            f'<b><i>Free</i></b>: {free}\n\n' \
+            f'<b>DATA USAGE</b>\n' \
+            f'<b><i>UL</i></b>: {sent}\n' \
+            f'<b><i>DL</i></b>: {recv}\n\n' \
+            f'<b>SERVER STATS</b>\n' \
+            f'<b><i>CPU</i></b>: {cpuUsage}%\n' \
+            f'<b><i>RAM</i></b>: {memory}%\n' \
+            f'<b><i>DISK</i></b>: {disk}%\n'
+    keyboard = [[InlineKeyboardButton("CLOSE", callback_data="stats_close")]]
+    main = sendMarkup(stats, context.bot, update, reply_markup=InlineKeyboardMarkup(keyboard))
 
 
-def start(update, context):
-    start_string = f'''
-This bot can mirror all your links to Google Drive!
-Type /{BotCommands.HelpCommand} to get a list of available commands
-'''
-    buttons = button_build.ButtonMaker()
-    buttons.buildbutton("Channel", f"{CHANNEL_LINK}")
-    buttons.buildbutton("Support Group", f"{SUPPORT_LINK}")
-    reply_markup = InlineKeyboardMarkup(buttons.build_menu(2))
-    LOGGER.info('UID: {} - UN: {} - MSG: {}'.format(update.message.chat.id, update.message.chat.username, update.message.text))
+def call_back_data(update, context):
+    global main
+    query = update.callback_query
+    query.answer()
+    main.delete()
+    main = None
+
+
+def start(update:Update, context:CallbackContext) -> None:
+    LOGGER.info('UID: {} - UN: {} - MSG: {}'.format(update.message.chat.id,update.message.chat.username,update.message.text))
     uptime = get_readable_time((time.time() - botStartTime))
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         if update.message.chat.type == "private" :
-            sendMessage(f"Hey I'm Alive 🙂\nSince: <code>{uptime}</code>", context.bot, update)
+            reply_message = sendMessage(f"<b>Hei {update.message.chat.first_name}</b>,\n\nWelcome To One Of A {CHAT_NAME} Bot", context.bot, update)
+            threading.Thread(target=auto_delete_message, args=(bot, update.message, reply_message)).start()
         else :
-            sendMarkup(start_string, context.bot, update, reply_markup)
+            sendMessage(f"<b>I'm Awake Already!</b>\n\n<b>Haven't Slept Since:</b> \n<code>{uptime}</code>", context.bot, update)
     else :
-        sendMessage(f"Oops! not a Authorized user.", context.bot, update)
+        uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
+        sendMessage(f"<b>Hei {uname},</b>\n\n<b><i>NOTE : All The Uploaded Links Will Be Sent Here In Your Private Chat From Now</i></b>", context.bot, update)
+
 
 
 def restart(update, context):
-    restart_message = sendMessage("🔄️ 𝐑𝐄𝐒𝐓𝐀𝐑𝐓𝐈𝐍𝐆...", context.bot, update)
+    restart_message = sendMessage(f"Restarting The Bot {BOT_USERNAME}", context.bot, update)
+    LOGGER.info(f'Restarting The Bot...')
     # Save restart message object in order to reply to it after restarting
     with open(".restartmsg", "w") as f:
         f.truncate(0)
@@ -224,6 +238,10 @@ def main():
             LOGGER.warning(e.message)            
             
     fs_utils.start_cleanup()
+
+    if IS_VPS:
+        asyncio.get_event_loop().run_until_complete(start_server_async(SERVER_PORT))
+
     # Check if the bot is restarting
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:
@@ -240,6 +258,9 @@ def main():
     stats_handler = CommandHandler(BotCommands.StatsCommand,
                                    stats, filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
     log_handler = CommandHandler(BotCommands.LogCommand, log, filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True)
+    del_data_msg = CallbackQueryHandler(call_back_data, pattern="stats_close")
+    
+    dispatcher.add_handler(del_data_msg)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(restart_handler)
     dispatcher.add_handler(help_handler)

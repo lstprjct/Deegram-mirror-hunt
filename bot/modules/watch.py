@@ -17,14 +17,21 @@ def _watch(bot: Bot, update, isTar=False):
     try:
         link = message_args[1]
     except IndexError:
-        msg = f"/{BotCommands.WatchCommand} [youtube-dl supported link] [quality] |[CustomName] to mirror with youtube-dl.\n\n"
-        msg += "<b>Note: Quality and custom name are optional</b>\n\nExample of quality: audio, 144, 240, 360, 480, 720, 1080, 2160."
-        msg += "\n\nIf you want to use custom filename, enter it after |"
-        msg += f"\n\nExample:\n<code>/{BotCommands.WatchCommand} https://youtu.be/Pk_TthHfLeE 720 |Newname.extension</code>\n\n"
-        msg += "This file will be downloaded in 720p quality and it's name will be <b>Newname.extension</b>"
-        sendMessage(msg, bot, update)
-        return
-    
+        if not isTar:
+            msg = f"/{BotCommands.WatchCommand} [youtube-dl supported link] [quality] |[CustomName] to mirror with youtube-dl.\n\n"
+            msg += "<b>Note: Quality and custom name are optional</b>\n\nExample of quality: audio, 144, 240, 360, 480, 720, 1080, 2160."
+            msg += "\n\nIf you want to use custom filename, enter it after |"
+            msg += f"\n\nExample:\n<code>/{BotCommands.WatchCommand} https://youtu.be/Pk_TthHfLeE 720 |Mirror</code>\n\n"
+            msg += "This file will be downloaded in 720p quality and it's name will be <b>Mirror</b>"
+            sendMessage(msg, bot, update)
+        else:
+            msg = f"/{BotCommands.TarWatchCommand} [youtube-dl supported link] [quality] |[CustomName] to mirror with youtube-dl.\n\n"
+            msg += "<b>Note: Quality and custom name are optional</b>\n\nExample of quality: audio, 144, 240, 360, 480, 720, 1080, 2160."
+            msg += "\n\nIf you want to use custom filename, enter it after |"
+            msg += f"\n\nExample:\n<code>/{BotCommands.TarWatchCommand} https://youtu.be/Pk_TthHfLeE 720 |Mirror</code>\n\n"
+            msg += "This file will be downloaded in 720p quality and it's name will be <b>Mirror</b>"
+            sendMessage(msg, bot, update)
+            return
     try:
       if "|" in mssg:
         mssg = mssg.split("|")
@@ -42,12 +49,24 @@ def _watch(bot: Bot, update, isTar=False):
       name = name_args[1]
     except IndexError:
       name = ""
-    
+    reply_to = update.message.reply_to_message
+    if reply_to is not None:
+        tag = reply_to.from_user.username
+    else:
+        tag = None
     pswd = ""
-    listener = MirrorListener(bot, update, pswd, isTar)
+    listener = MirrorListener(bot, update, pswd, isTar, tag)
     ydl = YoutubeDLHelper(listener)
     threading.Thread(target=ydl.add_download,args=(link, f'{DOWNLOAD_DIR}{listener.uid}', qual, name)).start()
-    sendStatusMessage(update, bot)
+    uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
+    uid = f"<a>{update.message.from_user.id}</a>"
+    msg = f"{uname} has sent - \n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬\n\n<code>{link}</code>\n\nUser ID : {uid}\n\n▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+    sendMessage(msg, bot, update)
+    time.sleep(1)
+    sendMessage(f"<b>Hei {uname}</b>\n\n<b>Your Requested YTDL Link Has Been Added To The Status</b>\n\n<b>Use /{BotCommands.StatusCommand} To Check Your Progress</b>\n", bot, update)
+    if len(Interval) == 0:
+        Interval.append(setInterval(DOWNLOAD_STATUS_UPDATE_INTERVAL, update_all_messages))
+
 
 
 def watchTar(update, context):
