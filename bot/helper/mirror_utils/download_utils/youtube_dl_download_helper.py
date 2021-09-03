@@ -47,7 +47,6 @@ class YoutubeDLHelper(DownloadHelper):
             'usenetrc': True
         }
         self.__download_speed = 0
-        self.download_speed_readable = ''
         self.downloaded_bytes = 0
         self.size = 0
         self.is_playlist = False
