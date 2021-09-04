@@ -142,8 +142,6 @@ sudo docker stop id
 ## Setting up config file
 <details>
     <summary><b>Click Here For More Details</b></summary>
-## Search All Drive Function
-  For this Function to Work Edit
     
 ## Mandotory Variables
 
@@ -155,13 +153,6 @@ sudo docker stop id
 - **TELEGRAM_API**: This is to authenticate to your Telegram account for downloading Telegram files. You can get this from https://my.telegram.org DO NOT put this in quotes.
 - **TELEGRAM_HASH**: This is to authenticate to your Telegram account for downloading Telegram files. You can get this from https://my.telegram.org
 - **DOWNLOAD_STATUS_UPDATE_INTERVAL**: A short interval of time in seconds after which the Mirror progress message is updated. (I recommend to keep it `5` seconds at least).
-- **TIMEZONE**: TimeZone of your Country. Example `Asia/Dhaka` `America/New_York`
-- **AUTHOR_NAME**: Name of Author of Telegraph Search Results.You Can Keep Your Name or Group Name also. Example `New Mirror`
-- **AUTHOR_URL**: URL of Author of Telegraph Search Result.You can add your website link or group link or github repo link. Example `https://github.com/Anime-Republic/Mirror-New`
-- **IS_TEAM_DRIVE**: Set to `True` if `GDRIVE_FOLDER_ID` is from a Team Drive else `False` or Leave it empty.
-- **BOT_USERNAME**: Username of Your Bot.
-- **LOG_CHANNEL**: Id of Channel where Bot will Send Uploaded Links. Example `-100873947930`
-- **LOG_UNAME**: Username of Your Channel. If Your Channel is private then edit [This line](https://github.com/Anime-Republic/Mirror-New/blob/f9f1c3198ba248601506406aa391bf5cbfc4e474/bot/helper/telegram_helper/message_utils.py#L55) Replace t.me/{LOG_UNAME} with your channel link.
     
 ## Optional Vars
 - **DATABASE_URL**: Your Database URL. See [Generate Database](https://github.com/Anime-Republic/Mirror-New/tree/master#generate-database) to generate database (**NOTE**: If you use database you can save your sudo id permanent using `/addsudo` command)
