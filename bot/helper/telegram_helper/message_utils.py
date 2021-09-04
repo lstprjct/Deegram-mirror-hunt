@@ -7,7 +7,7 @@ from datetime import datetime
 import time
 import pytz
 from bot import AUTO_DELETE_MESSAGE_DURATION, LOGGER, bot, \
-    status_reply_dict, status_reply_dict_lock, download_dict, download_dict_lock, botStartTime, Interval, DOWNLOAD_STATUS_UPDATE_INTERVAL, LOG_UNAME, LOG_CHANNEL
+    status_reply_dict, status_reply_dict_lock, download_dict, download_dict_lock, botStartTime, Interval, DOWNLOAD_STATUS_UPDATE_INTERVAL, LOG_UNAME, LOG_CHANNEL, botStartTime, dispatcher, OWNER_ID
 from bot.helper.ext_utils.bot_utils import get_readable_message, get_readable_file_size, get_readable_time, MirrorStatus, progress_bar, setInterval
 from telegram.error import TimedOut, BadRequest
 
