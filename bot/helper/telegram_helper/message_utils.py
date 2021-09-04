@@ -6,8 +6,7 @@ import psutil, shutil
 from datetime import datetime
 import time
 import pytz
-from bot import AUTO_DELETE_MESSAGE_DURATION, LOGGER, bot, \
-    status_reply_dict, status_reply_dict_lock, download_dict, download_dict_lock, botStartTime, Interval, DOWNLOAD_STATUS_UPDATE_INTERVAL, LOG_UNAME, LOG_CHANNEL, botStartTime, dispatcher, OWNER_ID
+from bot import *
 from bot.helper.ext_utils.bot_utils import get_readable_message, get_readable_file_size, get_readable_time, MirrorStatus, progress_bar, setInterval
 from telegram.error import TimedOut, BadRequest
 
@@ -30,7 +29,7 @@ def sendMarkup(text: str, bot, update: Update, reply_markup: InlineKeyboardMarku
 
 def sendLog(text: str, bot, update: Update, reply_markup: InlineKeyboardMarkup):
     try:
-        return bot.send_message(f"{LOG_CHANNEL}",
+        return bot.send_message(f"{LOG_CHANNEL_ID}",
                              reply_to_message_id=update.message.message_id,
                              text=text, disable_web_page_preview=True, reply_markup=reply_markup, allow_sending_without_reply=True, parse_mode='HTMl')
     except Exception as e:
@@ -52,8 +51,8 @@ def sendPrivate(text: str, bot, update: Update, reply_markup: InlineKeyboardMark
             botstart = f"http://t.me/{b_uname}?start=start"
             keyboard = [
             [InlineKeyboardButton("START BOT", url = f"{botstart}")],
-            [InlineKeyboardButton("JOIN LOG CHANNEL", url = f"t.me/{LOG_UNAME}")]]
-            sendMarkup(f"Dear {uname},\n\n<b>I Found That You Haven't Started Me In PM (Private Chat) Yet.</b>\n\n<b>From Now On I Will Give You Links In PM (Private Chat) Only.</b>\n\n<i><b>Please Start Me in PM (Private Chat) & Don't Miss Future Uploads.</b></i>\n\n<b>From Now Get Your Links From @{LOG_UNAME}", bot, update, reply_markup=InlineKeyboardMarkup(keyboard))
+            [InlineKeyboardButton("JOIN LOG CHANNEL", url = f"{LOG_CHANNEL_LINK}")]]
+            sendMarkup(f"Dear {uname},\n\n<b>I Found That You Haven't Started Me In PM (Private Chat) Yet.</b>\n\n<b>From Now On I Will Give You Links In PM (Private Chat) Only.</b>\n\n<i><b>Please Start Me in PM (Private Chat) & Don't Miss Future Uploads.</b></i>\n\n<b>From Now Get Your Links From Private Channel and Private Chat Trough Bot</b>", bot, update, reply_markup=InlineKeyboardMarkup(keyboard))
             return
 
 
@@ -150,7 +149,7 @@ def sendStatusMessage(msg, bot):
     progress, buttons = get_readable_message()
     if progress is None:
         progress, buttons = get_readable_message()
-    progress += f"/n<b>🕊️ Free:</b> {free}"
+    progress += f"\n<b>🕊️ Free:</b> {free}"
     with download_dict_lock:
         dlspeed_bytes = 0
         uldl_bytes = 0
