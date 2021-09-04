@@ -5,6 +5,7 @@ import time
 import random
 import string
 import subprocess
+import requests
 
 import aria2p
 import telegram.ext as tg
@@ -34,13 +35,20 @@ LOGGER = logging.getLogger(__name__)
 
 CONFIG_FILE_URL = os.environ.get('CONFIG_FILE_URL', None)
 if CONFIG_FILE_URL is not None:
-    out = subprocess.run(["wget", "-q", "-O", "config.env", CONFIG_FILE_URL])
-    if out.returncode != 0:
-        logging.error(out)
+    res = requests.get(CONFIG_FILE_URL)
+    if res.status_code == 200:
+        with open('config.env', 'wb') as f:
+           f.truncate(0)
+           f.write(res.content)
+    else:
+        logging.error(res.status_code)
 
 load_dotenv('config.env')
 
 Interval = []
+DRIVES_NAMES = []
+DRIVES_IDS = []
+INDEX_URLS = []
 
 
 def getConfig(name: str):
@@ -53,9 +61,9 @@ def mktable():
         sql = "CREATE TABLE users (uid bigint, sudo boolean DEFAULT FALSE);"
         cur.execute(sql)
         conn.commit()
-        LOGGER.info("Table Created!")
+        logging.info("Table Created!")
     except Error as e:
-        LOGGER.error(e)
+        logging.error(e)
         exit(1)
 
 try:
@@ -202,8 +210,12 @@ try:
     INDEX_URL = getConfig('INDEX_URL')
     if len(INDEX_URL) == 0:
         INDEX_URL = None
+        INDEX_URLS.append(None)
+    else:
+        INDEX_URLS.append(INDEX_URL)
 except KeyError:
     INDEX_URL = None
+    INDEX_URLS.append(None)
 try:
     TORRENT_DIRECT_LIMIT = getConfig('TORRENT_DIRECT_LIMIT')
     if len(TORRENT_DIRECT_LIMIT) == 0:
@@ -336,25 +348,33 @@ try:
     if len(TOKEN_PICKLE_URL) == 0:
         TOKEN_PICKLE_URL = None
     else:
-        out = subprocess.run(["wget", "-q", "-O", "token.pickle", TOKEN_PICKLE_URL])
-        if out.returncode != 0:
-            logging.error(out)
+        res = requests.get(TOKEN_PICKLE_URL)
+        if res.status_code == 200:
+            with open('token.pickle', 'wb') as f:
+               f.truncate(0)
+               f.write(res.content)
+        else:
+            logging.error(res.status_code)
+            raise KeyError
 except KeyError:
-    TOKEN_PICKLE_URL = None
+    pass
 try:
     ACCOUNTS_ZIP_URL = getConfig('ACCOUNTS_ZIP_URL')
     if len(ACCOUNTS_ZIP_URL) == 0:
         ACCOUNTS_ZIP_URL = None
     else:
-        out = subprocess.run(["wget", "-q", "-O", "accounts.zip", ACCOUNTS_ZIP_URL])
-        if out.returncode != 0:
-            logging.error(out)
+        res = requests.get(ACCOUNTS_ZIP_URL)
+        if res.status_code == 200:
+            with open('accounts.zip', 'wb') as f:
+               f.truncate(0)
+               f.write(res.content)
+        else:
+            logging.error(res.status_code)
             raise KeyError
         subprocess.run(["unzip", "-q", "-o", "accounts.zip"])
         os.remove("accounts.zip")
 except KeyError:
-    ACCOUNTS_ZIP_URL = None
-
+    pass
 try:
     RESTARTED_GROUP_ID2 = getConfig('RESTARTED_GROUP_ID2')
     if len(RESTARTED_GROUP_ID2) == 0:
@@ -515,6 +535,43 @@ try:
         DOWNLOAD_DIR = None
 except KeyError:
     DOWNLOAD_DIR = '/usr/src/app/downloads/'
+
+try:
+    SEARCH_BOT = getConfig('SEARCH_BOT')
+    if len(DOWNLOAD_DIR) == 0:
+        SEARCH_BOT = None
+except KeyError:
+    SEARCH_BOT = 'search'
+
+try:
+    MULTI_SEARCH_URL = getConfig('MULTI_SEARCH_URL')
+    if len(MULTI_SEARCH_URL) == 0:
+        MULTI_SEARCH_URL = None
+    else:
+        res = requests.get(MULTI_SEARCH_URL)
+        if res.status_code == 200:
+            with open('drive_folder', 'wb') as f:
+               f.truncate(0)
+               f.write(res.content)
+        else:
+            logging.error(res.status_code)
+            raise KeyError
+except KeyError:
+    pass
+
+DRIVES_NAMES.append("Main")
+DRIVES_IDS.append(parent_id)
+if os.path.exists('drive_folder'):
+    with open('drive_folder', 'r+') as f:
+        lines = f.readlines()
+        for line in lines:
+            temp = line.strip().split()
+            DRIVES_NAMES.append(temp[0].replace("_", " "))
+            DRIVES_IDS.append(temp[1])
+            try:
+                INDEX_URLS.append(temp[2])
+            except IndexError as e:
+                INDEX_URLS.append(None)
 
 updater = tg.Updater(token=BOT_TOKEN)
 bot = updater.bot
