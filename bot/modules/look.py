@@ -1,4 +1,3 @@
-from quoters import Quote
 from telegram.ext import CommandHandler
 from bot.search.gdriveTool import GoogleDriveHelper
 from bot import LOGGER, dispatcher
@@ -12,11 +11,10 @@ def list_folder(update,context):
     try:
         search = update.message.text.split(' ',maxsplit=1)[1]
     except IndexError:
-        sendMessage(f'<b><i>Send A Keyword Along With Search Command</i></b>\n\n<b>Example:-</b><code> /search Avengers </code>', context.bot, update)
+        sendMessage(f'<b><i>Send A Keyword Along With Search Command</i></b>', context.bot, update)
         return
-    
-    quo_te = Quote.print()    
-    reply = sendMessage(f'<b>Searching...🔎</b> \n\n<b>{quo_te}</b>', context.bot, update)
+   
+    reply = sendMessage(f'<b>Searching...🔎</b>', context.bot, update)
 
     LOGGER.info(f"Searching: {search}")
         

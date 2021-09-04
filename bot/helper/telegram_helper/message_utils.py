@@ -109,7 +109,7 @@ def update_all_messages():
     msg, buttons = get_readable_message()
     if msg is None:
         return
-    msg += f"<b>🕊️ Free:</b> {free}"
+    msg += f"\n<b>🕊️ Free:</b> {free}"
     with download_dict_lock:
         dlspeed_bytes = 0
         uldl_bytes = 0
@@ -150,7 +150,7 @@ def sendStatusMessage(msg, bot):
     progress, buttons = get_readable_message()
     if progress is None:
         progress, buttons = get_readable_message()
-    progress += f"<b>🕊️ Free:</b> {free}"
+    progress += f"/n<b>🕊️ Free:</b> {free}"
     with download_dict_lock:
         dlspeed_bytes = 0
         uldl_bytes = 0
