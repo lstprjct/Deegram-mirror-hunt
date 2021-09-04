@@ -127,8 +127,8 @@ try:
     AUTO_DELETE_MESSAGE_DURATION = int(getConfig('AUTO_DELETE_MESSAGE_DURATION'))
     TELEGRAM_API = getConfig('TELEGRAM_API')
     TELEGRAM_HASH = getConfig('TELEGRAM_HASH')
-    LOG_CHANNEL = getConfig('LOG_CHANNEL')
-    LOG_UNAME = getConfig('LOG_UNAME') 
+    LOG_CHANNEL_ID = getConfig('LOG_CHANNEL_ID')
+    LOG_CHANNEL_LINK = getConfig('LOG_CHANNEL_LINK') 
 except KeyError as e:
     LOGGER.error("One or more env variables missing! Exiting now")
     exit(1)
@@ -397,27 +397,6 @@ except KeyError:
     INDEX_BUTTON = '⚡ Index Link ⚡'
 
 try:
-    BOT_USERNAME = getConfig('BOT_USERNAME')
-    if len(BOT_USERNAME) == 0:
-        BOT_USERNAME = None
-except KeyError:
-    BOT_USERNAME = '@mirrorbot'
-
-try:
-    BOT_NAME = getConfig('BOT_NAME')
-    if len(BOT_NAME) == 0:
-        BOT_NAME = None
-except KeyError:
-    BOT_NAME = 'Mirror Bot'
-
-try:
-    BOT_USERNAME = getConfig('BOT_USERNAME')
-    if len(BOT_USERNAME) == 0:
-        BOT_USERNAME = None
-except KeyError:
-    BOT_USERNAME = '@mirrorbot'
-
-try:
     CHANNEL_LINK = getConfig('CHANNEL_LINK')
     if len(CHANNEL_LINK) == 0:
         CHANNEL_LINK = None
@@ -516,13 +495,6 @@ except KeyError:
     SEARCH_VIEW_BUTTON = '🔎'
 
 try:
-    IMAGE_URL = getConfig('IMAGE_URL')
-    if len(IMAGE_URL) == 0:
-        IMAGE_URL = None
-except KeyError:
-    IMAGE_URL = 'https://telegra.ph/file/2757eec44b96e6be35e26.jpg'
-
-try:
     ZIP_BOT = getConfig('ZIP_BOT')
     if len(ZIP_BOT) == 0:
         ZIP_BOT = None
@@ -535,13 +507,6 @@ try:
         DOWNLOAD_DIR = None
 except KeyError:
     DOWNLOAD_DIR = '/usr/src/app/downloads/'
-
-try:
-    SEARCH_BOT = getConfig('SEARCH_BOT')
-    if len(DOWNLOAD_DIR) == 0:
-        SEARCH_BOT = None
-except KeyError:
-    SEARCH_BOT = 'search'
 
 try:
     MULTI_SEARCH_URL = getConfig('MULTI_SEARCH_URL')
