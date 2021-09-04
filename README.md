@@ -48,6 +48,7 @@
 - View Link button
 - Shell and Executor
 - YT-DLP
+- Search All Drive  
 - Direct links Supported:
 ```
 letsupload.io, hxfile.co, anonfiles.com, bayfiles.com, antfiles,
