@@ -163,8 +163,7 @@ sudo docker stop id
 - **AUTHOR_URL**: URL of Author of Telegraph Search Result.You can add your website link or group link or github repo link. Example `https://github.com/Anime-Republic/Mirror-New`
 - **TITLE_NAME**: Title of telegragh search result.
 - **IS_TEAM_DRIVE**: Set to `True` if `GDRIVE_FOLDER_ID` is from a Team Drive else `False` or Leave it empty.
-- **BOT_USERNAME**: Username of Your Bot.
-- **LOG_CHANNEL**: Id of Channel where Bot will Send Uploaded Links. Example `-100873947930`
+- **LOG_CHANNEL_ID**: Id of Channel where Bot will Send Uploaded Links. Example `-100873947930`
 - **LOG_CHANNEL_LINK**: Link of the channel where Bot will send links.(Note: Both Pivate and Public Channel are supported.
 - **RESTARTED_GROUP_ID**: ID of group where Bot will send restart message
 - **RESTARTED_GROUP_ID2**: ID of second group where Bot will send restart message. (Note: delete this if you want bot send restart message to one group or channel only)
