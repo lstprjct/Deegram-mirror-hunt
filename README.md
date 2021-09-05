@@ -8,7 +8,7 @@
 ![Docker Pulls](https://img.shields.io/github/contributors/Anime-Republic/Mirror-New?style=plastic)
 ![Channel](https://img.shields.io/github/commit-activity/w/Anime-Republic/Mirror-New?style=plastic)
 
-![Docker Pulls](https://img.shields.io/docker/pulls/breakdowns/mega-sdk-python?label=Docker%20Pull)
+![Docker Pulls](https://img.shields.io/docker/pulls/arata74/anime?label=Docker%20Pull)
 [![Channel](https://img.shields.io/badge/Join%20Channel-!-red?style=plastic)](https://t.me/XcodersHubChat)
 
 **This Mirror Bot** is a _multipurpose_ Telegram Bot writen in Python for mirroring files on the Internet to our beloved Google Drive.
