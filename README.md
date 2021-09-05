@@ -2,24 +2,16 @@
 
 ![MIRROR-NEW](https://sinnerdrive.jack-need-boost.workers.dev/0:/mirr//20210824_150544_1_1.jpg)
 
-<p>
-  <a href="https://www.python.org">
-    <img src="http://ForTheBadge.com/images/badges/made-with-python.svg">
+![GitHub Repo stars](https://img.shields.io/github/stars/Anime-Republic/Mirror-New?color=blue&style=plastic)
+![GitHub forks](https://img.shields.io/github/forks/Anime-Republic/Mirror-New?color=green&style=plastic)
+![GitHub contributors](https://img.shields.io/github/contributors/Anime-Republic/Mirror-New?style=plastic)
+![GitHub watchers](https://img.shields.io/github/watchers/Anime-Republic/Mirror-New?style=plastic)
+![Docker Pulls](https://img.shields.io/github/last-commit/Anime-Republic/Mirror-New?style=plastic)
+![Docker Pulls](https://img.shields.io/github/contributors/Anime-Republic/Mirror-New?style=plastic)
+![Channel](https://img.shields.io/github/commit-activity/w/Anime-Republic/Mirror-New?style=plastic)
 
-  </a>
-</P>
-
-<p>
-  <a href="https://github.com/Anime-Republic/Mirror-New/stargazers">
-    <img src="https://img.shields.io/github/stars/Anime-Republic/Mirror-New?style=social">
-
-  </a>
-  
-  <a href="https://github.com/Anime-Republic/Mirror-New/fork">
-    <img src="https://img.shields.io/github/forks/Anime-Republic/Mirror-New?label=Fork&style=social">
-
-  </a>
-</p>
+![Docker Pulls](https://img.shields.io/docker/pulls/breakdowns/mega-sdk-python?label=Docker%20Pull)
+[![Channel](https://img.shields.io/badge/Join%20Channel-!-red?style=plastic)](https://t.me/XcodersHubChat)
 
 **This Mirror Bot** is a _multipurpose_ Telegram Bot writen in Python for mirroring files on the Internet to our beloved Google Drive.
 
@@ -85,8 +77,8 @@ NTFS, RPM, SquashFS, UDF, VHD, XAR, Z.
 
 </details>
 
-## Deploying on Heroku with Github Workflow
-<p><a href="https://github.com/Anime-Republic/Mirror-New/blob/main/HerokuGuide.md"> <img src="https://telegra.ph/file/024dfcfc0797674d7d365.png/badge/Deploy%20Guide-blueviolet?style=for-the-badge&logo=heroku" width="200""/></a></p>
+## How To Deploy it?
+<p><a href="https://github.com/Anime-Republic/Mirror-New/wiki"> <img src="https://img.shields.io/badge/Deploy%20Guide-red?style=for-the-badge&logo=github" width="200""/></a></p>
 
 
 # Credits
