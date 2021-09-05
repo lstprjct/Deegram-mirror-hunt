@@ -4,7 +4,6 @@
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/Anime-Republic/Mirror-New?color=blue&style=plastic)
 ![GitHub forks](https://img.shields.io/github/forks/Anime-Republic/Mirror-New?color=green&style=plastic)
-![GitHub contributors](https://img.shields.io/github/contributors/Anime-Republic/Mirror-New?style=plastic)
 ![GitHub watchers](https://img.shields.io/github/watchers/Anime-Republic/Mirror-New?style=plastic)
 ![Docker Pulls](https://img.shields.io/github/contributors/Anime-Republic/Mirror-New?style=plastic)
 ![Channel](https://img.shields.io/github/commit-activity/w/Anime-Republic/Mirror-New?style=plastic)
