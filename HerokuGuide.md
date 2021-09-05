@@ -3,13 +3,13 @@
 ## Pre-requisites
 
 - [token.pickle](https://github.com/Anime-Republic/Mirror-New/blob/main/CreateSA.md#getting-google-oauth-api-credential-file)
-- [Heroku  accounts](heroku.com)
+- [Heroku  accounts](https://id.heroku.com)
 - Recommended to use 1 App in 1 Heroku account
 - Note: Don't use bin/fake credits card, because your Heroku account will get banned.
 
 ## Deployment
 
-1. Fork or Import this repo and Fill up `config.env`
+1. Fork or Import this repo and Fill up `config.env` & `drive_folder`
 2. Then upload **token.pickle** to your forks, or you can upload your **token.pickle** to your Index and put your **token.pickle** link to `TOKEN_PICKLE_URL` (**NOTE**: If you don't upload **token.pickle** uploading will not work).
 3. Upload account folder if USE_SERVICE_ACCOUNT is True Else Fill up `ACCOUNTS_ZIP_URL`
 4. Go to Repository `Settings` -> `Secrets`
