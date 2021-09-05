@@ -137,7 +137,7 @@ sudo docker run mirrorbot
 sudo docker stop id
 ```
 ## Deploying on Heroku with Github Workflow
-<p><a href="https://github.com/Anime-Republic/Mirror-New/blob/main/HerokuGuide.md"> <img src="https://img.shields.io/badge/Deploy%20Guide-blueviolet?style=for-the-badge&logo=heroku" width="180""/></a></p>
+<p><a href="https://github.com/Anime-Republic/Mirror-New/blob/main/HerokuGuide.md"> <img src="https://telegra.ph/file/9c9226643c61e99842630.png/badge/Deploy%20Guide-blueviolet?style=for-the-badge&logo=heroku" width="80""/></a></p>
 
 ## Setting up config file
 <details>
