@@ -137,13 +137,16 @@ sudo docker run mirrorbot
 sudo docker stop id
 ```
 ## Deploying on Heroku with Github Workflow
-<p><a href="https://github.com/Anime-Republic/Mirror-New/blob/main/HerokuGuide.md"> <img src="https://telegra.ph/file/9c9226643c61e99842630.png/badge/Deploy%20Guide-blueviolet?style=for-the-badge&logo=heroku" width="80""/></a></p>
+<p><a href="https://github.com/Anime-Republic/Mirror-New/blob/main/HerokuGuide.md"> <img src="https://telegra.ph/file/024dfcfc0797674d7d365.png/badge/Deploy%20Guide-blueviolet?style=for-the-badge&logo=heroku" width="200""/></a></p>
 
 ## Setting up config file
 <details>
     <summary><b>Click Here For More Details</b></summary>
+  
 ## Search All Drive Function
-  For this Function to Work Edit
+  For this Function to Work Edit `drive_folder` and add teamdrive name(or anyname), Teamdrive id or folder id and Its corresponding Index url in given format.
+  `anyname teamdrive_id/folder_id Index_URL`
+  Example `Bot_Uploads 0ANrctNvnCoxxxxxxx https://index.botmirror.workers.dev/0:`
     
 ## Mandotory Variables
 
@@ -158,10 +161,13 @@ sudo docker stop id
 - **TIMEZONE**: TimeZone of your Country. Example `Asia/Dhaka` `America/New_York`
 - **AUTHOR_NAME**: Name of Author of Telegraph Search Results.You Can Keep Your Name or Group Name also. Example `New Mirror`
 - **AUTHOR_URL**: URL of Author of Telegraph Search Result.You can add your website link or group link or github repo link. Example `https://github.com/Anime-Republic/Mirror-New`
+- **TITLE_NAME**: Title of telegragh search result.
 - **IS_TEAM_DRIVE**: Set to `True` if `GDRIVE_FOLDER_ID` is from a Team Drive else `False` or Leave it empty.
 - **BOT_USERNAME**: Username of Your Bot.
 - **LOG_CHANNEL**: Id of Channel where Bot will Send Uploaded Links. Example `-100873947930`
-- **LOG_UNAME**: Username of Your Channel. If Your Channel is private then edit [This line](https://github.com/Anime-Republic/Mirror-New/blob/f9f1c3198ba248601506406aa391bf5cbfc4e474/bot/helper/telegram_helper/message_utils.py#L55) Replace t.me/{LOG_UNAME} with your channel link.
+- **LOG_CHANNEL_LINK**: Link of the channel where Bot will send links.(Note: Both Pivate and Public Channel are supported.
+- **RESTARTED_GROUP_ID**: ID of group where Bot will send restart message
+- **RESTARTED_GROUP_ID2**: ID of second group where Bot will send restart message. (Note: delete this if you want bot send restart message to one group or channel only)
     
 ## Optional Vars
 - **DATABASE_URL**: Your Database URL. See [Generate Database](https://github.com/Anime-Republic/Mirror-New/tree/master#generate-database) to generate database (**NOTE**: If you use database you can save your sudo id permanent using `/addsudo` command)
@@ -187,9 +193,10 @@ sudo docker stop id
 exe.io, gplinks.in, shrinkme.io, urlshortx.com, shortzon.com
 ```
 ## If you want to use Credentials externally from Index Links, fill these vars with the direct links.These are optional, if you don't know, simply leave them, don't fill anything in them.
-- **TOKEN_PICKLE_URL**: Only if you want to load your **token.pickle** externally from an Index Link. Fill this with the direct link of that file.
+- **TOKEN_PICKLE_URL**: Only if you want to load your **token.pickle** externally from an Index Link. Fill this with the direct link of that file. If  you don't know how to create token.pickle, [Click Here](https://github.com/Anime-Republic/Mirror-New/blob/main/CreateSA.md)
 - **ACCOUNTS_ZIP_URL**: Only if you want to load your Service Account externally from an Index Link. Archive the accounts folder to a zip file. Fill this with the direct link of that file.
-    If  you don't know how to create token.pickle, [Click Here](https://github.com/Anime-Republic/Mirror-New/blob/main/CreateSA.md)
+- **MULTI_SEARCH_URL**: Only if you want to load `drive_folder` Externally.You can use gist raw link by removing commit id
+   
     
 ## Heroku Details
 - **HEROKU_APP_NAME**: (Only if you deploying on Heroku) Your Heroku app name.
@@ -214,8 +221,7 @@ Three buttons are already added of Drive Link, Index Link, and View Link, you ca
 ## Others
 - **CHANNEL_LINK**: Link of your Channenl
 - **SUPPORT_LINK**: Link of Your Support Group
-- **RESTARTED_GROUP_ID**: ID of group where Bot will send restart message
-- **RESTARTED_GROUP_ID2**:  Second ID of group where Bot will send restart message
+
 
 ## Progress bar    
 - **FINISHED_PROGRESS_STR**: Single character for finished progress. #Get yours from https://coolsymbol.com    
