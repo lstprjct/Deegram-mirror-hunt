@@ -1,4 +1,4 @@
-FROM ghcr.io/anime-republic/mirror:latest
+FROM arata74/anime:latest
 
 WORKDIR /usr/src/app
 RUN chmod 777 /usr/src/app
