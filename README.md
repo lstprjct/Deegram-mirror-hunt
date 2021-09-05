@@ -227,7 +227,7 @@ Three buttons are already added of Drive Link, Index Link, and View Link, you ca
 - **UNFINISHED_PROGRESS_STR**: Single character for unfinished progress. #Get yours from https://coolsymbol.com
     
 
-## Generate Database
+# Generate Database
 <details>
     <summary><b>Click Here For More Details</b></summary>
 
@@ -241,6 +241,20 @@ Three buttons are already added of Drive Link, Index Link, and View Link, you ca
 - Select your database name
 - Copy your database url, and fill to **DATABASE_URL** in config
 
+  
 **2. Using Heroku PostgreSQL**
 <p><a href="https://dev.to/prisma/how-to-setup-a-free-postgresql-database-on-heroku-1dc1"> <img src="https://img.shields.io/badge/see%20on%20dev.to-black?style=for-the-badge&logo=dev-dot-to" width="190""/></a></p>
-    
+
+#Credits
+- [`out386`](https://github.com/out386) heavily inspired from his Telegram Bot written in Typescript
+- [`Izzy12`](https://github.com/lzzy12) for build up of this bot from scratch
+- [`jaskaranSM`](https://github.com/jaskaranSM) for build up of this bot from scratch
+- [`Dank-del`](https://github.com/Dank-del) for base repo
+- [`magneto261290`](https://github.com/magneto261290) for some features
+- [`SVR666`](https://github.com/SVR666) for some features & fixes
+- [`anasty17`](https://github.com/anasty17) for some features & help
+- [`breakdowns`](https://github.com/breakdowns) for slam-mirrorbot
+- [`zevtyardt`](https://github.com/zevtyardt) for some direct links
+- [`xyou365`](https://github.com/xyou365) for Service Accounts script.
+
+  
