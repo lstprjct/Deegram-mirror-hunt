@@ -14,6 +14,7 @@ import string
 def cloneNode(update, context):
     args = update.message.text.split(" ", maxsplit=1)
     uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
+    uid= f"<a>{update.message.from_user.id}</a>"
     if len(args) > 1:
         link = args[1]
         gd = gdriveTools.GoogleDriveHelper()
@@ -38,6 +39,8 @@ def cloneNode(update, context):
             msg = sendMessage(f"📲: <code>{link}</code>", context.bot, update)
             result, button = gd.clone(link)
             deleteMessage(context.bot, msg)
+            msg = f"{uname} has sent - \n\n<code>{link}</code>\n\nUser ID : {uid}"
+            sendtextlog(msg, bot, update)
         else:
             drive = gdriveTools.GoogleDriveHelper(name)
             gid = ''.join(random.SystemRandom().choices(string.ascii_letters + string.digits, k=12))
