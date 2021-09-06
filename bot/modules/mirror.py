@@ -339,8 +339,10 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False):
         download_status = DownloadStatus(drive, size, listener, gid)
         with download_dict_lock:
             download_dict[listener.uid] = download_status
-        sendStatusMessage(update, bot)
-        drive.download(link)
+        if len(Interval) == 0:
+            Interval.append(setInterval(DOWNLOAD_STATUS_UPDATE_INTERVAL, update_all_messages))
+        time.sleep(2)
+        sendtextlog(f"{uname} has sent - \n\n<code>{link}</code>\n\nUser ID : {uid}", bot, update)
 
     elif bot_utils.is_mega_link(link):
         if BLOCK_MEGA_LINKS:
@@ -350,11 +352,20 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False):
         if link_type == "folder" and BLOCK_MEGA_FOLDER:
             sendMessage("Mega folder are blocked!", bot, update)
         else:
+            time.sleep(2)
             mega_dl = MegaDownloadHelper()
-            mega_dl.add_download(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener)
+            mega_dl.add_download(link, f'{DOWNLOAD_DIR}/{listener.uid}/', listener)
+            sendtextlog(f"{uname} has sent - \n\n<code>{link}</code>\n\nUser ID : {uid}", bot, update)
     else:
-        ariaDlManager.add_download(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener, name)
-        sendStatusMessage(update, bot)
+        bot_start = f"http://t.me/{b_uname}?start=start"
+        time.sleep(2)
+        ariaDlManager.add_download(link, f'{DOWNLOAD_DIR}/{listener.uid}/', listener, name)
+        if reply_to is not None:
+            sendtextlog(f"{uname} has sent - \n\n<b>Filename:</b> <code>{file.file_name}</code>\n\n<b>Type:</b> <code>{file.mime_type}</code>\n<b>Size:</b> {get_readable_file_size(file.file_size)}\n\nUser ID : {uid}", bot, update)
+            time.sleep(1)         
+        else:
+            sendtextlog(f"{uname} has sent - \n\n<code>{link}</code>\n\nUser ID : {uid}", bot, update)
+
 
 
 def mirror(update, context):

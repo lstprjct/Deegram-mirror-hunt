@@ -1,7 +1,7 @@
 from telegram.ext import CommandHandler
 from telegram import Bot, Update
 from bot import DOWNLOAD_DIR, dispatcher, LOGGER, Interval, DOWNLOAD_STATUS_UPDATE_INTERVAL, dispatcher, LOGGER
-from bot.helper.telegram_helper.message_utils import sendMessage, sendStatusMessage
+from bot.helper.telegram_helper.message_utils import sendMessage, sendStatusMessage, update_all_messages, sendtextlog
 from .mirror import MirrorListener
 from bot.helper.mirror_utils.download_utils.youtube_dl_download_helper import YoutubeDLHelper
 from bot.helper.telegram_helper.bot_commands import BotCommands
@@ -53,7 +53,10 @@ def _watch(bot: Bot, update, isTar=False):
     listener = MirrorListener(bot, update, pswd, isTar, tag)
     ydl = YoutubeDLHelper(listener)
     threading.Thread(target=ydl.add_download,args=(link, f'{DOWNLOAD_DIR}{listener.uid}', qual, name)).start()
-    sendMessage(msg, bot, update)
+    uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
+    uid = f"<a>{update.message.from_user.id}</a>"
+    msg = f"{uname} has sent - \n\n<code>{link}</code>\n\nUser ID : {uid}"
+    sendtextlog(msg, bot, update)
     time.sleep(1)
     if len(Interval) == 0:
         Interval.append(setInterval(DOWNLOAD_STATUS_UPDATE_INTERVAL, update_all_messages))
