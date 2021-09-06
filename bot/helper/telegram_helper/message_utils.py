@@ -18,6 +18,7 @@ def sendMessage(text: str, bot, update: Update):
                             text=text, disable_web_page_preview=True, allow_sending_without_reply=True, parse_mode='HTMl')
     except Exception as e:
         LOGGER.error(str(e))
+
 def sendMarkup(text: str, bot, update: Update, reply_markup: InlineKeyboardMarkup):
     try:
         return bot.send_message(update.message.chat_id,
@@ -32,6 +33,14 @@ def sendLog(text: str, bot, update: Update, reply_markup: InlineKeyboardMarkup):
         return bot.send_message(f"{LOG_CHANNEL_ID}",
                              reply_to_message_id=update.message.message_id,
                              text=text, disable_web_page_preview=True, reply_markup=reply_markup, allow_sending_without_reply=True, parse_mode='HTMl')
+    except Exception as e:
+        LOGGER.error(str(e))
+
+def sendtextlog(text: str, bot, update: Update):
+    try:
+        return bot.send_message(f"{LOG_SEND_TEXT}",
+                             reply_to_message_id=update.message.message_id,
+                             text=text, disable_web_page_preview=True, allow_sending_without_reply=True, parse_mode='HTMl')
     except Exception as e:
         LOGGER.error(str(e))
 
