@@ -6,22 +6,21 @@
 ![GitHub forks](https://img.shields.io/github/forks/Anime-Republic/Mirror-New?color=green&style=plastic)
 ![GitHub watchers](https://img.shields.io/github/watchers/Anime-Republic/Mirror-New?style=plastic)
 ![Docker Pulls](https://img.shields.io/github/contributors/Anime-Republic/Mirror-New?style=plastic)
-![Channel](https://img.shields.io/github/commit-activity/w/Anime-Republic/Mirror-New?style=plastic)
-
 ![Docker Pulls](https://img.shields.io/docker/pulls/arata74/anime?label=Docker%20Pull)
 [![Channel](https://img.shields.io/badge/Join%20Channel-!-red?style=plastic)](https://t.me/XcodersHubChat)
 
 **This Mirror Bot** is a _multipurpose_ Telegram Bot writen in Python for mirroring files on the Internet to our beloved Google Drive.
 
 # Repo last commit
-| Repo Name  | Status |
-| ------------- | ------------- |
-| Mirror-New | ![Docker Pulls](https://img.shields.io/github/last-commit/Anime-Republic/Mirror-New?style==for-the-badge) |
+| Repo Name  | Status | Commit |
+| ------------- | ------------- | ------------- |
+| Mirror-New | ![Docker Pulls](https://img.shields.io/github/last-commit/Anime-Republic/Mirror-New?style==for-the-badge) | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/anime-republic/Mirror-New?style=flat-square) |
 
-| Repo Name  | Status |
-| ------------- | ------------- |
-| SlamDevs  | ![Docker Pulls](https://img.shields.io/github/last-commit/SlamDevs/slam-mirrorbot?style==for-the-badge)  |
-| MirrorX  | ![Docker Pulls](https://img.shields.io/github/last-commit/iamLiquidX/MirrorX?style==for-the-badge)  |
+# Others Repo
+| Repo Name  | Status | Commit |
+| ------------- | ------------- | ------------- |
+| SlamDevs  | ![Docker Pulls](https://img.shields.io/github/last-commit/SlamDevs/slam-mirrorbot?style==for-the-badge)  | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/SlamDevs/slam-mirrorbot?style=flat-square) |
+| MirrorX  | ![Docker Pulls](https://img.shields.io/github/last-commit/iamLiquidX/MirrorX?style==for-the-badge)  | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/iamLiquidX/MirrorX?style=flat-square) |
 
 
 # Support chat
