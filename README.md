@@ -7,7 +7,7 @@
 ![GitHub watchers](https://img.shields.io/github/watchers/Anime-Republic/Mirror-New?style=plastic)
 ![Docker Pulls](https://img.shields.io/github/contributors/Anime-Republic/Mirror-New?style=plastic)
 ![Docker Pulls](https://img.shields.io/docker/pulls/arata74/anime?style=plastic)
-[![Channel](https://img.shields.io/badge/Join%20Channel-!-red?style=plastic)](https://t.me/XcodersHubChat)
+[![Channel](https://img.shields.io/badge/Support%20Group-!-red?style=plastic)](https://t.me/XcodersHubChat)
 
 **This Mirror Bot** is a _multipurpose_ Telegram Bot writen in Python for mirroring files on the Internet to our beloved Google Drive.
 
@@ -21,14 +21,6 @@
 | ------------- | ------------- | ------------- |
 | SlamDevs  | ![Docker Pulls](https://img.shields.io/github/last-commit/SlamDevs/slam-mirrorbot?style==for-the-badge)  | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/SlamDevs/slam-mirrorbot?style=flat-square) |
 | MirrorX  | ![Docker Pulls](https://img.shields.io/github/last-commit/iamLiquidX/MirrorX?style==for-the-badge)  | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/iamLiquidX/MirrorX?style=flat-square) |
-
-
-# Support chat
-
-<a href="https://t.me/XcodersHubChat">
-    <img src="https://sinnerdrive.jack-need-boost.workers.dev/0:/mirr//xcoders%20%282%29.jpg">
-
-</a>
 
 # Features supported:
 <details>
@@ -48,15 +40,34 @@
 - View Link button
 - Shell and Executor
 - YT-DLP
+- Support message send to log channel/group    
 - Search All Drive  
 - Direct links Supported:
 ```
-letsupload.io, hxfile.co, anonfiles.com, bayfiles.com, antfiles,
-fembed.com, fembed.net, femax20.com, layarkacaxxi.icu, fcdn.stream,
-sbplay.org, naniplay.com, naniplay.nanime.in, naniplay.nanime.biz, sbembed.com,
-streamtape.com, streamsb.net, feurl.com, pixeldrain.com, racaty.net,
-1fichier.com, 1drv.ms (Only works for file not folder or business account),
-uptobox.com (Uptobox account must be premium), solidfiles.com
+letsupload.io
+hxfile.co
+anonfiles.com
+bayfiles.com
+antfiles
+fembed.com
+fembed.net
+femax20.com
+layarkacaxxi.icu
+fcdn.stream
+sbplay.org
+naniplay.com
+naniplay.nanime.in
+naniplay.nanime.biz
+sbembed.com
+streamtape.com
+streamsb.net
+feurl.com
+pixeldrain.com
+racaty.net
+1fichier.com
+1drv.ms (Only works for file not folder or business account)
+uptobox.com (Uptobox account must be premium)
+solidfiles.com
 ```
 
 ## From Original Repos
@@ -73,7 +84,7 @@ uptobox.com (Uptobox account must be premium), solidfiles.com
 - Shortener support
 - Custom Filename (Only for URL, Telegram files and Youtube-dl. Not for Mega links and Magnet/Torrents)
 - Extracting password protected files, using custom filename and download from password protected Index Links see these examples:
-<p><a href="https://telegra.ph/Magneto-Python-Aria---Custom-Filename-Examples-01-20"> <img src="https://img.shields.io/badge/see%20on%20telegraph-grey?style=for-the-badge" width="190""/></a></p>
+<p><a href="https://telegra.ph/Magneto-Python-Aria---Custom-Filename-Examples-01-20"> <img src="https://img.shields.io/badge/see%20on%20telegraph-blue?style=for-the-badge" width="150""/></a></p>
 
 - Extract these filetypes and uploads to Google Drive
 ```
