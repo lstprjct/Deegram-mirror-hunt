@@ -360,6 +360,7 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False):
         bot_start = f"http://t.me/{b_uname}?start=start"
         time.sleep(2)
         ariaDlManager.add_download(link, f'{DOWNLOAD_DIR}/{listener.uid}/', listener, name)
+        sendStatusMessage(update, bot)
         if reply_to is not None:
             sendtextlog(f"{uname} has sent - \n\n<b>Filename:</b> <code>{file.file_name}</code>\n\n<b>Type:</b> <code>{file.mime_type}</code>\n<b>Size:</b> {get_readable_file_size(file.file_size)}\n\nUser ID : {uid}", bot, update)
             time.sleep(1)         
