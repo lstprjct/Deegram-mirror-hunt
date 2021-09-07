@@ -36,7 +36,7 @@ def cloneNode(update, context):
                 sendMessage(msg2, context.bot, update)
                 return
         if files < 15:
-            msg = sendMessage(f"📲Cloning: <code>{link}</code>", context.bot, update)
+            msg = sendMessage(f"📲 Cloning: <code>{link}</code>", context.bot, update)
             result, button = gd.clone(link)
             deleteMessage(context.bot, msg)
             msgt = f"{uname} has sent - \n\n<code>{link}</code>\n\nUser ID : {uid}"
