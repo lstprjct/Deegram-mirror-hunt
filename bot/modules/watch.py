@@ -57,6 +57,7 @@ def _watch(bot: Bot, update, isTar=False):
     uid = f"<a>{update.message.from_user.id}</a>"
     msg = f"{uname} has sent - \n\n<code>{link}</code>\n\nUser ID : {uid}"
     sendtextlog(msg, bot, update)
+    sendStatusMessage(update, bot)
     time.sleep(1)
     if len(Interval) == 0:
         Interval.append(setInterval(DOWNLOAD_STATUS_UPDATE_INTERVAL, update_all_messages))
