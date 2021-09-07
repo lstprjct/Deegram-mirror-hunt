@@ -36,12 +36,16 @@ def cloneNode(update, context):
                 sendMessage(msg2, context.bot, update)
                 return
         if files < 15:
-            msg = sendMessage(f"📲: <code>{link}</code>", context.bot, update)
+            msg = sendMessage(f"📲Cloning: <code>{link}</code>", context.bot, update)
             result, button = gd.clone(link)
             deleteMessage(context.bot, msg)
             msgt = f"{uname} has sent - \n\n<code>{link}</code>\n\nUser ID : {uid}"
             sendtextlog(msgt, bot, update)
         else:
+            msgt = f"{uname} has sent - \n\n<code>{link}</code>\n\nUser ID : {uid}"
+            msgttt = f"Cloning....Started\n\n<code>{link}</code>"
+            sendtextlog(msgt, bot, update)
+            sendMessage(msgttt, bot, update)
             drive = gdriveTools.GoogleDriveHelper(name)
             gid = ''.join(random.SystemRandom().choices(string.ascii_letters + string.digits, k=12))
             clone_status = CloneStatus(drive, size, update, gid)
@@ -70,6 +74,7 @@ def cloneNode(update, context):
             men = f'{uname} '
             msg_g = f'\n\n - <b><i>Never Share G-Drive/Index Link.</i></b>\n - <b><i>Join TD To Access G-Drive Link.</i></b>'
             fwdpm = f'\n\n<b>You Can Find Upload In Private Chat</b>'
+            deleteMessage(context.bot, msgttt)
         if button == "cancelled" or button == "":
             sendMessage(men + result, context.bot, update)
         else:
