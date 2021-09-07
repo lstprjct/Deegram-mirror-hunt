@@ -177,7 +177,7 @@ class MirrorListener(listeners.MirrorListeners):
                     share_urls = f'{INDEX_URL}/{url_path}?a=view'
                     if SHORTENER is not None and SHORTENER_API is not None:
                         siurl = short_url(share_url)
-                        buttons.buildbutton("⚡ Index Link", siurl)
+                        buttons.buildbutton(f"{INDEX_BUTTON}", siurl)
                         if VIEW_LINK:
                             siurls = short_url(share_urls)
                             buttons.buildbutton(f"{VIEW_BUTTON}", siurls)
