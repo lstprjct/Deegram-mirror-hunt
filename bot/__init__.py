@@ -551,13 +551,6 @@ except KeyError:
     REBOOT_BOT = 'reboot'
 
 try:
-    DOWNLOAD_DIR = getConfig('DOWNLOAD_DIR')
-    if len(DOWNLOAD_DIR) == 0:
-        DOWNLOAD_DIR = None
-except KeyError:
-    DOWNLOAD_DIR = '/usr/src/app/downloads/'
-
-try:
     MULTI_SEARCH_URL = getConfig('MULTI_SEARCH_URL')
     if len(MULTI_SEARCH_URL) == 0:
         MULTI_SEARCH_URL = None
