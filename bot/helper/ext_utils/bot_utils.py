@@ -157,13 +157,13 @@ def get_readable_message():
         for download in list(download_dict.values()):
             INDEX += 1
             if INDEX > COUNT:
+                msg += f"\n<b>ℹ️ Status ℹ️</b>\n<i>{download.status()}</i>"
                 msg += f"<b>📁 Filename:</b> <code>{download.name()}</code>"
-                msg += f"\n<b>ℹ️ Status</b>\n<i>{download.status()}</i>"
                 if download.status() not in [
                     MirrorStatus.STATUS_ARCHIVING,
                     MirrorStatus.STATUS_EXTRACTING,
                 ]:
-                    msg += f"\n<code>{get_progress_bar_string(download)} {download.progress()}</code>"
+                    msg += f"\n<code>{get_progress_bar_string(download)}</code>\n<code>💯 Percents: {download.progress()}</code>"
                     if download.status() == MirrorStatus.STATUS_CLONING:
                         msg += f"\n<b>♻️ Cloned:</b> <code>{get_readable_file_size(download.processed_bytes())}</code>\n<b>⚙️ Engine: ʀᴄʟᴏɴᴇ</b>\n<b>💾 Size</b>: <code>{download.size()}</code>"
                     elif download.status() == MirrorStatus.STATUS_UPLOADING:
