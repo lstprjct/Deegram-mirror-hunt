@@ -2,6 +2,7 @@ aiohttp
 anytree
 aria2p
 appdirs
+attrdict
 beautifulsoup4
 cloudscrape
 cfscrape
@@ -10,6 +11,7 @@ gitpython
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
+gunicorn
 heroku3
 html-telegraph-poster
 js2py
@@ -20,6 +22,7 @@ psutil
 psycopg2-binary
 pybase64
 pyrogram
+pyshorteners
 python-dotenv
 python-magic
 python-telegram-bot
@@ -29,7 +32,7 @@ speedtest-cli
 telegraph
 tenacity
 TgCrypto
-torrentool
+torrentool==1.1.0
 urllib3
 youtube_dl
 yt-dlp
@@ -39,3 +42,6 @@ youtube_dl
 bs4
 natsort
 Pillow
+qbittorrent-api
+gunicorn
+attrdict

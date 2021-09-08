@@ -3,21 +3,21 @@ import signal
 import os
 import asyncio
 import importlib
-
-from pyrogram import idle, filters, types, emoji
-from bot import *
-from sys import executable
-from datetime import datetime
-from quoters import Quote
 import pytz
 import time
 import threading
-
+from pyrogram import idle, filters, types, emoji
 from telegram.error import BadRequest, Unauthorized
-from telegram import ParseMode, BotCommand, InputTextMessageContent, InlineQueryResultArticle, Update, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import Filters, InlineQueryHandler, MessageHandler, CommandHandler, CallbackQueryHandler, CallbackContext
 from telegram.utils.helpers import escape_markdown
+from telegram.ext import Filters, InlineQueryHandler, MessageHandler, CommandHandler, CallbackQueryHandler, CallbackContext
+from bot import *
+from sys import executable
+
+from telegram import *
 from telegram.ext import CommandHandler
+from wserver import start_server_async
+from datetime import datetime
+from quoters import Quote
 from bot.helper.ext_utils import fs_utils
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.message_utils import *
@@ -25,7 +25,7 @@ from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_tim
 from .helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper import button_build
 from bot.helper import get_text, check_heroku
-from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, delete, usage, count
+from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, delete, usage, count, reboot
 now=datetime.now(pytz.timezone(f'{TIMEZONE}'))
 
 
@@ -81,6 +81,7 @@ def restart(update, context):
         f.truncate(0)
         f.write(f"{restart_message.chat.id}\n{restart_message.message_id}\n")
     fs_utils.clean_all()
+    alive.terminate()
     os.execl(executable, executable, "-m", "bot")
 
 def log(update, context):
@@ -91,7 +92,9 @@ def bot_help(update, context):
     help_string_adm = f'''
 /{BotCommands.HelpCommand}: To get this message
 
-/{BotCommands.MirrorCommand} [download_url][magnet_link]: Start mirroring the link to Google Drive
+/{BotCommands.MirrorCommand} [download_url][magnet_link]: Start mirroring the link to Google Drive.
+
+<code>/{BotCommands.MirrorCommand} qb</code> to mirror with qBittorrent.
 
 /{BotCommands.TarMirrorCommand} [download_url][magnet_link]: Start mirroring and upload the archived (.tar) version of the download
 
@@ -139,7 +142,9 @@ def bot_help(update, context):
     help_string = f'''
 /{BotCommands.HelpCommand}: To get this message
 
-/{BotCommands.MirrorCommand} [download_url][magnet_link]: Start mirroring the link to Google Drive
+/{BotCommands.MirrorCommand} [download_url][magnet_link]: Start mirroring the link to Google Drive.
+
+<code>/{BotCommands.MirrorCommand} qb</code> to mirror with qBittorrent.
 
 /{BotCommands.TarMirrorCommand} [download_url][magnet_link]: Start mirroring and upload the archived (.tar) version of the download
 
@@ -193,7 +198,8 @@ botcmds = [
         (f'{BotCommands.UnAuthorizeCommand}','Unauth chat [owner/sudo only]'),
         (f'{BotCommands.UsageCommand}','See dyno [owner/sudo only]'),
         (f'{BotCommands.AddSudoCommand}','Add sudo [owner/sudo only]'),
-        (f'{BotCommands.RmSudoCommand}','Remove sudo [owner/sudo only]')
+        (f'{BotCommands.RmSudoCommand}','Remove sudo [owner/sudo only]'),
+        (f'{BotCommands.RebootCommand}','Restart Heroku dyno [owner/sudo only]')
     ]
 
 
@@ -228,6 +234,10 @@ def main():
             LOGGER.warning(e.message)            
             
     fs_utils.start_cleanup()
+
+    if IS_VPS:
+        asyncio.get_event_loop().run_until_complete(start_server_async(SERVER_PORT))
+
     # Check if the bot is restarting
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:

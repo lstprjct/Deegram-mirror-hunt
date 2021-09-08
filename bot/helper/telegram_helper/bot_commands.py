@@ -36,5 +36,6 @@ class _BotCommands:
         self.DeleteCommand = getCommand('DELETE_BOT', 'del')
         self.ShellCommand = getCommand('SHELL_BOT', 'shell')
         self.ExecHelpCommand = getCommand('EXEHELP_BOT', 'exehelp')
+        self.RebootCommand = getCommand('REBOOT_BOT', 'reboot')
 
 BotCommands = _BotCommands()

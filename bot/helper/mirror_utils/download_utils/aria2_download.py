@@ -1,4 +1,4 @@
-from bot import *
+from bot import aria2, download_dict_lock, STOP_DUPLICATE, TORRENT_DIRECT_LIMIT, TAR_UNZIP_LIMIT
 from bot.helper.mirror_utils.upload_utils.gdriveTools import GoogleDriveHelper
 from bot.helper.ext_utils.bot_utils import *
 from bot.helper.mirror_utils.status_utils.aria_download_status import AriaDownloadStatus

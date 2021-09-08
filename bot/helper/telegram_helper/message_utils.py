@@ -61,7 +61,7 @@ def sendPrivate(text: str, bot, update: Update, reply_markup: InlineKeyboardMark
             keyboard = [
             [InlineKeyboardButton("START BOT", url = f"{botstart}")],
             [InlineKeyboardButton("JOIN LOG CHANNEL", url = f"{LOG_CHANNEL_LINK}")]]
-            sendMarkup(f"Dear {uname},\n\n<b>I Found That You Haven't Started Me In PM (Private Chat) Yet.😑</b>\n\n<b><i>From Now On I Will Give You Links In PM (Private Chat) Only.</i></b>\n\n<i><b><u>Please Start Me in PM (Private Chat) & Don't Miss Future Uploads.</u></b></i>\n\n<b>From Now Get Your Links From Private Channel and Private Chat Trough Bot😃</b>", bot, update, reply_markup=InlineKeyboardMarkup(keyboard))
+            sendMarkup(f"Dear {uname},\n\n<b>I Found That You Haven't Started Me In PM (Private Chat) Yet.</b>\n\n<b>From Now On I Will Give You Links In PM (Private Chat) Only.</b>\n\n<i><b>Please Start Me in PM (Private Chat) & Don't Miss Future Uploads.</b></i>\n\n<b>Get Your Links From Private Channel and Private Chat Trough Bot</b>", bot, update, reply_markup=InlineKeyboardMarkup(keyboard))
             return
 
 
