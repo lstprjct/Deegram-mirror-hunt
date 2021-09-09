@@ -496,13 +496,6 @@ except KeyError:
     SEARCH_VIEW_BUTTON = '🔎'
 
 try:
-    ZIP_BOT = getConfig('ZIP_BOT')
-    if len(ZIP_BOT) == 0:
-        ZIP_BOT = None
-except KeyError:
-    ZIP_BOT = 'zip'
-
-try:
     IMAGE_URL = getConfig('IMAGE_URL')
     if len(IMAGE_URL) == 0:
         IMAGE_URL = None
