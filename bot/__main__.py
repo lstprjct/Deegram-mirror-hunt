@@ -29,7 +29,7 @@ from bot.helper import get_text, check_heroku
 from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, delete, usage, count
 now=datetime.now(pytz.timezone(f'{TIMEZONE}'))
 
-IMAGE_X = "https://sinnerdrive.jack-need-boost.workers.dev/0:/mirr//20210824_150544_1_1.jpg"
+IMAGE_X = f"{IMAGE_URL}"
 
 def stats(update, context):
     currentTime = get_readable_time(time.time() - botStartTime)
