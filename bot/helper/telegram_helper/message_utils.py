@@ -59,9 +59,9 @@ def sendPrivate(text: str, bot, update: Update, reply_markup: InlineKeyboardMark
             uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
             botstart = f"http://t.me/{b_uname}?start=start"
             keyboard = [
-            [InlineKeyboardButton("START BOT", url = f"{botstart}")],
-            [InlineKeyboardButton("JOIN LOG CHANNEL", url = f"{LOG_CHANNEL_LINK}")]]
-            sendMarkup(f"Dear {uname},\n\n<b>I Found That You Haven't Started Me In PM (Private Chat) Yet.😑</b>\n\n<b><i>From Now On I Will Give You Links In PM (Private Chat) Only.</i></b>\n\n<i><b><u>Please Start Me in PM (Private Chat) & Don't Miss Future Uploads.</u></b></i>\n\n<b>From Now Get Your Links From Private Channel and Private Chat Trough Bot😃</b>", bot, update, reply_markup=InlineKeyboardMarkup(keyboard))
+            [InlineKeyboardButton("𝐒𝐓𝐀𝐑𝐓 𝐌𝐄", url = f"{botstart}")],
+            [InlineKeyboardButton("𝐉𝐎𝐈𝐍 𝐇𝐄𝐑𝐄", url = f"{LOG_CHANNEL_LINK}")]]
+            sendMarkup(f"𝙳𝙴𝙰𝚁 {uname},\n\n<b>ɪ ғᴏᴜɴᴅ ᴛʜᴀᴛ ʏᴏᴜ ʜᴀᴠᴇɴ'ᴛ sᴛᴀʀᴛᴇᴅ ᴍᴇ ɪɴ ᴘᴍ (ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀᴛ) ʏᴇᴛ.</b>\n\n𝐅𝐑𝐎𝐌 𝐍𝐎𝐖 𝐎𝐍 𝐈 𝐖𝐈𝐋𝐋 𝐆𝐈𝐕𝐄 𝐋𝐈𝐍𝐊 𝐈𝐍 𝐏𝐌 (𝐏𝐑𝐈𝐕𝐀𝐓𝐄 𝐂𝐇𝐀𝐓) 𝐀𝐍𝐃 𝐋𝐎𝐆 𝐂𝐇𝐀𝐍𝐍𝐄𝐋 𝐎𝐍𝐋𝐘", bot, update, reply_markup=InlineKeyboardMarkup(keyboard))
             return
 
 

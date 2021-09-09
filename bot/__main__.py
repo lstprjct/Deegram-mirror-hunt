@@ -43,8 +43,8 @@ def stats(update, context):
     cpuUsage = psutil.cpu_percent(interval=0.5)
     memory = psutil.virtual_memory().percent
     disk = psutil.disk_usage('/').percent
-    stats = f'<b>Bot Uptime:</b> <b>{currentTime}</b>\n' \
-            f'<b>Start Time: </b><b>{current}</b>\n' \
+    stats = f'<b>Bot Uptime</b>\n<b>{currentTime}</b>\n\n' \
+            f'<b>Start Time</b>\n<b>{current}</b>\n\n' \
             f'<b>Disk Space:</b> <b>{total}</b>\n' \
             f'<b>Used:</b> <b>{used}</b> ' \
             f'<b>Free:</b> <b>{free}</b>\n\n' \
