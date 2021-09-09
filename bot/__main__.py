@@ -90,40 +90,6 @@ def log(update, context):
     sendLogFile(context.bot, update)
 
 
-def speedtest(update, context):
-    speed = sendMessage("Running Speed Test . . . ", context.bot, update)
-    test = Speedtest()
-    test.get_best_server()
-    test.download()
-    test.upload()
-    test.results.share()
-    result = test.results.dict()
-    string_speed = f'''
-<b>Server</b>
-<b>Name:</b> <code>{result['server']['name']}</code>
-<b>Country:</b> <code>{result['server']['country']}, {result['server']['cc']}</code>
-<b>Sponsor:</b> <code>{result['server']['sponsor']}</code>
-<b>ISP:</b> <code>{result['client']['isp']}</code>
-<b>SpeedTest Results</b>
-<b>Upload:</b> <code>{speed_convert(result['upload'] / 8)}</code>
-<b>Download:</b>  <code>{speed_convert(result['download'] / 8)}</code>
-<b>Ping:</b> <code>{result['ping']} ms</code>
-<b>ISP Rating:</b> <code>{result['client']['isprating']}</code>
-'''
-    editMessage(string_speed, speed)
-
-
-def speed_convert(size):
-    """Hi human, you can't read bytes?"""
-    power = 2 ** 10
-    zero = 0
-    units = {0: "", 1: "Kb/s", 2: "MB/s", 3: "Gb/s", 4: "Tb/s"}
-    while size > power:
-        size /= power
-        zero += 1
-    return f"{round(size, 2)} {units[zero]}"
-
-
 def bot_help(update, context):
     help_string_adm = f'''
 /{BotCommands.HelpCommand}: To get this message
@@ -226,7 +192,6 @@ botcmds = [
         (f'{BotCommands.StatsCommand}','Bot Usage Stats'),
         (f'{BotCommands.RestartCommand}','Restart the bot [owner/sudo only]'),
         (f'{BotCommands.LogCommand}','Get the Bot Log [owner/sudo only]'),
-        (f'{BotCommands.SpeedCommand}','Check Speed of the host'),
         (f'{BotCommands.AuthorizeCommand}','Auth chat [owner/sudo only]'),
         (f'{BotCommands.UnAuthorizeCommand}','Unauth chat [owner/sudo only]'),
         (f'{BotCommands.UsageCommand}','See dyno [owner/sudo only]'),
@@ -282,9 +247,6 @@ def main():
     stats_handler = CommandHandler(BotCommands.StatsCommand,
                                    stats, filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
     log_handler = CommandHandler(BotCommands.LogCommand, log, filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True)
-    speedtest = CommandHandler(BotCommands.SpeedCommand, speedtest, 
-                                                  filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True)
-    dispatcher.add_handler(speedtest)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(restart_handler)
     dispatcher.add_handler(help_handler)
