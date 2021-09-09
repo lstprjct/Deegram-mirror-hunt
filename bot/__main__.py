@@ -283,7 +283,7 @@ def main():
                                    stats, filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
     log_handler = CommandHandler(BotCommands.LogCommand, log, filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True)
     speedtest = CommandHandler(BotCommands.SpeedCommand, speedtest, 
-                                                  filters=CustomFilters.owner_filter | CustomFilters.authorized_user, run_async=True)
+                                                  filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True)
     dispatcher.add_handler(speedtest)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(restart_handler)
