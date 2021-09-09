@@ -503,11 +503,18 @@ except KeyError:
     ZIP_BOT = 'zip'
 
 try:
+    IMAGE_URL = getConfig('IMAGE_URL')
+    if len(IMAGE_URL) == 0:
+        IMAGE_URL = None
+except KeyError:
+    IMAGE_URL = 'https://sinnerdrive.jack-need-boost.workers.dev/0:/mirr//20210824_150544_1_1.jpg'
+try:
     DOWNLOAD_DIR = getConfig('DOWNLOAD_DIR')
     if len(DOWNLOAD_DIR) == 0:
         DOWNLOAD_DIR = None
 except KeyError:
     DOWNLOAD_DIR = '/usr/src/app/downloads/'
+
 
 try:
     MULTI_SEARCH_URL = getConfig('MULTI_SEARCH_URL')
