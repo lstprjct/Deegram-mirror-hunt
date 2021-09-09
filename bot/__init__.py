@@ -66,13 +66,6 @@ def mktable():
         logging.error(e)
         exit(1)
 
-try:
-    if bool(getConfig('_____REMOVE_THIS_LINE_____')):
-        logging.error('The README.md file there to be read! Exiting now!')
-        exit()
-except KeyError:
-    pass
-
 aria2 = aria2p.API(
     aria2p.Client(
         host="http://localhost",
