@@ -3,6 +3,7 @@ import signal
 import os
 import asyncio
 import importlib
+from speedtest import Speedtest
 
 from pyrogram import idle, filters, types, emoji
 from bot import *
@@ -28,6 +29,7 @@ from bot.helper import get_text, check_heroku
 from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, delete, usage, count
 now=datetime.now(pytz.timezone(f'{TIMEZONE}'))
 
+IMAGE_X = "https://sinnerdrive.jack-need-boost.workers.dev/0:/mirr//20210824_150544_1_1.jpg"
 
 def stats(update, context):
     currentTime = get_readable_time(time.time() - botStartTime)
@@ -41,16 +43,17 @@ def stats(update, context):
     cpuUsage = psutil.cpu_percent(interval=0.5)
     memory = psutil.virtual_memory().percent
     disk = psutil.disk_usage('/').percent
-    stats = f'<b>Bot Uptime</b>\n<code>{currentTime}</code>\n\n' \
-            f'<b>Total Disk Space:</b> <code>{total}</code>\n' \
-            f'<b>Used:</b> <code>{used}</code>\n' \
-            f'<b>Free:</b> <code>{free}</code>\n\n' \
-            f'<b>Upload:</b> <code>{sent}</code>\n' \
-            f'<b>Download:</b> <code>{recv}</code>\n\n' \
-            f'<b>CPU:</b> <code>{cpuUsage}%</code>\n' \
-            f'<b>RAM:</b> <code>{memory}%</code>\n' \
-            f'<b>DISK:</b> <code>{disk}%</code>'
-    sendMessage(stats, context.bot, update)
+    stats = f'<b>Bot Uptime:</b> <b>{currentTime}</b>\n' \
+            f'<b>Start Time: </b><b>{current}</b>\n' \
+            f'<b>Disk Space:</b> <b>{total}</b>\n' \
+            f'<b>Used:</b> <b>{used}</b> ' \
+            f'<b>Free:</b> <b>{free}</b>\n\n' \
+            f'<b>📊Data Usage📊</b>\n<b>Upload:</b> <b>{sent}</b>\n' \
+            f'<b>Download:</b> <b>{recv}</b>\n\n' \
+            f'<b>CPU:</b> <b>{cpuUsage}%</b>\n' \
+            f'<b>RAM:</b> <b>{memory}%</b>\n' \
+            f'<b>DISK:</b> <b>{disk}%</b>'
+    update.effective_message.reply_photo(IMAGE_X, stats, parse_mode=ParseMode.HTML)
 
 
 def start(update, context):
@@ -85,6 +88,40 @@ def restart(update, context):
 
 def log(update, context):
     sendLogFile(context.bot, update)
+
+
+def speedtest(update, context):
+    speed = sendMessage("Running Speed Test . . . ", context.bot, update)
+    test = Speedtest()
+    test.get_best_server()
+    test.download()
+    test.upload()
+    test.results.share()
+    result = test.results.dict()
+    string_speed = f'''
+<b>Server</b>
+<b>Name:</b> <code>{result['server']['name']}</code>
+<b>Country:</b> <code>{result['server']['country']}, {result['server']['cc']}</code>
+<b>Sponsor:</b> <code>{result['server']['sponsor']}</code>
+<b>ISP:</b> <code>{result['client']['isp']}</code>
+<b>SpeedTest Results</b>
+<b>Upload:</b> <code>{speed_convert(result['upload'] / 8)}</code>
+<b>Download:</b>  <code>{speed_convert(result['download'] / 8)}</code>
+<b>Ping:</b> <code>{result['ping']} ms</code>
+<b>ISP Rating:</b> <code>{result['client']['isprating']}</code>
+'''
+    editMessage(string_speed, speed)
+
+
+def speed_convert(size):
+    """Hi human, you can't read bytes?"""
+    power = 2 ** 10
+    zero = 0
+    units = {0: "", 1: "Kb/s", 2: "MB/s", 3: "Gb/s", 4: "Tb/s"}
+    while size > power:
+        size /= power
+        zero += 1
+    return f"{round(size, 2)} {units[zero]}"
 
 
 def bot_help(update, context):
@@ -189,6 +226,7 @@ botcmds = [
         (f'{BotCommands.StatsCommand}','Bot Usage Stats'),
         (f'{BotCommands.RestartCommand}','Restart the bot [owner/sudo only]'),
         (f'{BotCommands.LogCommand}','Get the Bot Log [owner/sudo only]'),
+        (f'{BotCommands.SpeedCommand}','Check Speed of the host'),
         (f'{BotCommands.AuthorizeCommand}','Auth chat [owner/sudo only]'),
         (f'{BotCommands.UnAuthorizeCommand}','Unauth chat [owner/sudo only]'),
         (f'{BotCommands.UsageCommand}','See dyno [owner/sudo only]'),
@@ -232,7 +270,7 @@ def main():
     if os.path.isfile(".restartmsg"):
         with open(".restartmsg") as f:
             chat_id, msg_id = map(int, f)
-        bot.edit_message_text("📶 𝐑𝐄𝐒𝐓𝐀𝐑𝐓 𝐒𝐔𝐂𝐂𝐄𝐒𝐒𝐅𝐔𝐋𝐋𝐘", chat_id, msg_id)
+        bot.edit_message_text("📶𝐑𝐄𝐒𝐓𝐀𝐑𝐓 𝐒𝐔𝐂𝐂𝐄𝐒𝐒𝐅𝐔𝐋𝐋𝐘", chat_id, msg_id)
         os.remove(".restartmsg")
     bot.set_my_commands(botcmds)
 
@@ -244,6 +282,9 @@ def main():
     stats_handler = CommandHandler(BotCommands.StatsCommand,
                                    stats, filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
     log_handler = CommandHandler(BotCommands.LogCommand, log, filters=CustomFilters.owner_filter | CustomFilters.sudo_user, run_async=True)
+    speedtest = CommandHandler(BotCommands.SpeedCommand, speedtest, 
+                                                  filters=CustomFilters.owner_filter | CustomFilters.authorized_user, run_async=True)
+    dispatcher.add_handler(speedtest)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(restart_handler)
     dispatcher.add_handler(help_handler)
