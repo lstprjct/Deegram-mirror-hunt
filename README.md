@@ -1,6 +1,6 @@
 # <b>MIRROR-NEW</b>
 
-![MIRROR-NEW](https://sinnerdrive.jack-need-boost.workers.dev/0:/mirr//20210824_150544_1_1.jpg)
+![MIRROR-NEW](https://media.giphy.com/media/3DAoU390bDo26wa5UI/giphy.gif?cid=790b76113c7e3e047d69995caef703440cc803044de59c24&rid=giphy.gif&ct=g)
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/Anime-Republic/Mirror-New?color=blue&style=plastic)
 ![GitHub forks](https://img.shields.io/github/forks/Anime-Republic/Mirror-New?color=green&style=plastic)
