@@ -1,11 +1,11 @@
-# <b>MIRROR-NEW</b>
+# <b>MIRROR HUNTER</b>
 
-![MIRROR-NEW](https://media.giphy.com/media/3DAoU390bDo26wa5UI/giphy.gif?cid=790b76113c7e3e047d69995caef703440cc803044de59c24&rid=giphy.gif&ct=g)
+![MIRROR HUNTER](https://media.giphy.com/media/CBtf4gO5iNnItsmB9O/giphy.gif?cid=790b7611e971daf192fc64ab49eeacc75ca5502e2f925d5c&rid=giphy.gif&ct=g)
 
-![GitHub Repo stars](https://img.shields.io/github/stars/Anime-Republic/Mirror-New?color=blue&style=plastic)
-![GitHub forks](https://img.shields.io/github/forks/Anime-Republic/Mirror-New?color=green&style=plastic)
-![GitHub watchers](https://img.shields.io/github/watchers/Anime-Republic/Mirror-New?style=plastic)
-![Docker Pulls](https://img.shields.io/github/contributors/Anime-Republic/Mirror-New?style=plastic)
+![GitHub Repo stars](https://img.shields.io/github/stars/Anime-Republic/MIRROR-HUNTER?color=blue&style=plastic)
+![GitHub forks](https://img.shields.io/github/forks/Anime-Republic/MIRROR-HUNTER?color=green&style=plastic)
+![GitHub watchers](https://img.shields.io/github/watchers/Anime-Republic/MIRROR-HUNTER?style=plastic)
+![Docker Pulls](https://img.shields.io/github/contributors/Anime-Republic/MIRROR-HUNTER?style=plastic)
 ![Docker Pulls](https://img.shields.io/docker/pulls/arata74/anime?style=plastic)
 [![Channel](https://img.shields.io/badge/Support%20Group-!-red?style=plastic)](https://t.me/XcodersHubChat)
 
@@ -14,7 +14,7 @@
 # Repo last commit
 | Repo Name  | Status | Commit |
 | ------------- | ------------- | ------------- |
-| Mirror-New | ![Docker Pulls](https://img.shields.io/github/last-commit/Anime-Republic/Mirror-New?style==for-the-badge) | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/anime-republic/Mirror-New?style=flat-square) |
+| MIRROR HUNTER | ![Docker Pulls](https://img.shields.io/github/last-commit/Anime-Republic/MIRROR-HUNTER?style==for-the-badge) | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/anime-republic/Mirror-New?style=flat-square) |
 
 # Others Repo
 | Repo Name  | Status | Commit |
@@ -27,7 +27,7 @@
     <summary><b>Click Here For More Details</b></summary>
 
 ## Additional Features
-- Updater (**NOTE**: You must upload your **token.pickle** to Index and fill your **token.pickle** url to **TOKEN_PICKLE_URL**, because your **token.pickle** will deleted after update, for more info please check [Setting up config file](https://github.com/Anime-Republic/Mirror-New#setting-up-config-file))
+- Updater (**NOTE**: You must upload your **token.pickle** to Index and fill your **token.pickle** url to **TOKEN_PICKLE_URL**, because your **token.pickle** will deleted after update, for more info please check [Setting up config file](https://github.com/Anime-Republic/MIRROR-HUNTER#setting-up-config-file))
 - Limiting size Torrent/Direct, Tar/Unzip, Mega, cloning Google Drive support
 - Stop duplicate cloning Google Drive & mirroring Mega support
 - Tar/Unzip Google Drive link support
@@ -96,7 +96,7 @@ NTFS, RPM, SquashFS, UDF, VHD, XAR, Z.
 </details>
 
 ## How To Deploy it?
-<p><a href="https://github.com/Anime-Republic/Mirror-New/wiki"> <img src="https://img.shields.io/badge/Deploy%20Guide-red?style=for-the-badge&logo=github" width="200""/></a></p>
+<p><a href="https://github.com/Anime-Republic/MIRROR-HUNTER/wiki"> <img src="https://img.shields.io/badge/Deploy%20Guide-red?style=for-the-badge&logo=github" width="200""/></a></p>
     
 ## Generate Database
 <details>
