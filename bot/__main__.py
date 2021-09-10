@@ -53,7 +53,7 @@ def stats(update, context):
             f'<b>🖥️ RAM:</b> <b>{memory}%</b>\n' \
             f'<b>💽 DISK:</b> <b>{disk}%</b>\n' \           
             f'<b>📊Data Usage📊</b>\n<b>📤 Upload:</b> <b>{sent}</b>\n' \
-            f'<b>📥 Download:</b> <b>{recv}</b>' \
+            f'<b>📥 Download:</b> <b>{recv}</b>'
 
     update.effective_message.reply_photo(IMAGE_X, stats, parse_mode=ParseMode.HTML)
 
