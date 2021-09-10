@@ -493,7 +493,7 @@ try:
     if len(IMAGE_URL) == 0:
         IMAGE_URL = None
 except KeyError:
-    IMAGE_URL = 'https://sinnerdrive.jack-need-boost.workers.dev/0:/mirr//20210824_150544_1_1.jpg'
+    IMAGE_URL = 'https://telegra.ph/file/09a54a1ee5c3d98e4d007.jpg'
 try:
     DOWNLOAD_DIR = getConfig('DOWNLOAD_DIR')
     if len(DOWNLOAD_DIR) == 0:

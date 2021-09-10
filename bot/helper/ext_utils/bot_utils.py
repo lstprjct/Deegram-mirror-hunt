@@ -170,7 +170,7 @@ def get_readable_message():
                     else:
                         msg += f"\n<b>📤 Uploaded:</b> {get_readable_file_size(download.processed_bytes())}<b>\n<b>⚙️ Engine: ʀᴄʟᴏɴᴇ</b>\n💾 Size</b>: {download.size()}"
                     msg += f"\n<b>⚡ Speed:</b> {download.speed()}" \
-                            f"\n<b>⏲️ ETA:</b> {download.eta()} "
+                            f"\n<b>⏳ ETA:</b> {download.eta()} "
                     # if hasattr(download, 'is_torrent'):
                     try:
                         msg += f"\n<b>👥 User:</b> <b>{download.message.from_user.first_name}</b>\n<b>⚠️ Warn:</b><code>/warn {download.message.from_user.id}</code>"
