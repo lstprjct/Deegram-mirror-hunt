@@ -158,7 +158,10 @@ def get_readable_message():
             if INDEX > COUNT:
                 msg += f"\n<b>ℹ️ Status ℹ️</b>\n<i>{download.status()}</i>\n"                
                 msg += f"<b>📁 Filename:</b> <code>{download.name()}</code>"
-                if download.status() != MirrorStatus.STATUS_ARCHIVING and download.status() != MirrorStatus.STATUS_EXTRACTING:
+                if download.status() not in [
+                    MirrorStatus.STATUS_ARCHIVING,
+                    MirrorStatus.STATUS_EXTRACTING,
+                ]:
                     msg += f"\n<code>{get_progress_bar_string(download)} {download.progress()}</code>"
                     if download.status() == MirrorStatus.STATUS_DOWNLOADING:
                         msg += f"\n<b>📥 Downloaded:</b> {get_readable_file_size(download.processed_bytes())}<b>\n💾 Size</b>: {download.size()}"

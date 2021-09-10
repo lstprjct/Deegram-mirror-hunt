@@ -65,7 +65,7 @@ class MirrorListener(listeners.MirrorListeners):
         with download_dict_lock:
             LOGGER.info(f"Download completed: {download_dict[self.uid].name()}")
             download = download_dict[self.uid]
-            name = download.name()
+            name = download.name().replace('/', '')
             gid = download.gid()
             size = download.size_raw()
             if name is None : # when pyrogram's media.file_name is of NoneType
@@ -301,11 +301,30 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False):
                 return
             else:
                 link = file.get_file().file_path
+        elif (
+              not bot_utils.is_url(link)
+              and not bot_utils.is_magnet(link)
+              or len(link) == 0
+        ) and file is None:
+            reply_text = reply_to.text
+            reply_text = re.split('\n ', reply_text)[0]
+            if bot_utils.is_url(reply_text) or bot_utils.is_magnet(reply_text):
+                link = reply_text
 
-    if not bot_utils.is_url(link) and not bot_utils.is_magnet(link):
+    if bot_utils.is_url(link) and not bot_utils.is_magnet(link) and not os.path.exists(link) and isQbit:
+        resp = requests.get(link)
+        if resp.status_code == 200:
+            file_name = str(time.time()).replace(".", "") + ".torrent"
+            open(file_name, "wb").write(resp.content)
+            link = f"{file_name}"
+        else:
+            sendMessage("ERROR: link got HTTP response:" + resp.status_code, bot, update)
+            return
+
+    elif not bot_utils.is_url(link) and not bot_utils.is_magnet(link):
         sendMessage('No download source provided', bot, update)
         return
-    if not os.path.exists(link) and not bot_utils.is_mega_link(link) and not bot_utils.is_gdrive_link(link) and not bot_utils.is_magnet(link):
+    elif not os.path.exists(link) and not bot_utils.is_mega_link(link) and not bot_utils.is_gdrive_link(link) and not bot_utils.is_magnet(link):
         try:
             link = direct_link_generator(link)
         except DirectDownloadLinkException as e:
@@ -359,7 +378,7 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False):
     else:
         bot_start = f"http://t.me/{b_uname}?start=start"
         time.sleep(2)
-        ariaDlManager.add_download(link, f'{DOWNLOAD_DIR}/{listener.uid}/', listener, name)
+        ariaDlManager.add_download(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener, name)
         sendStatusMessage(update, bot)
         if reply_to is not None:
             sendtextlog(f"{uname} has sent - \n\n<b>Filename:</b> <code>{file.file_name}</code>\n\n<b>Type:</b> <code>{file.mime_type}</code>\n<b>Size:</b> {get_readable_file_size(file.file_size)}😀\n\nUser ID : {uid}", bot, update)
