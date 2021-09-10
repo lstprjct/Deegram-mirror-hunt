@@ -33,7 +33,7 @@ IMAGE_X = f"{IMAGE_URL}"
 
 def stats(update, context):
     currentTime = get_readable_time(time.time() - botStartTime)
-    current = now.strftime('%d/%m/%Y\n%I:%M:%S %p')
+    current = now.strftime('📅: %d/%m/%Y\n⏲️: %I:%M:%S %p')
     total, used, free = shutil.disk_usage('.')
     total = get_readable_file_size(total)
     used = get_readable_file_size(used)
@@ -43,16 +43,18 @@ def stats(update, context):
     cpuUsage = psutil.cpu_percent(interval=0.5)
     memory = psutil.virtual_memory().percent
     disk = psutil.disk_usage('/').percent
-    stats = f'<b>Bot Uptime</b>\n<b>{currentTime}</b>\n\n' \
-            f'<b>Start Time</b>\n<b>{current}</b>\n\n' \
-            f'<b>Disk Space:</b> <b>{total}</b>\n' \
-            f'<b>Used:</b> <b>{used}</b> ' \
-            f'<b>Free:</b> <b>{free}</b>\n\n' \
-            f'<b>📊Data Usage📊</b>\n<b>Upload:</b> <b>{sent}</b>\n' \
-            f'<b>Download:</b> <b>{recv}</b>\n\n' \
-            f'<b>CPU:</b> <b>{cpuUsage}%</b>\n' \
-            f'<b>RAM:</b> <b>{memory}%</b>\n' \
-            f'<b>DISK:</b> <b>{disk}%</b>'
+    stats = f'<b>ℹ️ Bot Uptime ℹ️</b>\n<b>{currentTime}</b>\n\n' \
+            f'<b>▶️ Start Time ▶️</b>\n<b>{current}</b>\n\n' \
+            f'<b>⚙️ System Usage ⚙️\n' \
+            f'<b>💿 Disk Space:</b> <b>{total}</b>\n' \
+            f'<b>📀 Used:</b> <b>{used}</b>\n' \
+            f'<b>🕊️ Free:</b> <b>{free}</b>\n\n' \
+            f'<b>💻 CPU:</b> <b>{cpuUsage}%</b>\n' \
+            f'<b>🖥️ RAM:</b> <b>{memory}%</b>\n' \
+            f'<b>💽 DISK:</b> <b>{disk}%</b>\n' \           
+            f'<b>📊Data Usage📊</b>\n<b>📤 Upload:</b> <b>{sent}</b>\n' \
+            f'<b>📥 Download:</b> <b>{recv}</b>' \
+
     update.effective_message.reply_photo(IMAGE_X, stats, parse_mode=ParseMode.HTML)
 
 
