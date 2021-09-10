@@ -48,10 +48,10 @@ def stats(update, context):
             f'<b>⚙️ System Usage ⚙️</b>\n' \
             f'<b>💿 Disk Space:</b> <b>{total}</b>\n' \
             f'<b>📀 Used:</b> <b>{used}</b>\n' \
-            f'<b>🕊️ Free:</b> <b>{free}</b>\n\n' \
+            f'<b>🕊️ Free:</b> <b>{free}</b>\n' \
             f'<b>💻 CPU:</b> <b>{cpuUsage}%</b>\n' \
             f'<b>🖥️ RAM:</b> <b>{memory}%</b>\n' \
-            f'<b>💽 DISK:</b> <b>{disk}%</b>\n' \
+            f'<b>💽 DISK:</b> <b>{disk}%</b>\n\n' \
             f'<b>📊Data Usage📊</b>\n<b>📤 Upload:</b> <b>{sent}</b>\n' \
             f'<b>📥 Download:</b> <b>{recv}</b>'
 
