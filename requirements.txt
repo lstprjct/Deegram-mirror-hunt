@@ -25,6 +25,7 @@ python-magic
 python-telegram-bot
 pytz
 requests
+yt-dlp
 speedtest-cli
 telegraph
 tenacity
