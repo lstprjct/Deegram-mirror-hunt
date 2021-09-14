@@ -32,10 +32,8 @@ TgCrypto
 torrentool
 urllib3
 youtube_dl
-yt-dlp
 quoters
 pyshorteners
-youtube_dl
 bs4
 natsort
 Pillow
