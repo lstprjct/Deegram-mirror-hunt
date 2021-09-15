@@ -36,6 +36,10 @@ class _BotCommands:
         self.DeleteCommand = getCommand('DELETE_BOT', 'del')
         self.ShellCommand = getCommand('SHELL_BOT', 'shell')
         self.ExecHelpCommand = getCommand('EXEHELP_BOT', 'exehelp')
-        self.RebootCommand = getCommand('REBOOT_BOT', 'reboot')
+        self.ZipWatchCommand = getCommand('ZIPWATCH_BOT', 'zipwatch')
+        self.QbMirrorCommand = getCommand('QBITMIR_BOT', 'qbmirror')
+        self.QbUnzipMirrorCommand = getCommand('QBITUNZIP_BOT', 'qbunzipmirror')
+        self.QbTarMirrorCommand = getCommand('QBITTAR_BOT', 'qbtarmirror')
+        self.QbZipMirrorCommand = getCommand('QBITZIP_BOT', 'qbzipmirror')
 
 BotCommands = _BotCommands()

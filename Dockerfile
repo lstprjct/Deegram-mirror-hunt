@@ -1,4 +1,4 @@
-FROM arata74/anime:latest
+FROM arata74/mirrorhunter:latest
 
 WORKDIR /usr/src/app
 RUN chmod 777 /usr/src/app
