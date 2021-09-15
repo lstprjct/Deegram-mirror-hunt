@@ -3,11 +3,10 @@ from telegram.ext import CallbackContext, CallbackQueryHandler
 from telegram.message import Message
 from telegram.update import Update
 import psutil, shutil
-from datetime import datetime
 import time
-import pytz
-from bot import *
-from bot.helper.ext_utils.bot_utils import get_readable_message, get_readable_file_size, get_readable_time, MirrorStatus, progress_bar, setInterval
+from bot import AUTO_DELETE_MESSAGE_DURATION, LOGGER, bot, \
+    status_reply_dict, status_reply_dict_lock, download_dict, download_dict_lock, botStartTime, Interval, DOWNLOAD_STATUS_UPDATE_INTERVAL, LOG_CHANNEL_ID, LOG_SEND_TEXT, LOG_CHANNEL_LINK
+from bot.helper.ext_utils.bot_utils import get_readable_message, get_readable_file_size, get_readable_time, MirrorStatus, setInterval
 from telegram.error import TimedOut, BadRequest
 
 
@@ -59,9 +58,9 @@ def sendPrivate(text: str, bot, update: Update, reply_markup: InlineKeyboardMark
             uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
             botstart = f"http://t.me/{b_uname}?start=start"
             keyboard = [
-            [InlineKeyboardButton("START BOT", url = f"{botstart}")],
-            [InlineKeyboardButton("JOIN LOG CHANNEL", url = f"{LOG_CHANNEL_LINK}")]]
-            sendMarkup(f"Dear {uname},\n\n<b>I Found That You Haven't Started Me In PM (Private Chat) Yet.</b>\n\n<b>From Now On I Will Give You Links In PM (Private Chat) Only.</b>\n\n<i><b>Please Start Me in PM (Private Chat) & Don't Miss Future Uploads.</b></i>\n\n<b>Get Your Links From Private Channel and Private Chat Trough Bot</b>", bot, update, reply_markup=InlineKeyboardMarkup(keyboard))
+            [InlineKeyboardButton("𝐒𝐓𝐀𝐑𝐓 𝐌𝐄", url = f"{botstart}")],
+            [InlineKeyboardButton("𝐉𝐎𝐈𝐍 𝐇𝐄𝐑𝐄", url = f"{LOG_CHANNEL_LINK}")]]
+            sendMarkup(f"𝙳𝙴𝙰𝚁 {uname},\n\n<b>ɪ ғᴏᴜɴᴅ ᴛʜᴀᴛ ʏᴏᴜ ʜᴀᴠᴇɴ'ᴛ sᴛᴀʀᴛᴇᴅ ᴍᴇ ɪɴ ᴘᴍ (ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀᴛ) ʏᴇᴛ.</b>\n\n𝐅𝐑𝐎𝐌 𝐍𝐎𝐖 𝐎𝐍 𝐈 𝐖𝐈𝐋𝐋 𝐆𝐈𝐕𝐄 𝐋𝐈𝐍𝐊 𝐈𝐍 𝐏𝐌 (𝐏𝐑𝐈𝐕𝐀𝐓𝐄 𝐂𝐇𝐀𝐓) 𝐀𝐍𝐃 𝐋𝐎𝐆 𝐂𝐇𝐀𝐍𝐍𝐄𝐋 𝐎𝐍𝐋𝐘", bot, update, reply_markup=InlineKeyboardMarkup(keyboard))
             return
 
 
@@ -117,7 +116,9 @@ def update_all_messages():
     msg, buttons = get_readable_message()
     if msg is None:
         return
-    msg += f"\n<b>🕊️ Free:</b> {free}"
+    msg += f"<b>CPU:</b> <code>{psutil.cpu_percent()}%</code>" \
+           f"\n<b>RAM:</b> <code>{psutil.virtual_memory().percent}%</code>" \
+           f"\n<b>DISK:</b> <code>{psutil.disk_usage('/').percent}%</code>"
     with download_dict_lock:
         dlspeed_bytes = 0
         uldl_bytes = 0
@@ -135,7 +136,7 @@ def update_all_messages():
                     uldl_bytes += float(speedy.split('M')[0]) * 1048576
         dlspeed = get_readable_file_size(dlspeed_bytes)
         ulspeed = get_readable_file_size(uldl_bytes)
-        msg += f"\n\n<b>🔺 UL:</b> {ulspeed}ps\n<b>🔻 DL:</b> {dlspeed}ps\n"
+        msg += f"\n\n<b>FREE:</b> <code>{free}</code>\n<b>UPTIME:</b> <code>{currentTime}</code>\n\n<b>🔺:</b> <code>{ulspeed}/s</code>\n<b>🔻:</b> <code>{dlspeed}/s</code>\n"
     with status_reply_dict_lock:
         for chat_id in list(status_reply_dict.keys()):
             if status_reply_dict[chat_id] and msg != status_reply_dict[chat_id].text:
@@ -158,7 +159,9 @@ def sendStatusMessage(msg, bot):
     progress, buttons = get_readable_message()
     if progress is None:
         progress, buttons = get_readable_message()
-    progress += f"\n<b>🕊️ Free:</b> {free}"
+    progress += f"<b>CPU:</b> <code>{psutil.cpu_percent()}%</code>" \
+           f"\n<b>RAM:</b> <code>{psutil.virtual_memory().percent}%</code>" \
+           f"\n<b>DISK:</b> <code>{psutil.disk_usage('/').percent}%</code>"
     with download_dict_lock:
         dlspeed_bytes = 0
         uldl_bytes = 0
@@ -176,7 +179,7 @@ def sendStatusMessage(msg, bot):
                     uldl_bytes += float(speedy.split('M')[0]) * 1048576
         dlspeed = get_readable_file_size(dlspeed_bytes)
         ulspeed = get_readable_file_size(uldl_bytes)
-        progress += f"\n\n<b>🔺 UL:</b> {ulspeed}ps\n<b>🔻 DL:</b> {dlspeed}ps\n"
+        progress += f"\n\n<b>FREE:</b> <code>{free}</code>\n<b>UPTIME:</b> <code>{currentTime}</code>\n\n<b>🔺:</b> <code>{ulspeed}/s</code>\n<b>🔻:</b> <code>{dlspeed}/s</code>\n"
     with status_reply_dict_lock:
         if msg.message.chat.id in list(status_reply_dict.keys()):
             try:

@@ -7,6 +7,7 @@ beautifulsoup4
 cloudscrape
 cfscrape
 feedparser
+yt-dlp
 gitpython
 google-api-python-client
 google-auth-httplib2
@@ -26,7 +27,7 @@ pyshorteners
 python-dotenv
 python-magic
 python-telegram-bot
-pytz
+qbittorrent-api
 requests
 speedtest-cli
 telegraph
@@ -42,6 +43,4 @@ youtube_dl
 bs4
 natsort
 Pillow
-qbittorrent-api
-gunicorn
-attrdict
+pytz

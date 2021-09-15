@@ -1,7 +1,6 @@
 from .download_helper import DownloadHelper
 import time
 from yt_dlp import YoutubeDL, DownloadError
-from youtube_dl import YoutubeDL, DownloadError
 from bot import download_dict_lock, download_dict
 from ..status_utils.youtube_dl_download_status import YoutubeDLDownloadStatus
 import logging
@@ -47,7 +46,6 @@ class YoutubeDLHelper(DownloadHelper):
             'usenetrc': True
         }
         self.__download_speed = 0
-        self.download_speed_readable = ''
         self.downloaded_bytes = 0
         self.size = 0
         self.is_playlist = False
@@ -84,16 +82,10 @@ class YoutubeDLHelper(DownloadHelper):
                     chunk_size = d['downloaded_bytes'] - self.last_downloaded
                     self.last_downloaded = tbyte * progress
                     self.downloaded_bytes += chunk_size
-                else:
-                    self.size = d['total_bytes']
-                    self.downloaded_bytes = d['downloaded_bytes']
                 try:
                     self.progress = (self.downloaded_bytes / self.size) * 100
                 except ZeroDivisionError:
                     pass
-                else:
-                    self.download_speed_readable = d['_speed_str']
-                    self.downloaded_bytes = d['downloaded_bytes']
 
     def __onDownloadStart(self):
         with download_dict_lock:
