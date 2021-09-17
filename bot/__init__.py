@@ -50,7 +50,6 @@ DRIVES_NAMES = []
 DRIVES_IDS = []
 INDEX_URLS = []
 
-
 def getConfig(name: str):
     return os.environ[name]
 
@@ -115,6 +114,9 @@ except:
 try:
     BOT_TOKEN = getConfig('BOT_TOKEN')
     parent_id = getConfig('GDRIVE_FOLDER_ID')
+    DOWNLOAD_DIR = getConfig('DOWNLOAD_DIR')
+    if not DOWNLOAD_DIR.endswith("/"):
+        DOWNLOAD_DIR = DOWNLOAD_DIR + '/'
     DOWNLOAD_STATUS_UPDATE_INTERVAL = int(getConfig('DOWNLOAD_STATUS_UPDATE_INTERVAL'))
     OWNER_ID = int(getConfig('OWNER_ID'))
     AUTO_DELETE_MESSAGE_DURATION = int(getConfig('AUTO_DELETE_MESSAGE_DURATION'))
@@ -518,6 +520,12 @@ try:
 except KeyError:
     pass
 
+try:
+    RECURSIVE_SEARCH = getConfig('RECURSIVE_SEARCH')
+    RECURSIVE_SEARCH = RECURSIVE_SEARCH.lower() == 'true'
+except KeyError:
+    RECURSIVE_SEARCH = False
+
 DRIVES_NAMES.append("Main")
 DRIVES_IDS.append(parent_id)
 if os.path.exists('drive_folder'):
@@ -529,7 +537,7 @@ if os.path.exists('drive_folder'):
                 DRIVES_IDS.append(temp[1])
                 DRIVES_NAMES.append(temp[0].replace("_", " "))
             except:
-                DRIVES_NAMES.append(None)
+                pass
             try:
                 INDEX_URLS.append(temp[2])
             except IndexError as e:

@@ -114,6 +114,8 @@ def bot_help(update, context):
 
 /{BotCommands.TarWatchCommand} [youtube-dl supported link]: Mirror through youtube-dl and tar before uploading
 
+/{BotCommands.ZipWatchCommand} [youtube-dl supported link]: Mirror through youtube-dl and zip before uploading
+
 /{BotCommands.CancelMirror}: Reply to the message by which the download was initiated and that download will be cancelled
 
 /{BotCommands.CancelAllCommand}: Cancel all running tasks
@@ -160,6 +162,8 @@ def bot_help(update, context):
 
 /{BotCommands.TarWatchCommand} [youtube-dl supported link]: Mirror through youtube-dl and tar before uploading
 
+/{BotCommands.ZipWatchCommand} [youtube-dl supported link]: Mirror through youtube-dl and zip before uploading
+
 /{BotCommands.CancelMirror}: Reply to the message by which the download was initiated and that download will be cancelled
 
 /{BotCommands.ListCommand} [search term]: Searches the search term in the Google Drive, If found replies with the link
@@ -187,6 +191,7 @@ botcmds = [
         (f'{BotCommands.DeleteCommand}','Delete file from Drive'),
         (f'{BotCommands.WatchCommand}','Mirror Youtube-dl support link'),
         (f'{BotCommands.TarWatchCommand}','Mirror Youtube playlist link as .tar'),
+        (f'{BotCommands.ZipWatchCommand}','Mirror Youtube playlist link as .zip'),
         (f'{BotCommands.CancelMirror}','Cancel a task'),
         (f'{BotCommands.CancelAllCommand}','Cancel all tasks'),
         (f'{BotCommands.ListCommand}','Searches files in Drive'),
