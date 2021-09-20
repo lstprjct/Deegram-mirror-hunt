@@ -65,10 +65,10 @@ class MirrorListener(listeners.MirrorListeners):
         with download_dict_lock:
             LOGGER.info(f"Download completed: {download_dict[self.uid].name()}")
             download = download_dict[self.uid]
-            name = f"{download.name()}".replace('/', '')
+            name = download.name()
             gid = download.gid()
             size = download.size_raw()
-            if name == "None": # when pyrogram's media.file_name is of NoneType
+            if name is None : # when pyrogram's media.file_name is of NoneType
                 name = os.listdir(f'{DOWNLOAD_DIR}{self.uid}')[0]
             m_path = f'{DOWNLOAD_DIR}{self.uid}/{name}'
         if self.isTar:
@@ -86,40 +86,21 @@ class MirrorListener(listeners.MirrorListeners):
                 os.remove(m_path)
         elif self.extract:
             try:
+                path = fs_utils.get_base_name(m_path)
                 LOGGER.info(f"Extracting: {name}")
                 with download_dict_lock:
                     download_dict[self.uid] = ExtractStatus(name, m_path, size)
                 pswd = self.pswd
-                if os.path.isdir(m_path):
-                    for dirpath, subdir, files in os.walk(m_path, topdown=False):
-                        for file in files:
-                            suffixes = (".part1.rar", ".part01.rar", ".part001.rar", ".part0001.rar")
-                            if (file.endswith(".rar") and "part" not in file) or file.endswith(suffixes):
-                                m_path = os.path.join(dirpath, file)
-                                if pswd is not None:
-                                    result = subprocess.run(["7z", "x", f"-p{pswd}", m_path, f"-o{dirpath}"])
-                                else:
-                                    result = subprocess.run(["7z", "x", m_path, f"-o{dirpath}"])
-                                if result.returncode != 0:
-                                    LOGGER.warning('Unable to extract archive!')
-                                break
-                        for file in files:
-                            if file.endswith(".rar") or fnmatch(file, "*.r[0-9]") or fnmatch(file, "*.r[0-9]*"):
-                                del_path = os.path.join(dirpath, file)
-                                os.remove(del_path)
-                    path = f'{DOWNLOAD_DIR}{self.uid}/{name}'
+                if pswd is not None:
+                    archive_result = subprocess.run(["pextract", m_path, pswd])
                 else:
-                    path = fs_utils.get_base_name(m_path)
-                    if pswd is not None:
-                        result = subprocess.run(["pextract", m_path, pswd])
-                    else:
-                        result = subprocess.run(["extract", m_path])
-                    if result.returncode == 0:
-                        os.remove(m_path)
-                        LOGGER.info(f"Deleting archive: {m_path}")
-                    else:
-                        LOGGER.warning('Unable to extract archive! Uploading anyway')
-                        path = f'{DOWNLOAD_DIR}{self.uid}/{name}'
+                    archive_result = subprocess.run(["extract", m_path])
+                if archive_result.returncode == 0:
+                    threading.Thread(target=os.remove, args=(m_path)).start()
+                    LOGGER.info(f"Deleting archive: {m_path}")
+                else:
+                    LOGGER.warning('Unable to extract archive! Uploading anyway')
+                    path = f'{DOWNLOAD_DIR}{self.uid}/{name}'
                 LOGGER.info(f'got path: {path}')
 
             except NotSupportedExtractionArchive:
@@ -311,12 +292,7 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False):
             not bot_utils.is_url(link)
             and not bot_utils.is_magnet(link)
             or len(link) == 0
-        ):
-            if file is None:
-                reply_text = reply_to.text
-                reply_text = re.split('\n ', reply_text)[0]
-                if bot_utils.is_url(reply_text) or bot_utils.is_magnet(reply_text):
-                    link = reply_text
+        ) and file is not None:
             if file.mime_type != "application/x-bittorrent":
                 listener = MirrorListener(bot, update, pswd, isTar, extract, isZip)
                 tg_downloader = TelegramDownloadHelper(listener)
@@ -325,20 +301,11 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False):
                 return
             else:
                 link = file.get_file().file_path
-    if bot_utils.is_url(link) and not bot_utils.is_magnet(link) and not os.path.exists(link):
-        resp = requests.get(link)
-        if resp.status_code == 200:
-            file_name = str(time.time()).replace(".", "") + ".torrent"
-            open(file_name, "wb").write(resp.content)
-            link = f"{file_name}"
-        else:
-            sendMessage("ERROR: link got HTTP response:" + resp.status_code, bot, update)
-            return
 
-    elif not bot_utils.is_url(link) and not bot_utils.is_magnet(link):
+    if not bot_utils.is_url(link) and not bot_utils.is_magnet(link):
         sendMessage('No download source provided', bot, update)
         return
-    elif not os.path.exists(link) and not bot_utils.is_mega_link(link) and not bot_utils.is_gdrive_link(link) and not bot_utils.is_magnet(link):
+    if not os.path.exists(link) and not bot_utils.is_mega_link(link) and not bot_utils.is_gdrive_link(link) and not bot_utils.is_magnet(link):
         try:
             link = direct_link_generator(link)
         except DirectDownloadLinkException as e:
@@ -387,12 +354,12 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False):
         else:
             time.sleep(2)
             mega_dl = MegaDownloadHelper()
-            mega_dl.add_download(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener)
+            mega_dl.add_download(link, f'{DOWNLOAD_DIR}/{listener.uid}/', listener)
             sendtextlog(f"{uname} has sent - \n\n<code>{link}</code>\n\nUser ID : {uid}", bot, update)
     else:
         bot_start = f"http://t.me/{b_uname}?start=start"
         time.sleep(2)
-        ariaDlManager.add_download(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener, name)
+        ariaDlManager.add_download(link, f'{DOWNLOAD_DIR}/{listener.uid}/', listener, name)
         sendStatusMessage(update, bot)
         if reply_to is not None:
             sendtextlog(f"{uname} has sent - \n\n<code>{link}</code>\n\nUser ID : {uid}", bot, update)
@@ -405,8 +372,10 @@ def _mirror(bot, update, isTar=False, extract=False, isZip=False):
 def mirror(update, context):
     _mirror(context.bot, update)
 
+
 def tar_mirror(update, context):
     _mirror(context.bot, update, True)
+
 
 def unzip_mirror(update, context):
     _mirror(context.bot, update, extract=True)

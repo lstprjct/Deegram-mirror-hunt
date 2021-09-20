@@ -2,7 +2,6 @@ aiohttp
 anytree
 aria2p
 appdirs
-attrdict
 beautifulsoup4
 cloudscrape
 cfscrape
@@ -31,7 +30,7 @@ speedtest-cli
 telegraph
 tenacity
 TgCrypto
-torrentool==1.1.0
+torrentool
 urllib3
 youtube_dl
 quoters
