@@ -6,7 +6,7 @@ import importlib
 from speedtest import Speedtest
 
 from pyrogram import idle, filters, types, emoji
-from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, IS_VPS, PORT, alive, web, OWNER_ID, AUTHORIZED_CHATS, telegraph_token
+from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, OWNER_ID, AUTHORIZED_CHATS, telegraph_token
 from bot import TIMEZONE, IMAGE_URL, CHANNEL_LINK, SUPPORT_LINK, RESTARTED_GROUP_ID, RESTARTED_GROUP_ID2
 from sys import executable
 from datetime import datetime
