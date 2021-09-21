@@ -5,7 +5,7 @@ from bot.helper.telegram_helper.message_utils import *
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.mirror_utils.status_utils.clone_status import CloneStatus
-from bot import dispatcher, LOGGER, CLONE_LIMIT, STOP_DUPLICATE, download_dict, download_dict_lock, Interval
+from bot import *
 from bot.helper.ext_utils.bot_utils import get_readable_file_size, check_limit, setInterval
 import random
 import string
@@ -24,7 +24,7 @@ def cloneNode(update, context):
             return
         if STOP_DUPLICATE:
             LOGGER.info('Checking File/Folder if already in Drive...')
-            smsg, button = gd.drive_list(name, True, True)
+            smsg, button = gd.drive_list(name, True)
             if smsg:
                 msg3 = "File/Folder is already available in Drive.\nHere are the search results:"
                 sendMarkup(msg3, context.bot, update, button)

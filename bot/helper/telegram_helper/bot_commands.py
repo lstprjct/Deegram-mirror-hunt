@@ -32,7 +32,6 @@ class _BotCommands:
         self.CloneCommand = getCommand('CLONE_BOT', 'clone')
         self.CountCommand = getCommand('COUNT_BOT', 'count')
         self.WatchCommand = getCommand('YTDL_BOT', 'yt')
-        self.ZipWatchCommand = getCommand('ZIPYTDL_BOT', 'zipyt')
         self.TarWatchCommand = getCommand('TARYTDL_BOT', 'taryt')
         self.DeleteCommand = getCommand('DELETE_BOT', 'del')
         self.ShellCommand = getCommand('SHELL_BOT', 'shell')

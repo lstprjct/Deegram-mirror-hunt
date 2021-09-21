@@ -1,4 +1,4 @@
-from bot import aria2, download_dict_lock, STOP_DUPLICATE, TORRENT_DIRECT_LIMIT, TAR_UNZIP_LIMIT
+from bot import *
 from bot.helper.mirror_utils.upload_utils.gdriveTools import GoogleDriveHelper
 from bot.helper.ext_utils.bot_utils import *
 from bot.helper.mirror_utils.status_utils.aria_download_status import AriaDownloadStatus
@@ -22,8 +22,10 @@ class AriaDownloadHelper:
         if STOP_DUPLICATE and dl is not None:
             LOGGER.info('Checking File/Folder if already in Drive...')
             sname = aria2.get_download(gid).name
-            if dl.getListener().isTar:
-                sname = sname + ".zip" if dl.getListener().isZip else sname + ".tar"
+            if dl.getListener().isTar and dl.getListener().isZip:
+                 sname = sname + ".zip"
+            elif dl.getListener().isTar:
+                sname = sname + ".tar"
             if dl.getListener().extract:
                 smsg = None
             else:

@@ -1,12 +1,11 @@
-from bot import LOGGER, MEGA_API_KEY, download_dict_lock, download_dict, MEGA_EMAIL_ID, MEGA_PASSWORD
+from bot import *
 import threading
 from mega import (MegaApi, MegaListener, MegaRequest, MegaTransfer, MegaError)
 from bot.helper.telegram_helper.message_utils import *
 import os
-from bot.helper.ext_utils.bot_utils import new_thread, get_mega_link_type, get_readable_file_size, check_limit
+from bot.helper.ext_utils.bot_utils import *
 from bot.helper.mirror_utils.status_utils.mega_download_status import MegaDownloadStatus
 from bot.helper.mirror_utils.upload_utils.gdriveTools import GoogleDriveHelper
-from bot import MEGA_LIMIT, STOP_DUPLICATE, TAR_UNZIP_LIMIT
 import random
 import string
 
@@ -170,8 +169,10 @@ class MegaDownloadHelper:
         if STOP_DUPLICATE:
             LOGGER.info('Checking File/Folder if already in Drive')
             mname = node.getName()
-            if listener.isTar:
-                mname = mname + ".zip" if listener.isZip else mname + ".tar"
+            if listener.isTar and listener.isZip:
+                mname = mname + ".zip"
+            elif listener.isTar:
+                mname = mname + ".tar"
             if listener.extract:
                 smsg = None
             else:
