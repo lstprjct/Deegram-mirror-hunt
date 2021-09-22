@@ -685,7 +685,7 @@ class GoogleDriveHelper:
             )
 
 
-    def drive_list(self, fileName, stopDup=False, clone=False):
+    def drive_list(self, fileName, stopDup=False, noMulti=False):
         self.stopDup = stopDup
         msg = ""
         if not stopDup:
@@ -695,7 +695,9 @@ class GoogleDriveHelper:
         Title = False
         for index, parent_id in enumerate(DRIVES_IDS):
             response = self.drive_query(parent_id, fileName)
-            if not response["files"]:
+            if not response["files"] and noMulti:
+                break
+            elif not response["files"]:
                 continue
             if not Title:
                 msg += f'<h4>Search Result For: {fileName}</h4><br><br>'
@@ -762,8 +764,8 @@ class GoogleDriveHelper:
                     self.telegraph_content.append(msg)
                     msg = ""
                     content_count = 0
-                if clone:
-                    break
+            if noMulti:
+                break
 
         if msg != '':
             self.telegraph_content.append(msg)

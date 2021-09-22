@@ -82,6 +82,9 @@ class YoutubeDLHelper(DownloadHelper):
                     chunk_size = d['downloaded_bytes'] - self.last_downloaded
                     self.last_downloaded = tbyte * progress
                     self.downloaded_bytes += chunk_size
+                else:
+                    self.size = tbyte
+                    self.downloaded_bytes = d['downloaded_bytes']
                 try:
                     self.progress = (self.downloaded_bytes / self.size) * 100
                 except ZeroDivisionError:
