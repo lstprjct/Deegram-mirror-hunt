@@ -34,6 +34,16 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 LOGGER = logging.getLogger(__name__)
 
+NETRC_FILE_URL = os.environ.get('NETRC_FILE_URL', None)
+if NETRC_FILE_URL is not None:
+    res = requests.get(NETRC_FILE_URL)
+    if res.status_code == 200:
+        with open('.netrc', 'wb+') as f:
+            f.write(res.content)
+            f.close()
+    else:
+        logging.error(res.status_code)
+
 CONFIG_FILE_URL = os.environ.get('CONFIG_FILE_URL', None)
 if CONFIG_FILE_URL is not None:
     res = requests.get(CONFIG_FILE_URL)
@@ -74,6 +84,13 @@ def mktable():
         logging.error(e)
         exit(1)
 
+try:
+    if bool(getConfig('_____REMOVE_THIS_LINE_____')):
+        logging.error('The README.md file there to be read! Exiting now!')
+        exit()
+except KeyError:
+    pass
+
 aria2 = aria2p.API(
     aria2p.Client(
         host="http://localhost",
@@ -108,6 +125,8 @@ download_dict = {}
 # Stores list of users and chats the bot is authorized to use in
 AUTHORIZED_CHATS = set()
 SUDO_USERS = set()
+AS_DOC_USERS = set()
+AS_MEDIA_USERS = set()
 if os.path.exists('authorized_chats.txt'):
     with open('authorized_chats.txt', 'r+') as f:
         lines = f.readlines()
@@ -154,7 +173,6 @@ try:
     if len(DB_URI) == 0:
         raise KeyError
 except KeyError:
-    logging.warning('Database not provided!')
     DB_URI = None
 if DB_URI is not None:
     try:
@@ -188,11 +206,19 @@ telegraph.create_account(short_name=sname)
 telegraph_token = telegraph.get_access_token()
 
 try:
+    TG_SPLIT_SIZE = getConfig('TG_SPLIT_SIZE')
+    if len(TG_SPLIT_SIZE) == 0 or int(TG_SPLIT_SIZE) > 2097152000:
+        raise KeyError
+    else:
+        TG_SPLIT_SIZE = int(TG_SPLIT_SIZE)
+except KeyError:
+    TG_SPLIT_SIZE = 2097152000
+try:
     STATUS_LIMIT = getConfig('STATUS_LIMIT')
     if len(STATUS_LIMIT) == 0:
         raise KeyError
     else:
-        STATUS_LIMIT = int(getConfig('STATUS_LIMIT'))
+        STATUS_LIMIT = int(STATUS_LIMIT)
 except KeyError:
     STATUS_LIMIT = None
 try:
@@ -209,15 +235,6 @@ except KeyError:
     logging.warning('MEGA Credentials not provided!')
     MEGA_EMAIL_ID = None
     MEGA_PASSWORD = None
-try:
-    HEROKU_API_KEY = getConfig('HEROKU_API_KEY')
-    HEROKU_APP_NAME = getConfig('HEROKU_APP_NAME')
-    if len(HEROKU_API_KEY) == 0 or len(HEROKU_APP_NAME) == 0:
-        HEROKU_API_KEY = None
-        HEROKU_APP_NAME = None
-except KeyError:
-    HEROKU_API_KEY = None
-    HEROKU_APP_NAME = None
 try:
     UPTOBOX_TOKEN = getConfig('UPTOBOX_TOKEN')
 except KeyError:
@@ -337,6 +354,11 @@ try:
 except KeyError:
     IS_VPS = False
 try:
+    AS_DOCUMENT = getConfig('AS_DOCUMENT')
+    AS_DOCUMENT = AS_DOCUMENT.lower() == 'true'
+except KeyError:
+    AS_DOCUMENT = False
+try:
     RECURSIVE_SEARCH = getConfig('RECURSIVE_SEARCH')
     RECURSIVE_SEARCH = RECURSIVE_SEARCH.lower() == 'true'
 except KeyError:
@@ -398,6 +420,12 @@ try:
 except KeyError:
     RESTARTED_GROUP_ID = '-1001437939580'
 try:
+    RESTARTED_GROUP_ID2 = getConfig('RESTARTED_GROUP_ID2')
+    if len(RESTARTED_GROUP_ID2) == 0:
+        RESTARTED_GROUP_ID2 = None
+except KeyError:
+    RESTARTED_GROUP_ID2 = '-1001437939580'
+try:
     TITLE_NAME = getConfig('TITLE_NAME')
     if len(TITLE_NAME) == 0:
         TITLE_NAME = None
@@ -449,6 +477,12 @@ try:
         else:
             logging.error(res.status_code)
             raise KeyError
+except KeyError:
+    pass
+try:
+    BOT_NO = getConfig('BOT_NO')
+    if len(BOT_NO) == 0:
+        BOT_NO = None
 except KeyError:
     pass
 
