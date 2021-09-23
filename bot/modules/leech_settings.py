@@ -19,21 +19,21 @@ from bot.helper.telegram_helper import button_build
 def leechSet(update, context):
     user_id = update.message.from_user.id
     path = f"Thumbnails/{user_id}.jpg"
-    msg = f"Leech Type for {user_id} user is "
+    msg = f"Leech for {user_id}\nType: "
     if (
         user_id in AS_DOC_USERS
         or user_id not in AS_MEDIA_USERS
         and AS_DOCUMENT
     ):
-        msg += "DOCUMENT"
+        msg += "📄 DOCUMENT"
     else:
-        msg += "MEDIA"
-    msg += "\nCustom Thumbnail "
-    msg += "✅" if os.path.exists(path) else "❌"
+        msg += "🎥 MEDIA"
+    msg += "\nCustom Thumbnail: "
+    msg += " ✅" if os.path.exists(path) else " ❌"
     buttons = button_build.ButtonMaker()
     buttons.sbutton("📄 As Document", f"doc {user_id}")
     buttons.sbutton("🎥 As Media", f"med {user_id}")
-    buttons.sbutton("🚮 Delete Thumbnail", f"thumb {user_id}")
+    buttons.sbutton("🚮 Delete Thumb", f"thumb {user_id}")
     if AUTO_DELETE_MESSAGE_DURATION == -1:
         buttons.sbutton("Close", f"closeset {user_id}")
     button = InlineKeyboardMarkup(buttons.build_menu(2))
