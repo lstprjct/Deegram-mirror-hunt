@@ -41,7 +41,7 @@ class _BotCommands:
         self.QbUnzipMirrorCommand = getCommand('QBITUNZIP_BOT', f'qbunzipmirror{BOT_NO}')
         self.QbTarMirrorCommand = getCommand('QBITTAR_BOT', f'qbtarmirror{BOT_NO}')
         self.QbZipMirrorCommand = getCommand('QBITZIP_BOT', f'qbzipmirror{BOT_NO}')
-        self.LeechSetCommand = getCommand('LEECH_SET', f'leechset{BOT_NO}')
+        self.LeechSetCommand = getCommand('LEECH_SET', f'settings{BOT_NO}')
         self.SetThumbCommand = getCommand('SET_THUMB', f'setthumb{BOT_NO}')
         self.LeechCommand = getCommand('LEECH_BOT', f'leech{BOT_NO}')
         self.TarLeechCommand = getCommand('TAR_LEECH', f'tarleech{BOT_NO}')
