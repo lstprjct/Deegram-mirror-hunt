@@ -28,7 +28,7 @@ def leechSet(update, context):
         msg += "DOCUMENT"
     else:
         msg += "MEDIA"
-    msg += "\nCustom Thumbnail "
+    msg += "\nCustom Thmubnail "
     msg += "exists" if os.path.exists(path) else "not exists"
     buttons = button_build.ButtonMaker()
     buttons.sbutton("As Document", f"doc {user_id}")
