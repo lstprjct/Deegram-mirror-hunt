@@ -32,8 +32,6 @@ tenacity
 TgCrypto
 torrentool
 urllib3
-youtube_dl
-quoters
 pyshorteners
 bs4
 natsort
