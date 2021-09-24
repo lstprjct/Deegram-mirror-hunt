@@ -32,7 +32,6 @@ TgCrypto
 torrentool==1.1.0
 urllib3
 yt-dlp
-quoters
 pyshorteners
 youtube_dl
 bs4
@@ -45,3 +44,5 @@ heroku3
 html-telegraph-poster
 cfscrape
 gitpython
+heroku3
+html-telegraph-poster
