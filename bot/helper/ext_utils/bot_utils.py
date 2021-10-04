@@ -150,12 +150,12 @@ def get_readable_message():
             dick_no = len(download_dict)
             global pages
             pages = math.ceil(dick_no/STATUS_LIMIT)
-            if PAGE_NO > pages and pages != 0:
+            if PAGE_NO > pages:
                 globals()['COUNT'] -= STATUS_LIMIT
                 globals()['PAGE_NO'] -= 1
             start = COUNT
         for index, download in enumerate(list(download_dict.values())[start:], start=1):
-            msg += f"<b>Filename:</b> <code>{download.name()}</code>"
+            msg += f"<b>Name:</b> <code>{download.name()}</code>"
             msg += f"\n<b>Status:</b> <i>{download.status()}</i>"
             if download.status() not in [
                 MirrorStatus.STATUS_ARCHIVING,
@@ -184,11 +184,11 @@ def get_readable_message():
                 except:
                     pass
                 msg += f"\n<b>User:</b> <b>{download.message.from_user.first_name}</b>\n<b>Warn:</b><code>/warn {download.message.from_user.id}</code>\n<b>To Stop:</b> <code>/{BotCommands.CancelMirror} {download.gid()}</code>"
-            msg += "\n\n"
+            msg += "\n___________________________\n"
             if STATUS_LIMIT is not None and index == STATUS_LIMIT:
                 break
         if STATUS_LIMIT is not None and dick_no > STATUS_LIMIT:
-            msg += f"<b>Page:</b> <code>{PAGE_NO}</code>/<code>{pages}</code> | <b>Tasks:</b> <code>{dick_no}</code>\n"
+            msg += f"<b>Page:</b> {PAGE_NO}/{pages} | <b>Tasks:</b> {dick_no}\n"
             buttons = button_build.ButtonMaker()
             buttons.sbutton("Previous", "pre")
             buttons.sbutton("Next", "nex")
@@ -196,7 +196,7 @@ def get_readable_message():
             return msg, button
         return msg, ""
 
-def flip(update, context):
+def turn(update, context):
     query = update.callback_query
     query.answer()
     global COUNT, PAGE_NO
@@ -284,7 +284,7 @@ def new_thread(fn):
     return wrapper
 
 
-next_handler = CallbackQueryHandler(flip, pattern="nex", run_async=True)
-previous_handler = CallbackQueryHandler(flip, pattern="pre", run_async=True)
+next_handler = CallbackQueryHandler(turn, pattern="nex", run_async=True)
+previous_handler = CallbackQueryHandler(turn, pattern="pre", run_async=True)
 dispatcher.add_handler(next_handler)
 dispatcher.add_handler(previous_handler)

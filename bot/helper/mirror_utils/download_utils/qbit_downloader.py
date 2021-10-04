@@ -10,7 +10,6 @@ import logging
 import shutil
 
 import qbittorrentapi as qba
-from fnmatch import fnmatch
 from urllib.parse import urlparse, parse_qs
 from torrentool.api import Torrent
 from telegram import InlineKeyboardMarkup
@@ -78,10 +77,11 @@ class QbitTorrent:
                 self.client.torrents_delete(torrent_hashes=self.ext_hash, delete_files=True)
                 self.client.auth_log_out()
                 return
+            tor_info = tor_info[0]
+            self.ext_hash = tor_info.hash
             gid = ''.join(random.SystemRandom().choices(string.ascii_letters + string.digits, k=14))
             with download_dict_lock:
                 download_dict[listener.uid] = QbDownloadStatus(gid, listener, self.ext_hash, self.client)
-            tor_info = tor_info[0]
             LOGGER.info(f"QbitDownload started: {tor_info.name}")
             self.updater = setInterval(self.update_interval, self.update)
             if BASE_URL is not None and qbitsel:
@@ -110,7 +110,7 @@ class QbitTorrent:
                         count += 1
                     if count == 4:
                         break
-                URL = f"{BASE_URL}/slam/files/{self.ext_hash}"
+                URL = f"{BASE_URL}/app/files/{self.ext_hash}"
                 pindata = f"pin {gid} {pincode}"
                 donedata = f"done {gid} {self.ext_hash}"
                 buttons = button_build.ButtonMaker()
@@ -145,16 +145,16 @@ class QbitTorrent:
             if tor_info.state == "metaDL":
                 self.stalled_time = time.time()
                 if time.time() - self.meta_time >= 999999999: # timeout while downloading metadata
-                    self.updater.cancel()
                     self.client.torrents_pause(torrent_hashes=self.ext_hash)
                     time.sleep(0.3)
                     self.listener.onDownloadError("Dead Torrent!")
                     self.client.torrents_delete(torrent_hashes=self.ext_hash)
                     self.client.auth_log_out()
+                    self.updater.cancel()
             elif tor_info.state == "downloading":
                 self.stalled_time = time.time()
                 if (TORRENT_DIRECT_LIMIT is not None or TAR_UNZIP_LIMIT is not None) and not self.checked:
-                    if self.listener.isTar or self.listener.extract:
+                    if (self.listener.isTar or self.listener.extract) and TAR_UNZIP_LIMIT is not None:
                         is_tar_ext = True
                         mssg = f'Tar/Unzip limit is {TAR_UNZIP_LIMIT}'
                     else:
@@ -164,37 +164,36 @@ class QbitTorrent:
                     result = check_limit(size, TORRENT_DIRECT_LIMIT, TAR_UNZIP_LIMIT, is_tar_ext)
                     self.checked = True
                     if result:
-                        self.updater.cancel()
                         self.client.torrents_pause(torrent_hashes=self.ext_hash)
                         time.sleep(0.3)
                         self.listener.onDownloadError(f"{mssg}.\nYour File/Folder size is {get_readable_file_size(size)}")
                         self.client.torrents_delete(torrent_hashes=self.ext_hash)
                         self.client.auth_log_out()
+                        self.updater.cancel()
             elif tor_info.state == "stalledDL":
                 if time.time() - self.stalled_time >= 999999999: # timeout after downloading metadata
-                    self.updater.cancel()
                     self.client.torrents_pause(torrent_hashes=self.ext_hash)
                     time.sleep(0.3)
                     self.listener.onDownloadError("Dead Torrent!")
                     self.client.torrents_delete(torrent_hashes=self.ext_hash)
                     self.client.auth_log_out()
+                    self.updater.cancel()
             elif tor_info.state == "error":
-                self.updater.cancel()
                 self.client.torrents_pause(torrent_hashes=self.ext_hash)
                 time.sleep(0.3)
                 self.listener.onDownloadError("No enough space for this torrent on device")
                 self.client.torrents_delete(torrent_hashes=self.ext_hash)
                 self.client.auth_log_out()
-            elif tor_info.state == "uploading" or tor_info.state.lower().endswith("up"):
                 self.updater.cancel()
+            elif tor_info.state == "uploading" or tor_info.state.lower().endswith("up"):
                 self.client.torrents_pause(torrent_hashes=self.ext_hash)
                 if self.qbitsel:
                     for dirpath, subdir, files in os.walk(f"{self.dire}", topdown=False):
-                        for file in files:
-                            if fnmatch(file, "*.!qB"):
-                                os.remove(os.path.join(dirpath, file))
+                        for filee in files:
+                            if filee.endswith(".!qB"):
+                                os.remove(os.path.join(dirpath, filee))
                         for folder in subdir:
-                            if fnmatch(folder, ".unwanted"):
+                            if folder == ".unwanted":
                                 shutil.rmtree(os.path.join(dirpath, folder))
                     for dirpath, subdir, files in os.walk(f"{self.dire}", topdown=False):
                         if not os.listdir(dirpath):
@@ -202,7 +201,9 @@ class QbitTorrent:
                 self.listener.onDownloadComplete()
                 self.client.torrents_delete(torrent_hashes=self.ext_hash)
                 self.client.auth_log_out()
+                self.updater.cancel()
         except:
+            self.client.auth_log_out()
             self.updater.cancel()
 
 
