@@ -65,14 +65,6 @@ def tar(org_path):
     tar.close()
     return tar_path
 
-def zip(name, path):
-    root_dir = os.path.dirname(path)
-    base_dir = os.path.basename(path.strip(os.sep))
-    zip_file = shutil.make_archive(name, "zip", root_dir, base_dir)
-    zip_path = shutil.move(zip_file, root_dir)
-    LOGGER.info(f"Zip: {zip_path}")
-    return zip_path
-
 def get_base_name(orig_path: str):
     if orig_path.endswith(".tar.bz2"):
         return orig_path.replace(".tar.bz2", "")
