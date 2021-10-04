@@ -1,12 +1,11 @@
-# <b>MIRROR-NEW</b>
+# <b>MIRROR HUNTER</b>
 
-![MIRROR-NEW](https://sinnerdrive.jack-need-boost.workers.dev/0:/mirr//20210824_150544_1_1.jpg)
+![MIRROR HUNTER](https://media.giphy.com/media/dikubVwoUUBxLgpraV/giphy.gif?cid=790b7611c1fd9acab35e7fc75f7447316865d93043fc77b3&rid=giphy.gif&ct=s)
 
-![GitHub Repo stars](https://img.shields.io/github/stars/Anime-Republic/Mirror-New?color=blue&style=plastic)
-![GitHub forks](https://img.shields.io/github/forks/Anime-Republic/Mirror-New?color=green&style=plastic)
-![GitHub watchers](https://img.shields.io/github/watchers/Anime-Republic/Mirror-New?style=plastic)
-![Docker Pulls](https://img.shields.io/github/contributors/Anime-Republic/Mirror-New?style=plastic)
-![Docker Pulls](https://img.shields.io/docker/pulls/arata74/mirrorhunter?style=plastic)
+![GitHub Repo stars](https://img.shields.io/github/stars/anime-republic/MIRROR-HUNTER?color=blue&style=plastic)
+![GitHub forks](https://img.shields.io/github/forks/anime-republic/MIRROR-HUNTER?color=green&style=plastic)
+![GitHub watchers](https://img.shields.io/github/watchers/anime-republic/MIRROR-HUNTER?style=plastic)
+![Docker Pulls](https://img.shields.io/github/contributors/anime-republic/MIRROR-HUNTER?style=plastic)
 [![Channel](https://img.shields.io/badge/Support%20Group-!-red?style=plastic)](https://t.me/XcodersHubChat)
 
 **This Mirror Bot** is a _multipurpose_ Telegram Bot writen in Python for mirroring files on the Internet to our beloved Google Drive.
@@ -14,12 +13,12 @@
 # Repo last commit
 | Repo Name  | Status | Commit |
 | ------------- | ------------- | ------------- |
-| Mirror-New | ![Docker Pulls](https://img.shields.io/github/last-commit/Anime-Republic/Mirror-New?style==for-the-badge) | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/anime-republic/Mirror-New?style=flat-square) |
+| MIRROR HUNTER | ![Docker Pulls](https://img.shields.io/github/last-commit/anime-republic/MIRROR-HUNTER?style==for-the-badge) | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/anime-republic/Mirror-New?style=flat-square) |
 
 # Others Repo
 | Repo Name  | Status | Commit |
 | ------------- | ------------- | ------------- |
-| SlamDevs  | ![Docker Pulls](https://img.shields.io/github/last-commit/SlamDevs/slam-mirrorbot?style==for-the-badge)  | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/SlamDevs/slam-mirrorbot?style=flat-square) |
+| mirror-leech-telegram-bot  | ![Docker Pulls](https://img.shields.io/github/last-commit/anasty17/mirror-leech-telegram-bot?style==for-the-badge)  | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/SlamDevs/slam-mirrorbot?style=flat-square) |
 | MirrorX  | ![Docker Pulls](https://img.shields.io/github/last-commit/iamLiquidX/MirrorX?style==for-the-badge)  | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/iamLiquidX/MirrorX?style=flat-square) |
 
 # Features supported:
@@ -27,7 +26,7 @@
     <summary><b>Click Here For More Details</b></summary>
 
 ## Additional Features
-- Updater (**NOTE**: You must upload your **token.pickle** to Index and fill your **token.pickle** url to **TOKEN_PICKLE_URL**, because your **token.pickle** will deleted after update, for more info please check [Setting up config file](https://github.com/Anime-Republic/Mirror-New#setting-up-config-file))
+- Updater (**NOTE**: You must upload your **token.pickle** to Index and fill your **token.pickle** url to **TOKEN_PICKLE_URL**, because your **token.pickle** will deleted after update, for more info please check [Setting up config file](https://github.com/Anime-Republic/MIRROR-HUNTER#setting-up-config-file))
 - Limiting size Torrent/Direct, Tar/Unzip, Mega, cloning Google Drive support
 - Stop duplicate cloning Google Drive & mirroring Mega support
 - Tar/Unzip Google Drive link support
@@ -96,7 +95,7 @@ NTFS, RPM, SquashFS, UDF, VHD, XAR, Z.
 </details>
 
 ## How To Deploy it?
-<p><a href="https://github.com/Anime-Republic/Mirror-New/wiki"> <img src="https://img.shields.io/badge/Deploy%20Guide-red?style=for-the-badge&logo=github" width="200""/></a></p>
+<p><a href="https://github.com/Anime-Republic/MIRROR-HUNTER/wiki"> <img src="https://img.shields.io/badge/Deploy%20Guide-red?style=for-the-badge&logo=github" width="200""/></a></p>
     
 ## Generate Database
 <details>
@@ -130,6 +129,3 @@ NTFS, RPM, SquashFS, UDF, VHD, XAR, Z.
 - [`zevtyardt`](https://github.com/zevtyardt) for some direct links
 - [`xyou365`](https://github.com/xyou365) for Service Accounts script.
 - [`Gautam1834`](https://github.com/Gautam1834) for lot of features.
-
-
-  
