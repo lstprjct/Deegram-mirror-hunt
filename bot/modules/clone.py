@@ -18,7 +18,7 @@ def cloneNode(update, context):
     if len(args) > 1:
         link = args[1]
         gd = gdriveTools.GoogleDriveHelper()
-        res, size, name, files = gd.clonehelper(link)
+        res, size, name, files = gd.helper(link)
         if res != "":
             sendMessage(res, context.bot, update)
             return

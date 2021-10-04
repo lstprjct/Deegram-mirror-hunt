@@ -52,7 +52,7 @@ if CONFIG_FILE_URL is not None:
             f.write(res.content)
             f.close()
     else:
-        logging.error(res.status_code)
+        logging.error(f"Failed to download config.env {res.status_code}")
 
 load_dotenv('config.env')
 
@@ -196,7 +196,7 @@ if DB_URI is not None:
         conn.close()
 
 LOGGER.info("Generating USER_SESSION_STRING")
-app = Client('Slam', api_id=int(TELEGRAM_API), api_hash=TELEGRAM_HASH, bot_token=BOT_TOKEN)
+app = Client('pyrogram', api_id=int(TELEGRAM_API), api_hash=TELEGRAM_HASH, bot_token=BOT_TOKEN)
 
 # Generate Telegraph Token
 sname = ''.join(random.SystemRandom().choices(string.ascii_letters, k=8))
@@ -374,7 +374,7 @@ try:
                 f.write(res.content)
                 f.close()
         else:
-            logging.error(res.status_code)
+            logging.error(f"Failed to download token.pickle {res.status_code}")
             raise KeyError
 except KeyError:
     pass
@@ -389,7 +389,7 @@ try:
                 f.write(res.content)
                 f.close()
         else:
-            logging.error(res.status_code)
+            logging.error(f"Failed to download accounts.zip {res.status_code}")
             raise KeyError
         subprocess.run(["unzip", "-q", "-o", "accounts.zip"])
         os.remove("accounts.zip")
@@ -475,7 +475,7 @@ try:
                 f.write(res.content)
                 f.close()
         else:
-            logging.error(res.status_code)
+            logging.error(f"Failed to download drive_folder {res.status_code}")
             raise KeyError
 except KeyError:
     pass
