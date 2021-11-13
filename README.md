@@ -6,7 +6,6 @@
 ![GitHub forks](https://img.shields.io/github/forks/anime-republic/MIRROR-HUNTER?color=green&style=plastic)
 ![GitHub watchers](https://img.shields.io/github/watchers/anime-republic/MIRROR-HUNTER?style=plastic)
 ![Docker Pulls](https://img.shields.io/github/contributors/anime-republic/MIRROR-HUNTER?style=plastic)
-[![Channel](https://img.shields.io/badge/Support%20Group-!-red?style=plastic)](https://t.me/XcodersHubChat)
 
 **This Mirror Bot** is a _multipurpose_ Telegram Bot writen in Python for mirroring files on the Internet to our beloved Google Drive.
 
@@ -79,7 +78,6 @@ solidfiles.com
 - Index Link support
 - Service Account support
 - Delete files from Drive
-- Shortener support
 - Custom Filename (Only for URL, Telegram files and Youtube-dl. Not for Mega links and Magnet/Torrents)
 - Extracting password protected files, using custom filename and download from password protected Index Links see these examples:
 <p><a href="https://telegra.ph/Magneto-Python-Aria---Custom-Filename-Examples-01-20"> <img src="https://img.shields.io/badge/see%20on%20telegraph-blue?style=for-the-badge" width="150""/></a></p>
@@ -109,7 +107,7 @@ NTFS, RPM, SquashFS, UDF, VHD, XAR, Z.
 - Hit `Review`
 - Hit `Create instance`
 - Select your database name
-- Copy your database url, and fill to `DATABASE_URL` in config
+- Copy your database url, and fill to `DATABASE_URL` in config.env
 
 **2. Using Heroku PostgreSQL**
 <p><a href="https://dev.to/prisma/how-to-setup-a-free-postgresql-database-on-heroku-1dc1"> <img src="https://img.shields.io/badge/See%20Dev.to-black?style=for-the-badge&logo=dev.to" width="160""/></a></p>
