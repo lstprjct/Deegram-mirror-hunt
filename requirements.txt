@@ -1,9 +1,10 @@
 aiohttp
 anytree
-aria2p
 appdirs
+aria2p
 attrdict
 beautifulsoup4
+cfscrape
 cloudscrape
 feedparser
 google-api-python-client

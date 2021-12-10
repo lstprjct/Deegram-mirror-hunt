@@ -17,18 +17,18 @@ def mirror_status(update, context):
             currentTime = get_readable_time(time.time() - botStartTime)
             total, used, free = shutil.disk_usage('.')
             free = get_readable_file_size(free)
-            message = 'No Active Downloads !\n___________________________\n'
-            message += f"<b>CPU:</b> {psutil.cpu_percent()}%" \
-                       f"\n<b>DISK:</b> {psutil.disk_usage('/').percent}%" \
-                       f"\n<b>RAM:</b> {psutil.virtual_memory().percent}%" \
-                       f"\n<b>FREE:</b> {free} | <b>UPTIME:</b> {currentTime}"
+            message = '𝗡𝗼 𝗔𝗰𝘁𝗶𝘃𝗲 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱𝘀 !\n___________________________\n'
+            message += f"𝘽𝙤𝙩 𝙄𝙣𝙛𝙤𝙧𝙢𝙖𝙩𝙞𝙤𝙣\n<b>𝗖𝗣𝗨:</b> {psutil.cpu_percent()}%" \
+                       f"\n<b>𝗗𝗜𝗦𝗞:</b> {psutil.disk_usage('/').percent}%" \
+                       f"\n<b>𝗥𝗔𝗠:</b> {psutil.virtual_memory().percent}%" \
+                       f"\n<b>𝗙𝗥𝗘𝗘:</b> {free}\n<b>𝗨𝗣𝗧𝗜𝗠𝗘:</b> {currentTime}"
             reply_message = sendMessage(message, context.bot, update)
-            threading.Thread(target=auto_delete_message, args=(bot, update.message, reply_message)).start()
+            threading.Thread(target=auto_delete_message, args=(context.bot, update.message, reply_message)).start()
             return
     index = update.effective_chat.id
     with status_reply_dict_lock:
         if index in status_reply_dict.keys():
-            deleteMessage(bot, status_reply_dict[index])
+            deleteMessage(context.bot, status_reply_dict[index])
             del status_reply_dict[index]
     sendStatusMessage(update, context.bot)
     deleteMessage(context.bot, update.message)

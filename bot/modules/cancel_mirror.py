@@ -27,26 +27,18 @@ def cancel_mirror(update, context):
                 dl = download_dict[mirror_message.message_id]
             except:
                 pass
-    if len(args) == 1:
-        msg = f"Please reply to the <code>/{BotCommands.MirrorCommand}</code> message which was used to start the download or send <code>/{BotCommands.CancelMirror} GID</code> to cancel it!"
-        if mirror_message and mirror_message.message_id not in keys:
-            if BotCommands.MirrorCommand in mirror_message.text or \
-               BotCommands.TarMirrorCommand in mirror_message.text or \
-               BotCommands.UnzipMirrorCommand in mirror_message.text:
-                msg1 = "Mirror Already Have Been Cancelled"
-                sendMessage(msg1, context.bot, update)
-            else:
-                sendMessage(msg, context.bot, update)
-            return
-        elif not mirror_message:
-            sendMessage(msg, context.bot, update)
-            return
+    if len(args) == 1 and (
+        not mirror_message or mirror_message.message_id not in keys
+    ):
+        msg = f"Reply to active <code>/{BotCommands.MirrorCommand}</code> message which was used to start the download or send <code>/{BotCommands.CancelMirror} GID</code> to cancel it!"
+        sendMessage(msg, context.bot, update)
+        return
     if dl.status() == MirrorStatus.STATUS_ARCHIVING:
-        sendMessage("Archival in Progress, You Can't Cancel It.", context.bot, update)
+        sendMessage("𝗔𝗿𝗰𝗵𝗶𝘃𝗮𝗹 𝗶𝗻 𝗣𝗿𝗼𝗴𝗿𝗲𝘀𝘀, 𝗬𝗼𝘂 𝗖𝗮𝗻'𝘁 𝗖𝗮𝗻𝗰𝗲𝗹 𝗜𝘁", context.bot, update)
     elif dl.status() == MirrorStatus.STATUS_EXTRACTING:
-        sendMessage("Extract in Progress, You Can't Cancel It.", context.bot, update)
+        sendMessage("𝗘𝘅𝘁𝗿𝗮𝗰𝘁 𝗶𝗻 𝗣𝗿𝗼𝗴𝗿𝗲𝘀𝘀, 𝗬𝗼𝘂 𝗖𝗮𝗻'𝘁 𝗖𝗮𝗻𝗰𝗲𝗹 𝗜𝘁", context.bot, update)
     elif dl.status() == MirrorStatus.STATUS_SPLITTING:
-        sendMessage("Split in Progress, You Can't Cancel It.", context.bot, update)
+        sendMessage("𝗦𝗽𝗹𝗶𝘁 𝗶𝗻 𝗣𝗿𝗼𝗴𝗿𝗲𝘀𝘀, 𝗬𝗼𝘂 𝗖𝗮𝗻'𝘁 𝗖𝗮𝗻𝗰𝗲𝗹 𝗜𝘁", context.bot, update)
     else:
         dl.download().cancel_download()
         sleep(3)  # incase of any error with ondownloaderror listener
@@ -66,7 +58,7 @@ def cancel_all(update, context):
                 sleep(0.3)
         else:
             break
-    sendMessage(f'{count} Download(s) has been Cancelled!', context.bot, update)
+    sendMessage(f'{count} 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱(𝘀) 𝗵𝗮𝘀 𝗯𝗲𝗲𝗻 𝗖𝗮𝗻𝗰𝗲𝗹𝗹𝗲𝗱!', context.bot, update)
 
 
 

@@ -3,15 +3,12 @@ import threading
 from mega import (MegaApi, MegaListener, MegaRequest, MegaTransfer, MegaError)
 from bot.helper.telegram_helper.message_utils import *
 import os
-from bot.helper.ext_utils.bot_utils import new_thread, get_mega_link_type, get_readable_file_size, check_limit
+from bot.helper.ext_utils.bot_utils import new_thread, get_mega_link_type, get_readable_file_size
 from bot.helper.mirror_utils.status_utils.mega_download_status import MegaDownloadStatus
 from bot.helper.mirror_utils.upload_utils.gdriveTools import GoogleDriveHelper
-from bot import MEGA_LIMIT, STOP_DUPLICATE, TAR_UNZIP_LIMIT
+from bot import MEGA_LIMIT, STOP_DUPLICATE, ZIP_UNZIP_LIMIT
 import random
 import string
-
-class MegaDownloaderException(Exception):
-    pass
 
 
 class MegaAppListener(MegaListener):
@@ -144,8 +141,6 @@ class MegaDownloadHelper:
     @staticmethod
     @new_thread
     def add_download(mega_link: str, path: str, listener):
-        if MEGA_API_KEY is None:
-            raise MegaDownloaderException('Mega API KEY not provided! Cannot mirror Mega links')
         executor = AsyncExecutor()
         api = MegaApi(MEGA_API_KEY, None, None, 'telegram-mirror-bot')
         global listeners
@@ -170,8 +165,8 @@ class MegaDownloadHelper:
         if STOP_DUPLICATE and not listener.isLeech:
             LOGGER.info('Checking File/Folder if already in Drive')
             mname = node.getName()
-            if listener.isTar:
-                mname = mname + ".zip" if listener.isZip else mname + ".tar"
+            if listener.isZip:
+                mname = mname + ".zip"
             if not listener.extract:
                 gd = GoogleDriveHelper()
                 smsg, button = gd.drive_list(mname, True)
@@ -181,16 +176,16 @@ class MegaDownloadHelper:
                     executor.continue_event.set()
                     return
         limit = None
-        if TAR_UNZIP_LIMIT is not None and (listener.isTar or listener.extract):
-            msg3 = f'Failed, Tar/Unzip limit is {TAR_UNZIP_LIMIT}.\nYour File/Folder size is {get_readable_file_size(api.getSize(node))}.'
-            limit = TAR_UNZIP_LIMIT
+        if ZIP_UNZIP_LIMIT is not None and (listener.isZip or listener.extract):
+            msg3 = f'Failed, Zip/Unzip limit is {ZIP_UNZIP_LIMIT}GB.\nYour File/Folder size is {get_readable_file_size(api.getSize(node))}.'
+            limit = ZIP_UNZIP_LIMIT
         elif MEGA_LIMIT is not None:
-            msg3 = f'Failed, Mega limit is {MEGA_LIMIT}.\nYour File/Folder size is {get_readable_file_size(api.getSize(node))}.' 
+            msg3 = f'Failed, Mega limit is {MEGA_LIMIT}GB.\nYour File/Folder size is {get_readable_file_size(api.getSize(node))}.' 
             limit = MEGA_LIMIT
         if limit is not None:
+            LOGGER.info('Checking File/Folder Size...')
             size = api.getSize(node)
-            result = check_limit(size, limit)
-            if result:
+            if size > limit * 1024**3:
                 sendMessage(msg3, listener.bot, listener.update)
                 executor.continue_event.set()
                 return
