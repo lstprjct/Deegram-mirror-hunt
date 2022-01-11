@@ -1,20 +1,20 @@
+import faulthandler
+import json
 import logging
 import os
+import socket
+import subprocess
 import threading
 import time
-import subprocess
-import requests
-import socket
-import faulthandler
+
 import aria2p
 import psycopg2
-import json
 import qbittorrentapi as qba
+import requests
 import telegram.ext as tg
-
-from pyrogram import Client
-from psycopg2 import Error
 from dotenv import load_dotenv
+from psycopg2 import Error
+from pyrogram import Client
 
 faulthandler.enable()
 
@@ -23,7 +23,8 @@ socket.setdefaulttimeout(600)
 botStartTime = time.time()
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    handlers=[logging.FileHandler('log.txt'), logging.StreamHandler()],
+                    handlers=[logging.FileHandler(
+                        'log.txt'), logging.StreamHandler()],
                     level=logging.INFO)
 
 LOGGER = logging.getLogger(__name__)
@@ -34,6 +35,7 @@ load_dotenv('config.env', override=True)
 
 def getConfig(name: str):
     return os.environ[name]
+
 
 try:
     NETRC_URL = getConfig('NETRC_URL')
@@ -59,7 +61,8 @@ except KeyError:
     SERVER_PORT = 80
 
 PORT = os.environ.get('PORT', SERVER_PORT)
-web = subprocess.Popen([f"gunicorn wserver:start_server --bind 0.0.0.0:{PORT} --worker-class aiohttp.GunicornWebWorker"], shell=True)
+web = subprocess.Popen(
+    [f"gunicorn wserver:start_server --bind 0.0.0.0:{PORT} --worker-class aiohttp.GunicornWebWorker"], shell=True)
 alive = subprocess.Popen(["python3", "alive.py"])
 nox = subprocess.Popen(["qbittorrent-nox", "--profile=."])
 if not os.path.exists('.netrc'):
@@ -75,8 +78,10 @@ DRIVES_NAMES = []
 DRIVES_IDS = []
 INDEX_URLS = []
 
+
 def getConfig(name: str):
     return os.environ[name]
+
 
 def mktable():
     try:
@@ -89,6 +94,7 @@ def mktable():
     except Error as e:
         logging.error(e)
         exit(1)
+
 
 try:
     if bool(getConfig('_____REMOVE_THIS_LINE_____')):
@@ -105,8 +111,10 @@ aria2 = aria2p.API(
     )
 )
 
+
 def get_client() -> qba.TorrentsAPIMixIn:
     return qba.Client(host="localhost", port=8090)
+
 
 """
 trackers = subprocess.check_output(["curl -Ns https://raw.githubusercontent.com/XIU2/TrackersListCollection/master/all.txt https://ngosang.github.io/trackerslist/trackers_all_http.txt https://newtrackon.com/api/all | awk '$0'"], shell=True).decode('utf-8')
@@ -116,6 +124,7 @@ trackerslist.remove("")
 trackerslist = "\n\n".join(trackerslist)
 get_client().application.set_preferences({"add_trackers":f"{trackerslist}"})
 """
+
 
 def aria2c_init():
     try:
@@ -132,6 +141,7 @@ def aria2c_init():
     except Exception as e:
         logging.error(f"Aria2c initializing error: {e}")
         pass
+
 
 threading.Thread(target=aria2c_init).start()
 
@@ -181,9 +191,11 @@ try:
     DOWNLOAD_DIR = getConfig('DOWNLOAD_DIR')
     if not DOWNLOAD_DIR.endswith("/"):
         DOWNLOAD_DIR = DOWNLOAD_DIR + '/'
-    DOWNLOAD_STATUS_UPDATE_INTERVAL = int(getConfig('DOWNLOAD_STATUS_UPDATE_INTERVAL'))
+    DOWNLOAD_STATUS_UPDATE_INTERVAL = int(
+        getConfig('DOWNLOAD_STATUS_UPDATE_INTERVAL'))
     OWNER_ID = int(getConfig('OWNER_ID'))
-    AUTO_DELETE_MESSAGE_DURATION = int(getConfig('AUTO_DELETE_MESSAGE_DURATION'))
+    AUTO_DELETE_MESSAGE_DURATION = int(
+        getConfig('AUTO_DELETE_MESSAGE_DURATION'))
     TELEGRAM_API = getConfig('TELEGRAM_API')
     TELEGRAM_HASH = getConfig('TELEGRAM_HASH')
     LOG_CHANNEL_ID = getConfig('LOG_CHANNEL_ID')
@@ -204,7 +216,7 @@ if DB_URI is not None:
         cur = conn.cursor()
         sql = "SELECT * from users;"
         cur.execute(sql)
-        rows = cur.fetchall()  #returns a list ==> (uid, sudo)
+        rows = cur.fetchall()  # returns a list ==> (uid, sudo)
         for row in rows:
             AUTHORIZED_CHATS.add(row[0])
             if row[1]:
@@ -220,7 +232,8 @@ if DB_URI is not None:
         conn.close()
 
 LOGGER.info("Generating USER_SESSION_STRING")
-app = Client('pyrogram', api_id=int(TELEGRAM_API), api_hash=TELEGRAM_HASH, bot_token=BOT_TOKEN, workers=343)
+app = Client('pyrogram', api_id=int(TELEGRAM_API),
+             api_hash=TELEGRAM_HASH, bot_token=BOT_TOKEN, workers=343)
 
 try:
     TG_SPLIT_SIZE = getConfig('TG_SPLIT_SIZE')
@@ -432,7 +445,8 @@ try:
                 f.write(res.content)
                 f.close()
         else:
-            logging.error(f"Failed to download token.pickle, link got HTTP response: {res.status_code}")
+            logging.error(
+                f"Failed to download token.pickle, link got HTTP response: {res.status_code}")
     except Exception as e:
         logging.error(str(e))
 except KeyError:
@@ -449,7 +463,8 @@ try:
                     f.write(res.content)
                     f.close()
             else:
-                logging.error(f"Failed to download accounts.zip, link got HTTP response: {res.status_code}")
+                logging.error(
+                    f"Failed to download accounts.zip, link got HTTP response: {res.status_code}")
         except Exception as e:
             logging.error(str(e))
             raise KeyError
@@ -481,12 +496,7 @@ try:
         RESTARTED_GROUP_ID = None
 except KeyError:
     RESTARTED_GROUP_ID = '-1001437939580'
-try:
-    RESTARTED_GROUP_ID2 = getConfig('RESTARTED_GROUP_ID2')
-    if len(RESTARTED_GROUP_ID2) == 0:
-        RESTARTED_GROUP_ID2 = None
-except KeyError:
-    RESTARTED_GROUP_ID2 = '-1001437939580'
+
 try:
     TITLE_NAME = getConfig('TITLE_NAME')
     if len(TITLE_NAME) == 0:
@@ -537,7 +547,8 @@ try:
                 f.write(res.content)
                 f.close()
         else:
-            logging.error(f"Failed to download drive_folder, link got HTTP response: {res.status_code}")
+            logging.error(
+                f"Failed to download drive_folder, link got HTTP response: {res.status_code}")
     except Exception as e:
         logging.error(str(e))
 except KeyError:
@@ -559,7 +570,8 @@ try:
                 f.write(res.content)
                 f.close()
         else:
-            logging.error(f"Failed to download cookies.txt, link got HTTP response: {res.status_code}")
+            logging.error(
+                f"Failed to download cookies.txt, link got HTTP response: {res.status_code}")
     except Exception as e:
         logging.error(str(e))
 except KeyError:
@@ -596,6 +608,7 @@ try:
 except KeyError:
     SEARCH_PLUGINS = None
 
-updater = tg.Updater(token=BOT_TOKEN, request_kwargs={'read_timeout': 30, 'connect_timeout': 15})
+updater = tg.Updater(token=BOT_TOKEN, request_kwargs={
+                     'read_timeout': 30, 'connect_timeout': 15})
 bot = updater.bot
 dispatcher = updater.dispatcher
