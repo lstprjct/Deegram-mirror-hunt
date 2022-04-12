@@ -15,7 +15,7 @@ from .mirror import MirrorListener
 
 listener_dict = {}
 
-def _watch(bot, update, isZip=False, isLeech=False, pswd=None, tag=None, multi=0):
+def _watch(bot, update, isZip=False, isLeech=False, tag=None, multi=0):
     mssg = update.message.text
     message_args = mssg.split(' ')
     name_args = mssg.split('|', maxsplit=1)
@@ -43,22 +43,34 @@ def _watch(bot, update, isZip=False, isLeech=False, pswd=None, tag=None, multi=0
             return
 
     try:
-        link = message_args[1].strip()
-        if link.startswith("|") or link.startswith("pswd: "):
-            link = ''
-    except IndexError:
+        link = mssg.split(' ')[1].strip()
+        if link.isdigit():
+            multi = int(link)
+            raise IndexError
+        elif link.startswith(("|", "pswd:", "args:")):
+            raise IndexError
+    except:
         link = ''
+    try:
+        name_arg = mssg.split('|', maxsplit=1)
+        if 'args: ' in name_arg[0]:
+            raise IndexError
+        else:
+            name = name_arg[1]
+        name = resplit(r' pswd: | args: ', name)[0]
+        name = name.strip()
+    except:
+        name = ''
+    try:
+        pswd = mssg.split(' pswd: ')[1]
+        pswd = pswd.split(' args: ')[0]
+    except:
+        pswd = None
 
     try:
-        name = name_args[1]
-        name = name.split(' pswd: ')[0]
-        name = name.strip()
-    except IndexError:
-        name = ''
-
-    pswdMsg = mssg.split(' pswd: ')
-    if len(pswdMsg) > 1:
-        pswd = pswdMsg[1]
+        args = mssg.split(' args: ')[1]
+    except:
+        args = None
 
     if update.message.from_user.username:
         tag = f"@{update.message.from_user.username}"
@@ -87,7 +99,7 @@ def _watch(bot, update, isZip=False, isLeech=False, pswd=None, tag=None, multi=0
     best_audio = "ba/b"
     ydl = YoutubeDLHelper(listener)
     try:
-        result = ydl.extractMetaData(link, name, True)
+        result = ydl.extractMetaData(link, name, args, True)
     except Exception as e:
         msg = str(e).replace('<', ' ').replace('>', ' ')
         message =  sendMessage(tag + " " + msg, bot, update)
@@ -104,7 +116,7 @@ def _watch(bot, update, isZip=False, isLeech=False, pswd=None, tag=None, multi=0
         buttons.sbutton("Best Audios", f"qu {msg_id} {best_audio} t")
         buttons.sbutton("Cancel", f"qu {msg_id} cancel")
         YTBUTTONS = InlineKeyboardMarkup(buttons.build_menu(3))
-        listener_dict[msg_id] = [listener, user_id, link, name, YTBUTTONS]
+        listener_dict[msg_id] = [listener, user_id, link, name, YTBUTTONS, args]
         bmsg = sendMarkup('Choose Playlist Videos Quality:', bot, update, YTBUTTONS)
     else:
         formats = result.get('formats')
@@ -153,15 +165,22 @@ def _watch(bot, update, isZip=False, isLeech=False, pswd=None, tag=None, multi=0
         buttons.sbutton("Best Audio", f"qu {msg_id} {best_audio}")
         buttons.sbutton("Cancel", f"qu {msg_id} cancel")
         YTBUTTONS = InlineKeyboardMarkup(buttons.build_menu(2))
-        listener_dict[msg_id] = [listener, user_id, link, name, YTBUTTONS, formats_dict]
+        listener_dict[msg_id] = [listener, user_id, link, name, YTBUTTONS, args, formats_dict]
         bmsg = sendMarkup('Choose Video Quality:', bot, update, YTBUTTONS)
-
     Thread(target=_auto_cancel, args=(bmsg, msg_id)).start()
+    if multi > 1:
+        sleep(3)
+        nextmsg = type('nextmsg', (object, ), {'chat_id': message.chat_id, 'message_id': message.reply_to_message.message_id + 1})
+        nextmsg = sendMessage(mssg.split(' ')[0], bot, nextmsg)
+        nextmsg.from_user.id = message.from_user.id
+        multi -= 1
+        sleep(3)
+        Thread(target=_watch, args=(bot, nextmsg, isZip, pswd, multi)).start()
 
 def _qual_subbuttons(task_id, qual, msg):
     buttons = button_build.ButtonMaker()
     task_info = listener_dict[task_id]
-    formats_dict = task_info[5]
+    formats_dict = task_info[6]
     qual_fps_ext = resplit(r'p|-', qual, maxsplit=2)
     height = qual_fps_ext[0]
     fps = qual_fps_ext[1]
@@ -216,7 +235,7 @@ def select_format(update, context):
     except:
         return editMessage("This is old task", msg)
     uid = task_info[1]
-    if user_id != uid:
+    if user_id != uid and not msg.reply_to_message.from_user.is_bot and not CustomFilters._owner_query(user_id):
         return query.answer(text="Don't waste your time!", show_alert=True)
     elif data[2] == "dict":
         query.answer()
@@ -237,6 +256,7 @@ def select_format(update, context):
         listener = task_info[0]
         link = task_info[2]
         name = task_info[3]
+        args = task_info[5]
         qual = data[2]
         if qual.startswith('bv*['): # To not exceed telegram button bytes limits. Temp solution.
             height = resplit(r'\[|\]', qual, maxsplit=2)[1]
@@ -246,12 +266,12 @@ def select_format(update, context):
         else:
             playlist = False
         ydl = YoutubeDLHelper(listener)
-        Thread(target=ydl.add_download, args=(link, f'{DOWNLOAD_DIR}{task_id}', name, qual, playlist)).start()
+        Thread(target=ydl.add_download, args=(link, f'{DOWNLOAD_DIR}{task_id}', name, qual, playlist, args)).start()
     del listener_dict[task_id]
     query.message.delete()
 
 def _auto_cancel(msg, msg_id):
-    sleep(60)
+    sleep(120)
     try:
         del listener_dict[msg_id]
         editMessage('Timed out! Task has been cancelled.', msg)
