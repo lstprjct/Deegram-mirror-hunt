@@ -1,4 +1,4 @@
-FROM arata74/mirrorclone
+FROM arata74/mirrorhunter
 WORKDIR /usr/src/app
 RUN chmod 777 /usr/src/app
 COPY requirements.txt .
