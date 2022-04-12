@@ -18,7 +18,6 @@ from bot.helper.ext_utils.exceptions import DirectDownloadLinkException
 
 @new_thread
 def cloneNode(update, context, multi=0):
-    args = message.text.split(" ", maxsplit=1)
     if AUTO_DELETE_UPLOAD_MESSAGE_DURATION != -1:
         reply_to =update.message.reply_to_message
         if reply_to is not None:
