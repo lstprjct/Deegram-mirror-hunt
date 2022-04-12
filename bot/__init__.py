@@ -690,6 +690,26 @@ try:
     SEARCH_PLUGINS = jsnloads(SEARCH_PLUGINS)
 except:
     SEARCH_PLUGINS = None
+try:
+    AUTO_RE_REM = getConfig('AUTO_RE_REM')
+    if len(AUTO_RE_REM) == 0:
+        raise KeyError
+except KeyError:
+    logging.warning('Auto Renaming Remove strings not provided!')
+    AUTO_RE_REM = None
+try:
+    AUTO_TG_DOWN = (getConfig('AUTO_TG_DOWN'))
+    if AUTO_TG_DOWN.lower() == 'true':
+        AUTO_TG_DOWN = True
+except KeyError:
+    logging.warning('Auto Telegram Download Disabled!')
+    AUTO_TG_DOWN = False
+    
+try:
+    AUTO_RE_ADD = getConfig('AUTO_RE_ADD')
+except KeyError:
+    logging.warning('Auto Renaming add strings not provided!')
+    AUTO_RE_ADD = None
 
 updater = tgUpdater(token=BOT_TOKEN, request_kwargs={'read_timeout': 20, 'connect_timeout': 15})
 bot = updater.bot
