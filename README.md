@@ -8,7 +8,7 @@
 ![Docker Pulls](https://img.shields.io/github/contributors/anime-republic/MIRROR-HUNTER?style=plastic)
 
 **This Mirror Bot** is a _multipurpose_ Telegram Bot writen in Python for mirroring files on the Internet to our beloved Google Drive.
-
+### This Branch is Outdated
 # Repo last commit
 | Repo Name  | Status | Commit |
 | ------------- | ------------- | ------------- |
