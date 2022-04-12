@@ -41,7 +41,8 @@
 - Shell and Executor
 - YT-DLP
 - Support message send to log channel/group    
-- Search All Drive  
+- Search All Drive
+- Leech Forward to log and pm
 - Direct links Supported:
 ```
 letsupload.io
