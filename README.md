@@ -16,11 +16,12 @@
 | ------------- | ------------- | ------------- |
 | MIRROR HUNTER | ![Docker Pulls](https://img.shields.io/github/last-commit/anime-republic/MIRROR-HUNTER?style==for-the-badge) | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/anime-republic/Mirror-New?style=flat-square) |
 
-# Others Repo
+# Combining Repo
 | Repo Name  | Status | Commit |
 | ------------- | ------------- | ------------- |
 | mirror-leech-telegram-bot  | ![Docker Pulls](https://img.shields.io/github/last-commit/anasty17/mirror-leech-telegram-bot?style==for-the-badge)  | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/SlamDevs/slam-mirrorbot?style=flat-square) |
 | MirrorX  | ![Docker Pulls](https://img.shields.io/github/last-commit/iamLiquidX/MirrorX?style==for-the-badge)  | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/iamLiquidX/MirrorX?style=flat-square) |
+| Helios-Mirror  | ![Docker Pulls](https://img.shields.io/github/last-commit//arshsisodiya/helios-mirror?style==for-the-badge)  | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/iamLiquidX/MirrorX?style=flat-square) |
 
 # Features supported:
 <details>
@@ -130,3 +131,5 @@ NTFS, RPM, SquashFS, UDF, VHD, XAR, Z.
 - [`zevtyardt`](https://github.com/zevtyardt) for some direct links
 - [`xyou365`](https://github.com/xyou365) for Service Accounts script.
 - [`Gautam1834`](https://github.com/Gautam1834) for lot of features.
+- [`arshsisodiya`](https://github.com/arshsisodiya) for leech log and forward function
+   
