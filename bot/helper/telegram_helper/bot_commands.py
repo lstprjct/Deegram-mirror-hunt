@@ -1,55 +1,58 @@
-import os
-from bot import BOT_NO
+from bot import CMD_INDEX
 
-def getCommand(name: str, command: str):
-    try:
-        if len(os.environ[name]) == 0:
-            raise KeyError
-        return os.environ[name]
-    except KeyError:
-        return command
 
 class _BotCommands:
     def __init__(self):
-        self.StartCommand = getCommand('START_BOT', 'start')
-        self.MirrorCommand = getCommand('MIRROR_BOT', f'mir{BOT_NO}')
-        self.UnzipMirrorCommand = getCommand('UNZIP_BOT', f'unzipmir{BOT_NO}')
-        self.ZipMirrorCommand = getCommand('ZIP_BOT', f'zipmir{BOT_NO}')
-        self.CancelMirror = getCommand('CANCEL_BOT', f'cancel{BOT_NO}')
-        self.CancelAllCommand = getCommand('CANCEL_ALL_BOT', 'cancelall')
-        self.ListCommand = getCommand('LIST_BOT', f'list{BOT_NO}')
-        self.SearchCommand = getCommand('SEARCH_BOT', f'search{BOT_NO}')
-        self.StatusCommand = getCommand('STATUS_BOT', f'status{BOT_NO}')
-        self.AuthorizedUsersCommand = getCommand('USERS_BOT', f'users{BOT_NO}')
-        self.AuthorizeCommand = getCommand('AUTH_BOT', f'auth{BOT_NO}')
-        self.UnAuthorizeCommand = getCommand('UNAUTH_BOT', f'unauth{BOT_NO}')
-        self.AddSudoCommand = getCommand('ADDSUDO_BOT', f'addsudo{BOT_NO}')
-        self.RmSudoCommand = getCommand('RMSUDO_BOT', f'rmsudo{BOT_NO}')
-        self.PingCommand = getCommand('PING_BOT', 'ping')
-        self.RestartCommand = getCommand('RESTART_BOT', 'restart')
-        self.StatsCommand = getCommand('STATS_BOT', f'stats{BOT_NO}')
-        self.HelpCommand = getCommand('HELP_BOT', f'help{BOT_NO}')
-        self.LogCommand = getCommand('LOG_BOT', f'logs{BOT_NO}')
-        self.SpeedCommand = getCommand('SPEED_BOT', f'test')
-        self.CloneCommand = getCommand('CLONE_BOT', f'clone{BOT_NO}')
-        self.CountCommand = getCommand('COUNT_BOT', f'count{BOT_NO}')
-        self.WatchCommand = getCommand('YTDL_BOT', f'yt{BOT_NO}')
-        self.ZipWatchCommand = getCommand('ZIPWATCH_BOT', f'zipwatch{BOT_NO}')
-        self.QbMirrorCommand = getCommand('QBITMIR_BOT', f'qbmirror{BOT_NO}')
-        self.QbUnzipMirrorCommand = getCommand('QBITUNZIP_BOT', f'qbunzipmirror{BOT_NO}')
-        self.QbZipMirrorCommand = getCommand('QBITZIP_BOT', f'qbzipmirror{BOT_NO}')
-        self.DeleteCommand = getCommand('DELETE_BOT', f'del{BOT_NO}')
-        self.ShellCommand = getCommand('SHELL_BOT', f'shell{BOT_NO}')
-        self.ExecHelpCommand = getCommand('EXEHELP_BOT', f'exehelp{BOT_NO}')
-        self.LeechSetCommand = getCommand('LEECH_SET', f'settings{BOT_NO}')
-        self.SetThumbCommand = getCommand('SET_THUMB', f'setthumb{BOT_NO}')
-        self.LeechCommand = getCommand('LEECH_BOT', f'leech{BOT_NO}')
-        self.UnzipLeechCommand = getCommand('UNZIP_LEECH', f'unzipleech{BOT_NO}')
-        self.ZipLeechCommand = getCommand('ZIP_LEECH', f'zipleech{BOT_NO}')
-        self.QbLeechCommand = getCommand('QBIT_LEECH', f'qbleech{BOT_NO}')
-        self.QbUnzipLeechCommand = getCommand('QBITUNZIP_LEECH',  f'qbunzipleech{BOT_NO}')
-        self.QbZipLeechCommand = getCommand('QBITZIP_LEECH', f'qbzipleech{BOT_NO}')
-        self.LeechWatchCommand = getCommand('WATCH_LEECH', f'leechwatch{BOT_NO}')
-        self.LeechZipWatchCommand = getCommand('WATCHZIP_LEECH', f'leechzipwatch{BOT_NO}')
+        self.StartCommand = f'start'
+        self.MirrorCommand = f'mirror{CMD_INDEX}'
+        self.UnzipMirrorCommand = f'unzipmirror{CMD_INDEX}'
+        self.ZipMirrorCommand = f'zipmirror{CMD_INDEX}'
+        self.CancelMirror = f'cancel{CMD_INDEX}'
+        self.CancelAllCommand = f'cancelall{CMD_INDEX}'
+        self.ListCommand = f'list{CMD_INDEX}'
+        self.SearchCommand = f'search{CMD_INDEX}'
+        self.StatusCommand = f'status{CMD_INDEX}'
+        self.AuthorizedUsersCommand = f'users{CMD_INDEX}'
+        self.AuthorizeCommand = f'authorize{CMD_INDEX}'
+        self.UnAuthorizeCommand = f'unauthorize{CMD_INDEX}'
+        self.AddSudoCommand = f'addsudo{CMD_INDEX}'
+        self.RmSudoCommand = f'rmsudo{CMD_INDEX}'
+        self.PingCommand = f'ping{CMD_INDEX}'
+        self.RestartCommand = f'restart{CMD_INDEX}'
+        self.StatsCommand = f'stats{CMD_INDEX}'
+        self.HelpCommand = f'help{CMD_INDEX}'
+        self.LogCommand = f'log{CMD_INDEX}'
+        self.SpeedCommand = f'speedtest{CMD_INDEX}'
+        self.CloneCommand = f'clone{CMD_INDEX}'
+        self.CountCommand = f'count{CMD_INDEX}'
+        self.WatchCommand = f'watch{CMD_INDEX}'
+        self.ZipWatchCommand = f'zipwatch{CMD_INDEX}'
+        self.QbMirrorCommand = f'qbmirror{CMD_INDEX}'
+        self.QbUnzipMirrorCommand = f'qbunzipmirror{CMD_INDEX}'
+        self.QbZipMirrorCommand = f'qbzipmirror{CMD_INDEX}'
+        self.DeleteCommand = f'del{CMD_INDEX}'
+        self.ShellCommand = f'shell{CMD_INDEX}'
+        self.ExecHelpCommand = f'exechelp{CMD_INDEX}'
+        self.LeechSetCommand = f'leechset{CMD_INDEX}'
+        self.SetThumbCommand = f'setthumb{CMD_INDEX}'
+        self.LeechCommand = f'leech{CMD_INDEX}'
+        self.UnzipLeechCommand = f'unzipleech{CMD_INDEX}'
+        self.ZipLeechCommand = f'zipleech{CMD_INDEX}'
+        self.QbLeechCommand = f'qbleech{CMD_INDEX}'
+        self.QbUnzipLeechCommand = f'qbunzipleech{CMD_INDEX}'
+        self.QbZipLeechCommand = f'qbzipleech{CMD_INDEX}'
+        self.LeechWatchCommand = f'leechwatch{CMD_INDEX}'
+        self.LeechZipWatchCommand = f'leechzipwatch{CMD_INDEX}'
+        self.RssListCommand = f'rsslist{CMD_INDEX}'
+        self.RssGetCommand = f'rssget{CMD_INDEX}'
+        self.RssSubCommand = f'rsssub{CMD_INDEX}'
+        self.RssUnSubCommand = f'rssunsub{CMD_INDEX}'
+        self.RssSettingsCommand = f'rssset{CMD_INDEX}'
+        self.AddModCommand = f'addmod{CMD_INDEX}'
+        self.RmModCommand = f'rmmod{CMD_INDEX}'
+        self.AddleechlogCommand = f'addll{CMD_INDEX}'
+        self.RmleechlogCommand = f'rmll{CMD_INDEX}'
+        self.AddleechlogaltCommand = f'addleechlog{CMD_INDEX}'
+        self.RmleechlogaltCommand = f'rmleechlog{CMD_INDEX}'
 
 BotCommands = _BotCommands()
