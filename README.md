@@ -21,7 +21,7 @@
 | ------------- | ------------- | ------------- |
 | mirror-leech-telegram-bot  | ![Docker Pulls](https://img.shields.io/github/last-commit/anasty17/mirror-leech-telegram-bot?style==for-the-badge)  | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/SlamDevs/slam-mirrorbot?style=flat-square) |
 | MirrorX  | ![Docker Pulls](https://img.shields.io/github/last-commit/iamLiquidX/MirrorX?style==for-the-badge)  | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/iamLiquidX/MirrorX?style=flat-square) |
-| Helios-Mirror  | ![Docker Pulls](https://img.shields.io/github/last-commit//arshsisodiya/helios-mirror?style==for-the-badge)  | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/iamLiquidX/MirrorX?style=flat-square) |
+| Helios-Mirror  | ![Docker Pulls](https://img.shields.io/github/last-commit/arshsisodiya/helios-mirror?style==for-the-badge)  | ![Docker Pulls](https://img.shields.io/github/commit-activity/w/iamLiquidX/MirrorX?style=flat-square) |
 
 # Features supported:
 <details>
