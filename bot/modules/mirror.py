@@ -637,7 +637,7 @@ def qb_zip_mirror(update, context):
     _mirror(context.bot, update.message, True, isQbit=True)
 
 def leech(update, context):
-    _mirror(context.bot, update.message isLeech=True)
+    _mirror(context.bot, update.message, isLeech=True)
 
 def unzip_leech(update, context):
     _mirror(context.bot, update.message, extract=True, isLeech=True)
