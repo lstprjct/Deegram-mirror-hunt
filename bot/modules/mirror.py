@@ -401,7 +401,7 @@ class MirrorListener:
             update_all_messages()
         Thread(target=auto_delete_message, args=(bot, self.message, msg)).start()
 
-def _mirror(bot, update, isZip=False, extract=False, isQbit=False, isLeech=False, pswd=None, multi=0):
+def _mirror(bot, message, update, isZip=False, extract=False, isQbit=False, isLeech=False, pswd=None, multi=0):
     uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
     if FSUB:
         try:
