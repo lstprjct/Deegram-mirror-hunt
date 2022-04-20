@@ -619,40 +619,40 @@ def _mirror(bot, message, update, isZip=False, extract=False, isQbit=False, isLe
 
 
 def mirror(update, context):
-    _mirror(context.bot, update)
+    _mirror(context.bot, update.message)
 
 def unzip_mirror(update, context):
-    _mirror(context.bot, update, extract=True)
+    _mirror(context.bot, update.message, extract=True)
 
 def zip_mirror(update, context):
-    _mirror(context.bot, update, True)
+    _mirror(context.bot, update.message, True)
 
 def qb_mirror(update, context):
-    _mirror(context.bot, update, isQbit=True)
+    _mirror(context.bot, update.message, isQbit=True)
 
 def qb_unzip_mirror(update, context):
-    _mirror(context.bot, update, extract=True, isQbit=True)
+    _mirror(context.bot, update.message, extract=True, isQbit=True)
 
 def qb_zip_mirror(update, context):
-    _mirror(context.bot, update, True, isQbit=True)
+    _mirror(context.bot, update.message, True, isQbit=True)
 
 def leech(update, context):
-    _mirror(context.bot, update, isLeech=True)
+    _mirror(context.bot, update.message isLeech=True)
 
 def unzip_leech(update, context):
-    _mirror(context.bot, update, extract=True, isLeech=True)
+    _mirror(context.bot, update.message, extract=True, isLeech=True)
 
 def zip_leech(update, context):
-    _mirror(context.bot, update, True, isLeech=True)
+    _mirror(context.bot, update.message, True, isLeech=True)
 
 def qb_leech(update, context):
-    _mirror(context.bot, update, isQbit=True, isLeech=True)
+    _mirror(context.bot, update.message, isQbit=True, isLeech=True)
 
 def qb_unzip_leech(update, context):
-    _mirror(context.bot, update, extract=True, isQbit=True, isLeech=True)
+    _mirror(context.bot, update.message, extract=True, isQbit=True, isLeech=True)
 
 def qb_zip_leech(update, context):
-    _mirror(context.bot, update, True, isQbit=True, isLeech=True)
+    _mirror(context.bot, update.message, True, isQbit=True, isLeech=True)
 
 mirror_handler = CommandHandler(BotCommands.MirrorCommand, mirror,
                                 filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
