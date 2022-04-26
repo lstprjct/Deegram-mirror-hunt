@@ -6,14 +6,12 @@ from subprocess import run as srun, check_output
 from asyncio import run as asyrun
 from psutil import disk_usage, cpu_percent, swap_memory, cpu_count, virtual_memory, net_io_counters, boot_time, Process as psprocess
 from time import time
-from pyrogram import idle,filters
+from pyrogram import idle
 from sys import executable
 from telegram import ParseMode, InlineKeyboardMarkup
 from telegram.ext import CommandHandler
-from telegram.ext import MessageHandler
-from bot.helper.mirror_utils.download_utils.telegram_downloader import TelegramDownloadHelper
-from telegram.ext.filters import Filters
-from bot import bot, app, DOWNLOAD_DIR, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, alive, web, AUTHORIZED_CHATS, LOGGER, Interval, rss_session, LEECH_ENABLED, CHANNEL_USERNAME, BOT_PM, OWNER_ID, AUTO_TG_DOWN 
+
+from bot import bot, app, dispatcher, updater, botStartTime, IGNORE_PENDING_REQUESTS, alive, web, AUTHORIZED_CHATS, LOGGER, Interval, rss_session, LEECH_ENABLED, CHANNEL_USERNAME, BOT_PM, OWNER_ID
 from .helper.ext_utils.fs_utils import start_cleanup, clean_all, exit_clean_up
 from .helper.telegram_helper.bot_commands import BotCommands
 from .helper.telegram_helper.message_utils import sendMessage, sendMarkup, editMessage, sendLogFile, auto_delete_message
@@ -24,28 +22,6 @@ from .helper.telegram_helper.button_build import ButtonMaker
 from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, shell, eval, delete, count, leech_settings, search, rss
 
 IMAGE_X = "https://telegra.ph/file/ccfc71eaaa7e1c6de4f11.jpg"
-
-def fileshandler(update,context ):
-        print('file')
-        link=''
-        name=''
-        file = None
-        media_array = [update.message.document, update.message.video, update.message.audio]
-        for i in media_array:
-            if i is not None:
-                file = i
-                break
-
-        if file is not None:
-            if file.mime_type != "application/x-bittorrent":
-                listener = mirror.MirrorListener(bot, update)
-                tg_downloader = TelegramDownloadHelper(listener)
-                ms = update.message
-                tg_downloader.add_downloadauto(ms, f'{DOWNLOAD_DIR}{listener.uid}/', name)
-                return
-                pass
-            else:
-                link = file.get_file().file_path
 
 def stats(update, context):
     if ospath.exists('.git'):
@@ -346,16 +322,12 @@ def main():
                                    stats, filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
     log_handler = CommandHandler(BotCommands.LogCommand, 
                                  log, filters=CustomFilters.owner_filter | CustomFilters.sudo_user | CustomFilters.mod_user, run_async=True)
-    #filters1=filters.media
-    files_handler = MessageHandler(Filters.video|Filters.document,fileshandler, run_async=True)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(ping_handler)
     dispatcher.add_handler(restart_handler)
     dispatcher.add_handler(help_handler)
     dispatcher.add_handler(stats_handler)
     dispatcher.add_handler(log_handler)
-    if AUTO_TG_DOWN :
-     dispatcher.add_handler(files_handler)
     updater.start_polling(drop_pending_updates=IGNORE_PENDING_REQUESTS)
     LOGGER.info("Bot Started!")
     signal.signal(signal.SIGINT, exit_clean_up)
